@@ -1,0 +1,37 @@
+name: Manual Pull Workflows from n8n
+on:
+  workflow_dispatch:
+
+jobs:
+  pull-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        # Added js-yaml here
+        run: npm install axios js-yaml
+
+      - name: Run Pull Script
+        env:
+          # This should point to your "Master" or "Non-Prod" instance
+          N8N_URL: ${{ secrets.NONPROD_N8N_URL }}
+          N8N_API_KEY: ${{ secrets.NONPROD_N8N_API_KEY }}
+        run: node scripts/pull-workflows.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "n8n-automation-bot"
+          git config --global user.email "bot@yourdomain.com"
+          # Add both the workflows folder and the manifest file
+          git add workflows/*.json manifest.yml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: sync workflows and update manifest.yml" && git push)
