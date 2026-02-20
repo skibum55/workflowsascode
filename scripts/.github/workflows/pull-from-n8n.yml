@@ -18,7 +18,7 @@ jobs:
           node-version: 18
 
       - name: Install Dependencies
-        run: npm install axios
+        run: npm install axios js-yaml
 
       - name: Run Pull Script
         env:
