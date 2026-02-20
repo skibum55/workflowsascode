@@ -25,7 +25,8 @@ jobs:
           # This should point to your "Master" or "Non-Prod" instance
           N8N_URL: ${{ secrets.N8N_URL }}
           N8N_API_KEY: ${{ secrets.N8N_API_KEY }}
-        run: node scripts/pull-workflows.js
+        run: |
+            "$env:N8N_URL" "$env:N8N_API_KEY" node scripts/pull-workflows.js
 
       - name: Commit and Push Changes
         run: |
