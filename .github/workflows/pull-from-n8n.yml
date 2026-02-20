@@ -22,14 +22,15 @@ jobs:
 
       - name: Run Pull Script
         env:
-          N8N_URL: ${{ secrets.NONPROD_N8N_URL }}
-          N8N_API_KEY: ${{ secrets.NONPROD_N8N_API_KEY }}
+          # This should point to your "Master" or "Non-Prod" instance
+          N8N_URL: ${{ secrets.N8N_URL }}
+          N8N_API_KEY: ${{ secrets.N8N_API_KEY }}
         run: node scripts/pull-workflows.js
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "n8n-automation-bot"
           git config --global user.email "bot@yourdomain.com"
-          git add workflows/*.json
-          # Only commit if there are changes
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: sync workflows from n8n instance" && git push)
+          # Add both the workflows folder and the manifest file
+          git add workflows/*.json manifest.yml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: sync workflows and update manifest.yml" && git push)
