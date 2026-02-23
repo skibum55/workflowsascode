@@ -14,6 +14,7 @@ const SENSITIVE_KEYS = ['password', 'apikey', 'token', 'secret', 'privatekey', '
 
 const client = axios.create({
   baseURL: `${N8N_URL}${endpoint}`,
+  baseURL: `${N8N_URL}${endpoint}`,
   headers: { 'X-N8N-API-KEY': N8N_API_KEY }
 });
 
@@ -95,3 +96,4 @@ async function pullWorkflows() {
 }
 
 pullWorkflows();
+
