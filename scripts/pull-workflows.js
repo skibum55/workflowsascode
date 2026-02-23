@@ -59,6 +59,8 @@ async function pullWorkflows() {
     for (const wf of workflows) {
       const detail = await client.get(`/workflows/${wf.id}`);
       const data = detail.data.data;
+      // debug
+      console.log(data);
 
       // --- NEW: SANITIZE DATA ---
       // We sanitize the 'nodes' array where parameters are stored
