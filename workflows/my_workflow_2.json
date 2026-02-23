@@ -1,0 +1,93 @@
+{
+  "name": "My workflow 2",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b167b865-1be7-42c7-becf-8eca780d3e59",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "chatMessage",
+        "chatId": {
+          "__rl": true,
+          "value": "54321",
+          "mode": "id"
+        },
+        "message": "testing123",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftTeams",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c857a7b6-968f-4fb6-a9f2-5e34655dd678",
+      "name": "Create chat message",
+      "webhookId": "b1f858e6-7db4-427e-9cd0-dd8d5a58d1cc",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create chat message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "7402be7c-3c95-43b2-93f8-50f84dd91c75",
+  "activeVersionId": null,
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-01-29T22:28:35.017Z",
+      "createdAt": "2026-01-29T22:28:35.017Z",
+      "role": "workflow:owner",
+      "workflowId": "IW5zQSuF-GqV8skwH9o8I",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

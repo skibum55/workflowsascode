@@ -1,0 +1,167 @@
+{
+  "name": "teams-message",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "5cc7d590-e025-404a-9a36-aa60e5df9952"
+    },
+    {
+      "parameters": {
+        "resource": "chatMessage",
+        "chatId": "19:meeting_NmE2MWQ3ZGEtYzM1Ny00NTE3LTkxNWItNTcxM2QxMWIzOGVl@thread.v2",
+        "message": "test",
+        "options": {}
+      },
+      "name": "Microsoft Teams",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        192,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "f47313d1-54d6-4f0d-ba80-717c2e260694",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chatMessage",
+        "chatId": "19:1572fb6c-cd6b-47f4-aefe-c1c117592339_318482de-50ef-45b6-829c-29ffe314f3e2@unq.gbl.spaces",
+        "message": "test2",
+        "options": {}
+      },
+      "name": "Microsoft Teams1",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        400,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b6f57311-8b8b-4189-83ba-5383b00bd186",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "channelMessage",
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "message": "n8n rocks!",
+        "options": {}
+      },
+      "name": "Microsoft Teams2",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        592,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "f98d6593-76a1-4152-bae2-fe46d4d04b90",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        32,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "c893cbe8-3102-421b-987f-756018db583e",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "Microsoft Teams": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Teams1": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fb6d53fe-aa69-446a-901a-ec16b06c988d",
+  "activeVersionId": null,
+  "versionCounter": 13,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-18T19:09:33.184Z",
+      "createdAt": "2026-02-18T19:09:33.184Z",
+      "role": "workflow:owner",
+      "workflowId": "yKBzjfpk4ajjJA0i",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

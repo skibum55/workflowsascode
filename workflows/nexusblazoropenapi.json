@@ -1,0 +1,210 @@
+{
+  "name": "NexusBlazorOpenAPI",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "c0e8b9e9-6f56-49f4-a7d7-41c385fa62fa",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        -16
+      ],
+      "id": "b95d11b8-cf99-4838-b444-327b2ebfd3f5",
+      "name": "Webhook",
+      "webhookId": "c0e8b9e9-6f56-49f4-a7d7-41c385fa62fa"
+    },
+    {
+      "parameters": {
+        "pathParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "queryParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@oselvar/n8n-nodes-openapi.openApi",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -16
+      ],
+      "id": "fe695136-c3d5-4119-9b7f-b603a1260d37",
+      "name": "OpenAPI",
+      "credentials": {
+        "openApiCredentialsApi": {
+          "id": "wvE4jU4b93QkPgvJ",
+          "name": "Nexus"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        160
+      ],
+      "id": "fcdbb549-bd8f-4c2f-8381-4603bc3777be",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "NexusAPI",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        128
+      ],
+      "id": "fef11cdc-c267-4274-887f-ffdeac50f457",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://nexusqacore.azurewebsites.net/utils/Security/Authorize",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "*/*"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "robcarmichael"
+            },
+            {
+              "name": "password",
+              "value": "<replaceMe>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -48,
+        -16
+      ],
+      "id": "5dfa5c23-8638-4665-bcda-4118a9082252",
+      "name": "GetToken"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "GetToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAPI": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "GetToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetToken": {
+      "main": [
+        [
+          {
+            "node": "OpenAPI",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "20d83f64-1acc-4329-a049-07a332640a10",
+  "activeVersionId": null,
+  "versionCounter": 2,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-01-20T17:13:40.851Z",
+      "createdAt": "2026-01-20T17:13:40.851Z",
+      "role": "workflow:owner",
+      "workflowId": "DJ7PMfcaEousAlRi2ris9",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

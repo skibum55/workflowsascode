@@ -1,0 +1,157 @@
+{
+  "name": "teams-channel-message",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "8c2cfb8e-92bc-430c-8fd4-24e17a83af05"
+    },
+    {
+      "parameters": {
+        "teamId": "b41df03c-362f-46b1-b020-7c7b730fb8ce",
+        "name": "n8n-docs-demo",
+        "options": {}
+      },
+      "name": "Microsoft Teams",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        192,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "cd3de3b8-238c-47d7-a43d-a0d360630b04",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "updateFields": {
+          "name": "n8n-documentation-demo"
+        }
+      },
+      "name": "Microsoft Teams1",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        400,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "3a45e772-d947-41b4-ae28-800e4164fe6c",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "channelMessage",
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "message": "n8n rocks!",
+        "options": {}
+      },
+      "name": "Microsoft Teams2",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        592,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "03bf0f65-84db-45ac-8d6f-c18a7167f353",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Microsoft Teams": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Teams1": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5474aa9b-719c-40c7-946c-6f7b7d7e91e1",
+  "activeVersionId": null,
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-18T19:13:47.056Z",
+      "createdAt": "2026-02-18T19:13:47.056Z",
+      "role": "workflow:owner",
+      "workflowId": "FSDPXG7h8rJ9zFfS",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

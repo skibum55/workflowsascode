@@ -1,0 +1,94 @@
+{
+  "name": "nexusPostMsgTest",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "postmsg",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "172bf4f3-e137-44c5-9ce5-0f6f0654e077",
+      "name": "Webhook",
+      "webhookId": "b38ea975-2c3c-44a4-83c5-cf1568c9e2f9"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "f2b512b2-3646-43d9-b550-831dcbb60a85",
+  "activeVersionId": "f2b512b2-3646-43d9-b550-831dcbb60a85",
+  "versionCounter": 34,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-10-28T16:02:06.517Z",
+      "createdAt": "2025-10-28T16:02:06.517Z",
+      "role": "workflow:owner",
+      "workflowId": "AckYLB8SiERiCmNV",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2025-12-10T18:03:38.206Z",
+    "createdAt": "2025-12-10T18:03:38.206Z",
+    "versionId": "f2b512b2-3646-43d9-b550-831dcbb60a85",
+    "workflowId": "AckYLB8SiERiCmNV",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "postmsg",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "172bf4f3-e137-44c5-9ce5-0f6f0654e077",
+        "name": "Webhook",
+        "webhookId": "b38ea975-2c3c-44a4-83c5-cf1568c9e2f9"
+      }
+    ],
+    "connections": {},
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2025-10-28T17:21:43.471Z",
+        "id": 1,
+        "workflowId": "AckYLB8SiERiCmNV",
+        "versionId": "f2b512b2-3646-43d9-b550-831dcbb60a85",
+        "event": "activated",
+        "userId": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,348 @@
+{
+  "name": "Openapi+graphapi_examples",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c5b13746-c6e9-4dca-becc-a1038ef97308",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "list-searchable-fields",
+        "pathParameters": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "dataset": "oce_patent_litigation_cases",
+            "version": "v1"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "dataset",
+              "displayName": "Dataset",
+              "required": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "version",
+              "displayName": "Version",
+              "required": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "queryParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@oselvar/n8n-nodes-openapi.openApi",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6139d827-3bc6-4320-90c7-b4e0b8ab31d2",
+      "name": "US Patents OpenAPI",
+      "credentials": {
+        "openApiCredentialsApi": {
+          "id": "caqTlTScmuMbyVEt",
+          "name": "US Patent Ofice"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "ApiWeb.AlertController.index",
+        "pathParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "queryParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "page[offset]",
+              "displayName": "Page[offset]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "page[limit]",
+              "displayName": "Page[limit]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "sort",
+              "displayName": "Sort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "fields[alert]",
+              "displayName": "Fields[alert]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "include",
+              "displayName": "Include",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[activity]",
+              "displayName": "Filter[activity]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[route_type]",
+              "displayName": "Filter[route_type]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[direction_id]",
+              "displayName": "Filter[direction_id]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[route]",
+              "displayName": "Filter[route]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[stop]",
+              "displayName": "Filter[stop]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[trip]",
+              "displayName": "Filter[trip]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[facility]",
+              "displayName": "Filter[facility]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[id]",
+              "displayName": "Filter[id]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[banner]",
+              "displayName": "Filter[banner]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[datetime]",
+              "displayName": "Filter[datetime]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[lifecycle]",
+              "displayName": "Filter[lifecycle]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[severity]",
+              "displayName": "Filter[severity]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@oselvar/n8n-nodes-openapi.openApi",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "94f37186-e0f6-4c98-8243-7bdb74453b0b",
+      "name": "Boston Transit Secured OpenAPI",
+      "credentials": {
+        "openApiCredentialsApi": {
+          "id": "QOApkW0HWt0BHyYI",
+          "name": "MBTA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "requestMethod": "GET",
+        "endpoint": "https://api.sampleapis.com/futurama/graphql",
+        "query": "query {\n  __schema {\n    types {\n      name\n      kind\n      description\n      fields {\n        name\n      }\n    }\n  }\n}"
+      },
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "f881fcbf-89be-4f7a-9dff-bb379fcef21b",
+      "name": "GraphQL"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "US Patents OpenAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "US Patents OpenAPI": {
+      "main": [
+        [
+          {
+            "node": "Boston Transit Secured OpenAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Boston Transit Secured OpenAPI": {
+      "main": [
+        [
+          {
+            "node": "GraphQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0b101404-c60e-458c-9298-abcce6933dfd",
+  "activeVersionId": null,
+  "versionCounter": 7,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-01-13T21:01:16.838Z",
+      "createdAt": "2026-01-13T21:01:16.838Z",
+      "role": "workflow:owner",
+      "workflowId": "pQAQHNcbsPx1o32s",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

@@ -1,0 +1,110 @@
+{
+  "name": "nexusPostMsgTestAuth",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "postmsgauth",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "95ae4e43-6140-4c15-bad0-e82fa283cccc",
+      "name": "Webhook",
+      "webhookId": "94ded4ee-acbd-49ea-9e7b-c228f93728a5",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "RJhJmCqaBUMOsnYt",
+          "name": "NexusBasicAuth"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "7fd87c51-480e-41cd-af31-d25a29b33b01",
+  "activeVersionId": "7fd87c51-480e-41cd-af31-d25a29b33b01",
+  "versionCounter": 34,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-10-30T15:30:46.358Z",
+      "createdAt": "2025-10-30T15:30:46.358Z",
+      "role": "workflow:owner",
+      "workflowId": "DknlIskkKHT26g5x",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2025-12-10T18:03:38.206Z",
+    "createdAt": "2025-12-10T18:03:38.206Z",
+    "versionId": "7fd87c51-480e-41cd-af31-d25a29b33b01",
+    "workflowId": "DknlIskkKHT26g5x",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "postmsgauth",
+          "authentication": "basicAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "95ae4e43-6140-4c15-bad0-e82fa283cccc",
+        "name": "Webhook",
+        "webhookId": "94ded4ee-acbd-49ea-9e7b-c228f93728a5",
+        "credentials": {
+          "httpBasicAuth": {
+            "id": "RJhJmCqaBUMOsnYt",
+            "name": "NexusBasicAuth"
+          }
+        }
+      }
+    ],
+    "connections": {},
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2025-10-31T20:02:42.970Z",
+        "id": 2,
+        "workflowId": "DknlIskkKHT26g5x",
+        "versionId": "7fd87c51-480e-41cd-af31-d25a29b33b01",
+        "event": "activated",
+        "userId": null
+      }
+    ]
+  }
+}
