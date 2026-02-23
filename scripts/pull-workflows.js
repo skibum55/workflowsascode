@@ -4,6 +4,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 
 const { N8N_URL, N8N_API_KEY } = process.env;
+const endpoint = "/api/v1";
 const OUTPUT_DIR = './workflows';
 const MANIFEST_FILE = './manifest.yml';
 
@@ -11,7 +12,7 @@ const MANIFEST_FILE = './manifest.yml';
 const SENSITIVE_KEYS = ['password', 'apikey', 'token', 'secret', 'privatekey', 'auth', 'authorization', 'bearer', 'credential'];
 
 const client = axios.create({
-  baseURL: `${N8N_URL}/api/v1`,
+  baseURL: `${N8N_URL}${endpoint}`,
   headers: { 'X-N8N-API-KEY': N8N_API_KEY }
 });
 
