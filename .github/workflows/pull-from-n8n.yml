@@ -1,6 +1,6 @@
 name: Manual Pull Workflows from n8n
 on:
-  workflow_dispatch: # This creates the "Run Workflow" button in GitHub UI
+  workflow_dispatch: 
 
 jobs:
   pull-and-commit:

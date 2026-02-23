@@ -1,0 +1,122 @@
+{
+  "name": "OpenApi_patent_example",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c70c85b1-4792-400b-9a64-87b192ba78b7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "list-searchable-fields",
+        "pathParameters": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "dataset": "oa_rejections",
+            "version": "v2"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "dataset",
+              "displayName": "Dataset",
+              "required": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "version",
+              "displayName": "Version",
+              "required": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "queryParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@oselvar/n8n-nodes-openapi.openApi",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "9ec73718-93d7-4871-a3ac-7650bb5a4536",
+      "name": "US Patent Office OpenAPI",
+      "credentials": {
+        "openApiCredentialsApi": {
+          "id": "caqTlTScmuMbyVEt",
+          "name": "US Patent Ofice"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "US Patent Office OpenAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "317b4552-8ef9-4ace-9033-8bf87e2feef8",
+  "activeVersionId": null,
+  "versionCounter": 2,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-01-13T17:04:47.194Z",
+      "createdAt": "2026-01-13T17:04:47.194Z",
+      "role": "workflow:owner",
+      "workflowId": "P873Vy3jKF4wogyZ",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

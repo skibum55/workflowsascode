@@ -1,0 +1,544 @@
+{
+  "name": "createNexusIncident",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -112
+      ],
+      "id": "131515f9-621f-4cbe-a9ee-87720666fe1c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://nexuscoreai.azurewebsites.net/utils/Security/Authorize",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "*/*"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\"username\": \"admin\", \"password\": \"<replaced>\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        32,
+        0
+      ],
+      "id": "45648f2a-4510-4760-bc16-c345b3853e28",
+      "name": "getNexusToken"
+    },
+    {
+      "parameters": {
+        "url": "https://nexuscoreai.azurewebsites.net/api/Schema/entity/incident",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "Accept-Encoding",
+              "value": "gzip"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        240,
+        0
+      ],
+      "id": "1fb5c8d5-8273-4b6e-bed7-06621aff825f",
+      "name": "getIncidentsSchema"
+    },
+    {
+      "parameters": {
+        "path": "53ff7ea9-5af3-42b2-bc31-b189c1f1fcf8",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "68533102-022d-4bff-8a70-f3d119eeaa12",
+      "name": "Webhook",
+      "webhookId": "53ff7ea9-5af3-42b2-bc31-b189c1f1fcf8",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        176
+      ],
+      "id": "3a37beef-4ee1-489c-94d4-09db7a5611c7",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {
+          "responseCode": "={{ 500 }}"
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        32,
+        176
+      ],
+      "id": "3fa74756-a4c9-48b8-8105-2874184f2284",
+      "name": "errorResponse"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://nexuscoreai.azurewebsites.net/utils/incidentv3",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "OID,Title,Description,Category,SubCategory,MajorIncident,Impact,Urgency,Customer,BusinessService,Caller"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "nullPlaceholders",
+              "value": "false"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "*/*"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('getNexusToken').item.json.access_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
+        "body": "={\"Title\":\"SKTest {{$now}}\",\"Description\":\"Web Catalogs\",\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\"MajorIncident\":false,\"Impact.Name\":\"1-Enterprise\",\"Urgency.Name\":\"2-High\",\"Customer.Name\":\"Morton\",\"BusinessService.Name\":\"Web Portal\",\"Caller.EmployeeID\":\"743248\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        0
+      ],
+      "id": "2642da43-3d2e-4f85-b215-3e33d1f97657",
+      "name": "createIncident"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "getNexusToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getNexusToken": {
+      "main": [
+        [
+          {
+            "node": "getIncidentsSchema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getIncidentsSchema": {
+      "main": [
+        [
+          {
+            "node": "createIncident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "getNexusToken",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "errorResponse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "errorResponse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "createIncident": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6457c89a-42fb-4bbd-acdc-31c6c2f014e5",
+  "activeVersionId": "b812c857-deb6-49fe-8811-f7025e51c9ef",
+  "versionCounter": 50,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-20T19:57:07.175Z",
+      "createdAt": "2026-02-20T19:57:07.175Z",
+      "role": "workflow:owner",
+      "workflowId": "2W89dAgSUHdcNYei",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-02-20T22:26:14.355Z",
+    "createdAt": "2026-02-20T20:21:05.092Z",
+    "versionId": "b812c857-deb6-49fe-8811-f7025e51c9ef",
+    "workflowId": "2W89dAgSUHdcNYei",
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -128,
+          -112
+        ],
+        "id": "131515f9-621f-4cbe-a9ee-87720666fe1c",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://nexuscoreai.azurewebsites.net/utils/Security/Authorize",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "accept",
+                "value": "*/*"
+              }
+            ]
+          },
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "{\"username\": \"admin\", \"password\": \"<replaceME>\"}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          32,
+          0
+        ],
+        "id": "45648f2a-4510-4760-bc16-c345b3853e28",
+        "name": "getNexusToken"
+      },
+      {
+        "parameters": {
+          "url": "https://nexuscoreai.azurewebsites.net/api/Schema/entity/incident",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "accept",
+                "value": "application/json"
+              },
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $json.access_token }}"
+              },
+              {
+                "name": "Accept-Encoding",
+                "value": "gzip"
+              }
+            ]
+          },
+          "options": {
+            "redirect": {
+              "redirect": {}
+            },
+            "response": {
+              "response": {}
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          240,
+          0
+        ],
+        "id": "1fb5c8d5-8273-4b6e-bed7-06621aff825f",
+        "name": "getIncidentsSchema"
+      },
+      {
+        "parameters": {
+          "path": "53ff7ea9-5af3-42b2-bc31-b189c1f1fcf8",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -128,
+          16
+        ],
+        "id": "68533102-022d-4bff-8a70-f3d119eeaa12",
+        "name": "Webhook",
+        "webhookId": "53ff7ea9-5af3-42b2-bc31-b189c1f1fcf8",
+        "alwaysOutputData": false,
+        "retryOnFail": true,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://nexuscoreai.azurewebsites.net/utils/incidentv3/",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "limit",
+                "value": "100"
+              },
+              {
+                "name": "nullPlaceholders",
+                "value": "false"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "accept",
+                "value": "application/json;odata.metadata=minimal;odata.streaming=true"
+              },
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $('getNexusToken').item.json.access_token }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          448,
+          0
+        ],
+        "id": "2642da43-3d2e-4f85-b215-3e33d1f97657",
+        "name": "getIncident"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.errorTrigger",
+        "typeVersion": 1,
+        "position": [
+          -128,
+          176
+        ],
+        "id": "3a37beef-4ee1-489c-94d4-09db7a5611c7",
+        "name": "Error Trigger"
+      },
+      {
+        "parameters": {
+          "respondWith": "noData",
+          "options": {
+            "responseCode": "={{ 500 }}"
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          32,
+          176
+        ],
+        "id": "3fa74756-a4c9-48b8-8105-2874184f2284",
+        "name": "errorResponse"
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "getNexusToken",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getNexusToken": {
+        "main": [
+          [
+            {
+              "node": "getIncidentsSchema",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getIncidentsSchema": {
+        "main": [
+          [
+            {
+              "node": "getIncident",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "getNexusToken",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "errorResponse",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Error Trigger": {
+        "main": [
+          [
+            {
+              "node": "errorResponse",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getIncident": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "v0.0.1",
+    "description": "initial version",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-02-20T22:26:14.345Z",
+        "id": 3,
+        "workflowId": "2W89dAgSUHdcNYei",
+        "versionId": "b812c857-deb6-49fe-8811-f7025e51c9ef",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "name": "servicenowCreateIncident",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8194df7c-0a4a-4350-975f-efca56213636",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "create",
+        "short_description": "=incident {{ $now }}",
+        "additionalFields": {
+          "business_service": "28c15c94c0a8000b003c7f9cdbd4b5f0",
+          "caller_id": "cynthia.m.tran",
+          "category": "database",
+          "description": "Test Description",
+          "impact": 3,
+          "state": "=New",
+          "subcategory": "oracle",
+          "urgency": 3
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7924d555-2a30-45c6-9499-7b696a42f4e1",
+      "name": "Create an incident",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "TSOplFehrUyCr2i1",
+          "name": "ServiceNow oauth2 cname"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "update",
+        "id": "={{ $json.sys_id }} ",
+        "updateFields": {
+          "close_notes": "=Closed by N8N {{ $now }}",
+          "close_code": "Solution provided",
+          "state": "7",
+          "work_notes": "Work is done"
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "86e89d33-153a-4972-8bf1-1d35ae03f04a",
+      "name": "Update an incident",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "TSOplFehrUyCr2i1",
+          "name": "ServiceNow oauth2 cname"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "cb4d11bb-eb51-4466-a13a-97c40deefb03",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -128
+      ],
+      "id": "7e407f5f-bf10-4ece-9852-01abdfcd5c23",
+      "name": "Webhook",
+      "webhookId": "cb4d11bb-eb51-4466-a13a-97c40deefb03"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create an incident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an incident": {
+      "main": [
+        [
+          {
+            "node": "Update an incident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create an incident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "29862fdf-aa9f-4246-9c92-caa70dd127dc",
+  "activeVersionId": null,
+  "versionCounter": 43,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-10T22:21:26.497Z",
+      "createdAt": "2026-02-10T22:21:26.497Z",
+      "role": "workflow:owner",
+      "workflowId": "MqHDzVQzNwhnD4CT",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2026-02-10T22:21:24.777Z",
+      "createdAt": "2026-02-10T22:21:24.777Z",
+      "id": "ciJgztDtAIdMkuKy",
+      "name": "oauth2"
+    },
+    {
+      "updatedAt": "2026-02-20T20:16:26.331Z",
+      "createdAt": "2026-02-20T20:16:26.331Z",
+      "id": "QBbBgMbpHTusrIqK",
+      "name": "serviceNow"
+    }
+  ],
+  "activeVersion": null
+}

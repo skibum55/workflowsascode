@@ -1,0 +1,124 @@
+{
+  "name": "servicenow_incident",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "172adc68-67b3-419c-aad8-087095af139e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "create",
+        "short_description": "=incident {{ $now }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5450b369-007c-499a-8456-9992b2f8a13a",
+      "name": "Create an incident",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "JXnRDrXZsmZwnJSv",
+          "name": "ServiceNow account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "update",
+        "id": "={{ $json.sys_id }}",
+        "updateFields": {
+          "close_notes": "=Closed by N8N {{ $now }}",
+          "close_code": "Solution provided",
+          "state": "7"
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "9c42e5d0-7b07-4001-86d8-017777ef3fa5",
+      "name": "Update an incident",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "JXnRDrXZsmZwnJSv",
+          "name": "ServiceNow account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create an incident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an incident": {
+      "main": [
+        [
+          {
+            "node": "Update an incident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "b24d3870-6746-4062-a6be-52102b15184c",
+  "activeVersionId": null,
+  "versionCounter": 2,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-01-16T22:12:50.492Z",
+      "createdAt": "2026-01-16T22:12:50.492Z",
+      "role": "workflow:owner",
+      "workflowId": "d5vwC7c6EGghUoX2",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}
