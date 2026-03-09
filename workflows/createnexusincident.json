@@ -9,8 +9,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -128,
-        -112
+        -304,
+        -64
       ],
       "id": "131515f9-621f-4cbe-a9ee-87720666fe1c",
       "name": "When clicking ‘Execute workflow’"
@@ -31,8 +31,10 @@
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
-        "body": "{\"username\": \"admin\", \"password\": \"<replaced>\"}",
-        "options": {}
+        "body": "{\"username\": \"admin\", \"password\": \"!234s678S\"}",
+        "options": {
+          "proxy": "={{ $json.headers }}"
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
@@ -45,53 +47,15 @@
     },
     {
       "parameters": {
-        "url": "https://nexuscoreai.azurewebsites.net/api/Schema/entity/incident",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "accept",
-              "value": "application/json"
-            },
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $json.access_token }}"
-            },
-            {
-              "name": "Accept-Encoding",
-              "value": "gzip"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          },
-          "response": {
-            "response": {}
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        240,
-        0
-      ],
-      "id": "1fb5c8d5-8273-4b6e-bed7-06621aff825f",
-      "name": "getIncidentsSchema"
-    },
-    {
-      "parameters": {
-        "path": "53ff7ea9-5af3-42b2-bc31-b189c1f1fcf8",
+        "path": "createnexusincident",
         "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -128,
-        16
+        -304,
+        112
       ],
       "id": "68533102-022d-4bff-8a70-f3d119eeaa12",
       "name": "Webhook",
@@ -105,8 +69,8 @@
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
       "position": [
-        -128,
-        176
+        -144,
+        256
       ],
       "id": "3a37beef-4ee1-489c-94d4-09db7a5611c7",
       "name": "Error Trigger"
@@ -164,17 +128,49 @@
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
-        "body": "={\"Title\":\"SKTest {{$now}}\",\"Description\":\"Web Catalogs\",\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\"MajorIncident\":false,\"Impact.Name\":\"1-Enterprise\",\"Urgency.Name\":\"2-High\",\"Customer.Name\":\"Morton\",\"BusinessService.Name\":\"Web Portal\",\"Caller.EmployeeID\":\"743248\"}",
+        "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\"MajorIncident\":false,\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\"Urgency.Name\":\"2-High\",\"Customer.Name\":\"Morton\",\"BusinessService.Name\":\"Web Portal\",\"Caller.EmployeeID\":\"743248\"}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        448,
+        192,
         0
       ],
       "id": "2642da43-3d2e-4f85-b215-3e33d1f97657",
-      "name": "createIncident"
+      "name": "createIncident",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "  {\n      \"Title\": \"SKTest7\",\n      \"Description\": \"Web Catalogs\",\n      \"Category.name\": \"Network\",\n      \"SubCategory.name\": \"Wireless\",\n      \"MajorIncident\": false,\n      \"Impact.Name\": \"1-Enterprise\",\n      \"Urgency.Name\": \"2-High\",\n      \"Customer.Name\": \"Morton\",\n      \"BusinessService.Name\": \"Web Portal\",\n      \"Caller.EmployeeID\": \"743248\"\n    }"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        -160
+      ],
+      "id": "2cc04a77-9eb6-4b0d-80ce-90f2747cd430",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "$now",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "$execution",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "9e3cb637-e87e-49be-949d-3a3a84430536",
+      "name": "Split Out",
+      "disabled": true
     }
   ],
   "connections": {
@@ -190,17 +186,6 @@
       ]
     },
     "getNexusToken": {
-      "main": [
-        [
-          {
-            "node": "getIncidentsSchema",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "getIncidentsSchema": {
       "main": [
         [
           {
@@ -242,7 +227,24 @@
     },
     "createIncident": {
       "main": [
-        []
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "getNexusToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -256,9 +258,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6457c89a-42fb-4bbd-acdc-31c6c2f014e5",
-  "activeVersionId": "b812c857-deb6-49fe-8811-f7025e51c9ef",
-  "versionCounter": 50,
+  "versionId": "e393636d-5cff-4467-abff-160328383ecc",
+  "activeVersionId": "57efa952-8a3d-4403-98ff-e1c851ece2ad",
+  "versionCounter": 154,
   "triggerCount": 1,
   "shared": [
     {
@@ -281,9 +283,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-02-20T22:26:14.355Z",
-    "createdAt": "2026-02-20T20:21:05.092Z",
-    "versionId": "b812c857-deb6-49fe-8811-f7025e51c9ef",
+    "updatedAt": "2026-03-09T16:13:58.818Z",
+    "createdAt": "2026-03-09T16:13:22.030Z",
+    "versionId": "57efa952-8a3d-4403-98ff-e1c851ece2ad",
     "workflowId": "2W89dAgSUHdcNYei",
     "nodes": [
       {
@@ -291,8 +293,8 @@
         "type": "n8n-nodes-base.manualTrigger",
         "typeVersion": 1,
         "position": [
-          -128,
-          -112
+          -304,
+          -64
         ],
         "id": "131515f9-621f-4cbe-a9ee-87720666fe1c",
         "name": "When clicking ‘Execute workflow’"
@@ -313,8 +315,10 @@
           "sendBody": true,
           "contentType": "raw",
           "rawContentType": "application/json",
-          "body": "{\"username\": \"admin\", \"password\": \"<replaceME>\"}",
-          "options": {}
+          "body": "{\"username\": \"admin\", \"password\": \"!234s678S\"}",
+          "options": {
+            "proxy": "={{ $json.headers }}"
+          }
         },
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
@@ -327,53 +331,15 @@
       },
       {
         "parameters": {
-          "url": "https://nexuscoreai.azurewebsites.net/api/Schema/entity/incident",
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "accept",
-                "value": "application/json"
-              },
-              {
-                "name": "Authorization",
-                "value": "=Bearer {{ $json.access_token }}"
-              },
-              {
-                "name": "Accept-Encoding",
-                "value": "gzip"
-              }
-            ]
-          },
-          "options": {
-            "redirect": {
-              "redirect": {}
-            },
-            "response": {
-              "response": {}
-            }
-          }
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          240,
-          0
-        ],
-        "id": "1fb5c8d5-8273-4b6e-bed7-06621aff825f",
-        "name": "getIncidentsSchema"
-      },
-      {
-        "parameters": {
-          "path": "53ff7ea9-5af3-42b2-bc31-b189c1f1fcf8",
+          "path": "createnexusincident",
           "responseMode": "responseNode",
           "options": {}
         },
         "type": "n8n-nodes-base.webhook",
         "typeVersion": 2.1,
         "position": [
-          -128,
-          16
+          -304,
+          112
         ],
         "id": "68533102-022d-4bff-8a70-f3d119eeaa12",
         "name": "Webhook",
@@ -383,59 +349,12 @@
         "onError": "continueErrorOutput"
       },
       {
-        "parameters": {
-          "method": "POST",
-          "url": "https://nexuscoreai.azurewebsites.net/utils/incidentv3/",
-          "sendQuery": true,
-          "queryParameters": {
-            "parameters": [
-              {
-                "name": "limit",
-                "value": "100"
-              },
-              {
-                "name": "nullPlaceholders",
-                "value": "false"
-              }
-            ]
-          },
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "accept",
-                "value": "application/json;odata.metadata=minimal;odata.streaming=true"
-              },
-              {
-                "name": "Authorization",
-                "value": "=Bearer {{ $('getNexusToken').item.json.access_token }}"
-              }
-            ]
-          },
-          "sendBody": true,
-          "bodyParameters": {
-            "parameters": [
-              {}
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          448,
-          0
-        ],
-        "id": "2642da43-3d2e-4f85-b215-3e33d1f97657",
-        "name": "getIncident"
-      },
-      {
         "parameters": {},
         "type": "n8n-nodes-base.errorTrigger",
         "typeVersion": 1,
         "position": [
-          -128,
-          176
+          -144,
+          256
         ],
         "id": "3a37beef-4ee1-489c-94d4-09db7a5611c7",
         "name": "Error Trigger"
@@ -455,6 +374,85 @@
         ],
         "id": "3fa74756-a4c9-48b8-8105-2874184f2284",
         "name": "errorResponse"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://nexuscoreai.azurewebsites.net/utils/incidentv3",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "fields",
+                "value": "OID,Title,Description,Category,SubCategory,MajorIncident,Impact,Urgency,Customer,BusinessService,Caller"
+              },
+              {
+                "name": "limit",
+                "value": "10"
+              },
+              {
+                "name": "nullPlaceholders",
+                "value": "false"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "accept",
+                "value": "*/*"
+              },
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $('getNexusToken').item.json.access_token }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
+          "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\"MajorIncident\":false,\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\"Urgency.Name\":\"2-High\",\"Customer.Name\":\"Morton\",\"BusinessService.Name\":\"Web Portal\",\"Caller.EmployeeID\":\"743248\"}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          192,
+          0
+        ],
+        "id": "2642da43-3d2e-4f85-b215-3e33d1f97657",
+        "name": "createIncident"
+      },
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "  {\n      \"Title\": \"SKTest7\",\n      \"Description\": \"Web Catalogs\",\n      \"Category.name\": \"Network\",\n      \"SubCategory.name\": \"Wireless\",\n      \"MajorIncident\": false,\n      \"Impact.Name\": \"1-Enterprise\",\n      \"Urgency.Name\": \"2-High\",\n      \"Customer.Name\": \"Morton\",\n      \"BusinessService.Name\": \"Web Portal\",\n      \"Caller.EmployeeID\": \"743248\"\n    }"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -128,
+          -160
+        ],
+        "id": "2cc04a77-9eb6-4b0d-80ce-90f2747cd430",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "$now",
+          "include": "selectedOtherFields",
+          "fieldsToInclude": "$execution",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          400,
+          0
+        ],
+        "id": "9e3cb637-e87e-49be-949d-3a3a84430536",
+        "name": "Split Out"
       }
     ],
     "connections": {
@@ -473,18 +471,7 @@
         "main": [
           [
             {
-              "node": "getIncidentsSchema",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "getIncidentsSchema": {
-        "main": [
-          [
-            {
-              "node": "getIncident",
+              "node": "createIncident",
               "type": "main",
               "index": 0
             }
@@ -520,22 +507,39 @@
           ]
         ]
       },
-      "getIncident": {
+      "createIncident": {
         "main": [
-          []
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "getNexusToken",
+              "type": "main",
+              "index": 0
+            }
+          ]
         ]
       }
     },
     "authors": "sean keery",
-    "name": "v0.0.1",
-    "description": "initial version",
+    "name": "0.0.10",
+    "description": "Mapping for demo",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-02-20T22:26:14.345Z",
-        "id": 3,
+        "createdAt": "2026-03-09T16:13:58.812Z",
+        "id": 29,
         "workflowId": "2W89dAgSUHdcNYei",
-        "versionId": "b812c857-deb6-49fe-8811-f7025e51c9ef",
+        "versionId": "57efa952-8a3d-4403-98ff-e1c851ece2ad",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }

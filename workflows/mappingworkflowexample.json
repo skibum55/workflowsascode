@@ -1,0 +1,341 @@
+{
+  "name": "mappingWorkflowExample",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a5c7bfc0-805e-404a-be63-a41c5ab06d66",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "ApiWeb.VehicleController.index",
+        "pathParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "queryParameters": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "page[offset]",
+              "displayName": "Page[offset]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "page[limit]",
+              "displayName": "Page[limit]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "sort",
+              "displayName": "Sort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "fields[vehicle]",
+              "displayName": "Fields[vehicle]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "include",
+              "displayName": "Include",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[id]",
+              "displayName": "Filter[id]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[trip]",
+              "displayName": "Filter[trip]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[label]",
+              "displayName": "Filter[label]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[route]",
+              "displayName": "Filter[route]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[direction_id]",
+              "displayName": "Filter[direction_id]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[route_type]",
+              "displayName": "Filter[route_type]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "filter[revenue]",
+              "displayName": "Filter[revenue]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "CUSTOM.openApi",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b6d725b7-08cc-4031-84f9-d96279febf35",
+      "name": "MBTA OpenAPI",
+      "credentials": {
+        "openApiCredentialsApi": {
+          "id": "QOApkW0HWt0BHyYI",
+          "name": "MBTA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1bbd6665-706a-4616-ac4b-c55353a57c15",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        656,
+        0
+      ],
+      "id": "9d6802ce-f46d-4d21-b967-235fd6e57db6",
+      "name": "If as another step"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "08333017-1b7b-443d-b6c8-1eb53f074eda",
+              "name": "myFirstMappedField",
+              "value": "={{$('MBTA OpenAPI').item.json.data[0].relationships.trip.data.type}}\n",
+              "type": "string"
+            },
+            {
+              "id": "3f23408d-cfef-4fdf-a971-75032aaa3f08",
+              "name": "mySecondMappedField",
+              "value": "={{ $json.data[1].attributes.occupancy_status }}",
+              "type": "string"
+            },
+            {
+              "id": "a7f6c231-9edb-4065-bbe0-bb0f1eb2622b",
+              "name": "myFourhtMappedField",
+              "value": "=mystring",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "bae3a2b5-9b91-4a39-bd60-3010db8dcf51",
+      "name": "MapFields"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "mySecondMappedField",
+              "field2": "={{$('MapFields').params.assignments.values()[0][2].value\n}}"
+            }
+          ]
+        },
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        656,
+        -144
+      ],
+      "id": "9f78f19b-b227-456d-8586-53da1ae90d04",
+      "name": "Merge"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "MBTA OpenAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MBTA OpenAPI": {
+      "main": [
+        [
+          {
+            "node": "MapFields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MapFields": {
+      "main": [
+        [
+          {
+            "node": "If as another step",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "If as another step": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "7759f18b-f70c-4804-a00c-84b40507d895",
+  "activeVersionId": null,
+  "versionCounter": 163,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-03T18:04:52.747Z",
+      "createdAt": "2026-03-03T18:04:52.747Z",
+      "role": "workflow:owner",
+      "workflowId": "51HZyk0Bvgyti9mg",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

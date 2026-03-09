@@ -1,0 +1,114 @@
+{
+  "name": "OpenAPIspecExample",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "382511df-b624-4ed8-87dc-2f2306b48ee9",
+      "name": "Webhook",
+      "webhookId": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "RJhJmCqaBUMOsnYt",
+          "name": "NexusBasicAuth"
+        }
+      },
+      "notes": "@body Title string Name of your incident\n@body Description string Brief summary of incident\n@body Category.name string Type of incident\n@body SubCategory.name string SubType of incident\n@body MajorIncident boolean Is it Major?\n@body Impact.Name string Business impact of incident\n@body Urgency.Name string Business importance of incident\n@body Customer.Name string Customer name\n@body BusinessService.Name string Service impacted\n@body Caller.EmployeeID string Employee who reported incident"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "23e09916-d4b0-4fdb-a7a7-c1d0822f4577",
+  "activeVersionId": "23e09916-d4b0-4fdb-a7a7-c1d0822f4577",
+  "versionCounter": 75,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-09T16:35:55.649Z",
+      "createdAt": "2026-03-09T16:35:55.649Z",
+      "role": "workflow:owner",
+      "workflowId": "S6WPiDC2GfFekEHN",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-09T16:47:28.372Z",
+    "createdAt": "2026-03-09T16:47:09.209Z",
+    "versionId": "23e09916-d4b0-4fdb-a7a7-c1d0822f4577",
+    "workflowId": "S6WPiDC2GfFekEHN",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+          "authentication": "basicAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "382511df-b624-4ed8-87dc-2f2306b48ee9",
+        "name": "Webhook",
+        "webhookId": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+        "credentials": {
+          "httpBasicAuth": {
+            "id": "RJhJmCqaBUMOsnYt",
+            "name": "NexusBasicAuth"
+          }
+        },
+        "notes": "@body Title string Name of your incident\n@body Description string Brief summary of incident\n@body Category.name string Type of incident\n@body SubCategory.name string SubType of incident\n@body MajorIncident boolean Is it Major?\n@body Impact.Name string Business impact of incident\n@body Urgency.Name string Business importance of incident\n@body Customer.Name string Customer name\n@body BusinessService.Name string Service impacted\n@body Caller.EmployeeID string Employee who reported incident"
+      }
+    ],
+    "connections": {},
+    "authors": "sean keery",
+    "name": "0.0.3",
+    "description": "Metadata descriptions added for openapi",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-09T16:47:28.368Z",
+        "id": 36,
+        "workflowId": "S6WPiDC2GfFekEHN",
+        "versionId": "23e09916-d4b0-4fdb-a7a7-c1d0822f4577",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

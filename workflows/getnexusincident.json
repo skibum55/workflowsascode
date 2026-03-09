@@ -31,7 +31,7 @@
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
-        "body": "{\"username\": \"admin\", \"password\": \"<replaceME>\"}",
+        "body": "{\"username\": \"admin\", \"password\": \"!234s678S\"}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
