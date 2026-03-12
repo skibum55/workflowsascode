@@ -27,10 +27,10 @@
     {
       "parameters": {
         "operation": "subtractFromDate",
-        "magnitude": "={{ $now }}{{ $now }}",
+        "magnitude": "={{ $now.toUTC() }}",
         "timeUnit": "hours",
-        "duration": 5,
-        "outputFieldName": "fiveminutesago",
+        "duration": 1,
+        "outputFieldName": "onehourago",
         "options": {}
       },
       "type": "n8n-nodes-base.dateTime",
@@ -47,7 +47,7 @@
         "resource": "incident",
         "operation": "getAll",
         "options": {
-          "sysparm_query": "=opened_at>{{ $json.fiveminutesago }}"
+          "sysparm_query": "=sys_created_on>={{ $json.onehourago }}"
         }
       },
       "type": "n8n-nodes-base.serviceNow",
@@ -71,7 +71,7 @@
         "operation": "getAll",
         "returnAll": true,
         "options": {
-          "sysparm_query": "=sys_updated_on>={{ $json.fiveminutesago }}"
+          "sysparm_query": "=sys_updated_on>={{ $json.sixhoursago }}"
         }
       },
       "type": "n8n-nodes-base.serviceNow",
@@ -87,7 +87,8 @@
           "id": "TSOplFehrUyCr2i1",
           "name": "ServiceNow oauth2 cname"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -1034,11 +1035,68 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        496,
-        192
+        656,
+        176
       ],
       "id": "eaf119cb-a6e2-4941-9eb6-b2d41d9f8b16",
-      "name": "Call 'createNexusIncident'"
+      "name": "Call 'createNexusIncident'",
+      "executeOnce": false,
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        192
+      ],
+      "id": "1f4eae39-9edb-4d3b-8ed0-70a0c50089f8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        656,
+        400
+      ],
+      "id": "58c2bd9a-002f-466b-8ab4-d65ce05e4c74",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6d065b39-f4ac-464b-9d42-f1d88c6ba036",
+              "leftValue": "={{ $json.number }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        464,
+        192
+      ],
+      "id": "ba0d3743-db9c-450b-bb0e-1746beccfce1",
+      "name": "If incidents exist"
     }
   ],
   "connections": {
@@ -1078,7 +1136,36 @@
       "main": [
         [
           {
+            "node": "If incidents exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If incidents exist": {
+      "main": [
+        [
+          {
             "node": "Call 'createNexusIncident'",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
             "type": "main",
             "index": 0
           }
@@ -1096,9 +1183,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b0cd5868-bee5-4f2e-b2db-54ad29306fa7",
-  "activeVersionId": "b0cd5868-bee5-4f2e-b2db-54ad29306fa7",
-  "versionCounter": 98,
+  "versionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
+  "activeVersionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
+  "versionCounter": 159,
   "triggerCount": 1,
   "shared": [
     {
@@ -1121,9 +1208,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-02-27T18:47:32.655Z",
-    "createdAt": "2026-02-27T18:47:12.123Z",
-    "versionId": "b0cd5868-bee5-4f2e-b2db-54ad29306fa7",
+    "updatedAt": "2026-03-12T21:14:35.041Z",
+    "createdAt": "2026-03-12T21:14:01.175Z",
+    "versionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
     "workflowId": "8fgOWTxRxYPHB5R8",
     "nodes": [
       {
@@ -1149,10 +1236,10 @@
       {
         "parameters": {
           "operation": "subtractFromDate",
-          "magnitude": "={{ $now }}{{ $now }}",
+          "magnitude": "={{ $now.toUTC() }}",
           "timeUnit": "hours",
-          "duration": 5,
-          "outputFieldName": "fiveminutesago",
+          "duration": 1,
+          "outputFieldName": "onehourago",
           "options": {}
         },
         "type": "n8n-nodes-base.dateTime",
@@ -1169,7 +1256,7 @@
           "resource": "incident",
           "operation": "getAll",
           "options": {
-            "sysparm_query": "=opened_at>{{ $json.fiveminutesago }}"
+            "sysparm_query": "=sys_created_on>={{ $json.onehourago }}"
           }
         },
         "type": "n8n-nodes-base.serviceNow",
@@ -1193,7 +1280,7 @@
           "operation": "getAll",
           "returnAll": true,
           "options": {
-            "sysparm_query": "=sys_updated_on>={{ $json.fiveminutesago }}"
+            "sysparm_query": "=sys_updated_on>={{ $json.sixhoursago }}"
           }
         },
         "type": "n8n-nodes-base.serviceNow",
@@ -1209,7 +1296,8 @@
             "id": "TSOplFehrUyCr2i1",
             "name": "ServiceNow oauth2 cname"
           }
-        }
+        },
+        "disabled": true
       },
       {
         "parameters": {
@@ -2156,11 +2244,68 @@
         "type": "n8n-nodes-base.executeWorkflow",
         "typeVersion": 1.3,
         "position": [
-          496,
-          192
+          656,
+          176
         ],
         "id": "eaf119cb-a6e2-4941-9eb6-b2d41d9f8b16",
-        "name": "Call 'createNexusIncident'"
+        "name": "Call 'createNexusIncident'",
+        "executeOnce": false,
+        "disabled": true
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -64,
+          192
+        ],
+        "id": "1f4eae39-9edb-4d3b-8ed0-70a0c50089f8",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          656,
+          400
+        ],
+        "id": "58c2bd9a-002f-466b-8ab4-d65ce05e4c74",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6d065b39-f4ac-464b-9d42-f1d88c6ba036",
+                "leftValue": "={{ $json.number }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          464,
+          192
+        ],
+        "id": "ba0d3743-db9c-450b-bb0e-1746beccfce1",
+        "name": "If incidents exist"
       }
     ],
     "connections": {
@@ -2200,7 +2345,36 @@
         "main": [
           [
             {
+              "node": "If incidents exist",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If incidents exist": {
+        "main": [
+          [
+            {
               "node": "Call 'createNexusIncident'",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing",
               "type": "main",
               "index": 0
             }
@@ -2209,15 +2383,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "0.0.6",
-    "description": "trigger every hour at twelve minutes past",
+    "name": "0.0.30",
+    "description": "hourly batch & filter. if node added to handle blank response.  createincident sub-workflow enabled",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-02-27T18:47:32.648Z",
-        "id": 15,
+        "createdAt": "2026-03-12T21:14:35.031Z",
+        "id": 47,
         "workflowId": "8fgOWTxRxYPHB5R8",
-        "versionId": "b0cd5868-bee5-4f2e-b2db-54ad29306fa7",
+        "versionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }

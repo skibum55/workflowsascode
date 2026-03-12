@@ -1,5 +1,5 @@
 source_instance: https://oauth2test.manageddeployment.com
-last_sync: '2026-03-09T17:18:16.019Z'
+last_sync: '2026-03-12T21:24:21.877Z'
 workflows:
   - name: nexusPostMsgTest
     source_id: AckYLB8SiERiCmNV
@@ -79,3 +79,15 @@ workflows:
   - name: OpenAPIspecExample
     source_id: S6WPiDC2GfFekEHN
     file: openapispecexample.json
+  - name: subChatMessage
+    source_id: hgOznvKnhtJWUL90
+    file: subchatmessage.json
+  - name: internalEntraUserID
+    source_id: Wzu9lip9cNU2FUWU
+    file: internalentrauserid.json
+  - name: MBTA_OpenAPIexample
+    source_id: FoyOqfrSBFn1dav2
+    file: mbta_openapiexample.json
+  - name: postImportIncidentsCSV
+    source_id: EYdPkwt8yg12pmpd
+    file: postimportincidentscsv.json

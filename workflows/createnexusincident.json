@@ -153,13 +153,14 @@
         -160
       ],
       "id": "2cc04a77-9eb6-4b0d-80ce-90f2747cd430",
-      "name": "When Executed by Another Workflow"
+      "name": "When Executed by Another Workflow",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
         "fieldToSplitOut": "$now",
         "include": "selectedOtherFields",
-        "fieldsToInclude": "$execution",
+        "fieldsToInclude": "result[0].OID",
         "options": {}
       },
       "type": "n8n-nodes-base.splitOut",
@@ -170,7 +171,7 @@
       ],
       "id": "9e3cb637-e87e-49be-949d-3a3a84430536",
       "name": "Split Out",
-      "disabled": true
+      "alwaysOutputData": true
     }
   ],
   "connections": {
@@ -258,9 +259,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "e393636d-5cff-4467-abff-160328383ecc",
-  "activeVersionId": "57efa952-8a3d-4403-98ff-e1c851ece2ad",
-  "versionCounter": 154,
+  "versionId": "01e42b51-0a63-496b-8f8d-19cd5e979087",
+  "activeVersionId": "01e42b51-0a63-496b-8f8d-19cd5e979087",
+  "versionCounter": 164,
   "triggerCount": 1,
   "shared": [
     {
@@ -283,9 +284,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-09T16:13:58.818Z",
-    "createdAt": "2026-03-09T16:13:22.030Z",
-    "versionId": "57efa952-8a3d-4403-98ff-e1c851ece2ad",
+    "updatedAt": "2026-03-09T17:53:00.002Z",
+    "createdAt": "2026-03-09T17:52:24.004Z",
+    "versionId": "01e42b51-0a63-496b-8f8d-19cd5e979087",
     "workflowId": "2W89dAgSUHdcNYei",
     "nodes": [
       {
@@ -422,7 +423,8 @@
           0
         ],
         "id": "2642da43-3d2e-4f85-b215-3e33d1f97657",
-        "name": "createIncident"
+        "name": "createIncident",
+        "alwaysOutputData": true
       },
       {
         "parameters": {
@@ -436,13 +438,14 @@
           -160
         ],
         "id": "2cc04a77-9eb6-4b0d-80ce-90f2747cd430",
-        "name": "When Executed by Another Workflow"
+        "name": "When Executed by Another Workflow",
+        "alwaysOutputData": true
       },
       {
         "parameters": {
           "fieldToSplitOut": "$now",
           "include": "selectedOtherFields",
-          "fieldsToInclude": "$execution",
+          "fieldsToInclude": "result[0].OID",
           "options": {}
         },
         "type": "n8n-nodes-base.splitOut",
@@ -452,7 +455,8 @@
           0
         ],
         "id": "9e3cb637-e87e-49be-949d-3a3a84430536",
-        "name": "Split Out"
+        "name": "Split Out",
+        "alwaysOutputData": true
       }
     ],
     "connections": {
@@ -531,15 +535,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "0.0.10",
-    "description": "Mapping for demo",
+    "name": "0.0.24",
+    "description": "always return data",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-09T16:13:58.812Z",
-        "id": 29,
+        "createdAt": "2026-03-09T17:52:59.994Z",
+        "id": 38,
         "workflowId": "2W89dAgSUHdcNYei",
-        "versionId": "57efa952-8a3d-4403-98ff-e1c851ece2ad",
+        "versionId": "01e42b51-0a63-496b-8f8d-19cd5e979087",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }

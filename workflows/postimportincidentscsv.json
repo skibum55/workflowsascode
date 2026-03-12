@@ -1,5 +1,5 @@
 {
-  "name": "alertmanagerwebhooktest",
+  "name": "postImportIncidentsCSV",
   "description": null,
   "active": true,
   "isArchived": false,
@@ -7,7 +7,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "webhooktest",
+        "path": "02f660ec-acdc-4451-9035-a9a494f08978",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -16,63 +16,31 @@
         0,
         0
       ],
-      "id": "1854a6eb-dc60-4e6c-ab1e-1312fc71c763",
+      "id": "f8efc68e-a59b-4f6c-8525-5c1228f14032",
       "name": "Webhook",
-      "webhookId": "f41ebadc-7c07-4d81-a1c6-6971963e2c03",
-      "notes": "@body book_url string\n@body another_url string\n@query field_name string "
-    },
-    {
-      "parameters": {
-        "resource": "chatMessage",
-        "chatId": {
-          "__rl": true,
-          "value": "19:meeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi@thread.v2",
-          "mode": "list",
-          "cachedResultName": "Nexus MVP Update (meeting)",
-          "cachedResultUrl": "https://teams.microsoft.com/l/chat/19%3Ameeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi%40thread.v2/0?tenantId=6b4efe47-744c-4c5a-8c28-bd33982a4653"
-        },
-        "message": "=Incident {{ $json.OID }} Created",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.microsoftTeams",
-      "typeVersion": 2,
-      "position": [
-        448,
-        0
-      ],
-      "id": "ab75051a-ad36-4c74-97d9-ff15897e5b64",
-      "name": "Create chat message",
-      "webhookId": "5c3aea71-0920-4180-95f4-4c4633c7f943",
-      "credentials": {
-        "microsoftTeamsOAuth2Api": {
-          "id": "jV3Fzm5Isy9k4AZd",
-          "name": "Microsoft Teams account"
-        }
-      },
-      "disabled": true
+      "webhookId": "02f660ec-acdc-4451-9035-a9a494f08978"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
           "value": "2W89dAgSUHdcNYei",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
-          "cachedResultName": "createNexusIncident"
+          "mode": "id",
+          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "MajorIncident": "={{ $json.body.MajorIncident }}",
-            "Title": "=AL-{{ $json.body.Title }}",
-            "Description": "={{ $json.body.Description }}",
-            "Category.name": "={{ $json.body['Category.name'] }}",
-            "SubCategory.name": "={{ $json.body['SubCategory.name'] }}",
-            "Impact.Name": "={{ $json.body['Impact.Name'] }}",
-            "Urgency.Name": "={{ $json.body['Urgency.Name'] }}",
-            "Customer.Name": "={{ $json.body['Customer.Name'] }}",
-            "BusinessService.Name": "={{ $json.body['BusinessService.Name'] }}",
-            "Caller.EmployeeID": "={{ $json.body['Caller.EmployeeID'] }}"
+            "MajorIncident": false,
+            "Title": "={{ $json.ReferenceNumber }} - {{ $json.Title }}",
+            "Description": "={{ $json.Description }}",
+            "Category.name": "={{ $json.Category }}",
+            "SubCategory.name": "={{ $json.SubCategory }}",
+            "Impact.Name": "={{ $json.Impact }}",
+            "Urgency.Name": "={{ $json.Urgency }}",
+            "Customer.Name": "={{ $json.Customer }}",
+            "Caller.EmployeeID": "={{ $json.Caller }}",
+            "BusinessService.Name": "={{ $json.ServiceRequestType }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -83,8 +51,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "Description",
@@ -93,8 +60,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "Category.name",
@@ -103,8 +69,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "SubCategory.name",
@@ -113,8 +78,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "MajorIncident",
@@ -123,8 +87,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
+              "type": "boolean"
             },
             {
               "id": "Impact.Name",
@@ -133,8 +96,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "Urgency.Name",
@@ -143,8 +105,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "Customer.Name",
@@ -153,8 +114,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "BusinessService.Name",
@@ -163,8 +123,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             },
             {
               "id": "Caller.EmployeeID",
@@ -173,8 +132,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             }
           ],
           "attemptToConvertTypes": false,
@@ -186,11 +144,28 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        240,
+        416,
         0
       ],
-      "id": "29b984ee-ec9e-4c3d-8fc6-b5061c4bfadd",
+      "id": "8c6a013b-2d9d-4889-be78-7227980c8512",
       "name": "Call 'createNexusIncident'"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "={{ $('Webhook').item.binary.data }}",
+        "options": {
+          "headerRow": true,
+          "fromLine": 1
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "2ad1b69f-adca-4bfd-877a-c309d59883ad",
+      "name": "ImportIncidentsCSV"
     }
   ],
   "connections": {
@@ -198,18 +173,18 @@
       "main": [
         [
           {
-            "node": "Call 'createNexusIncident'",
+            "node": "ImportIncidentsCSV",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Call 'createNexusIncident'": {
+    "ImportIncidentsCSV": {
       "main": [
         [
           {
-            "node": "Create chat message",
+            "node": "Call 'createNexusIncident'",
             "type": "main",
             "index": 0
           }
@@ -227,16 +202,16 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2332f362-a799-425c-a71b-15de558a8585",
-  "activeVersionId": "2332f362-a799-425c-a71b-15de558a8585",
-  "versionCounter": 236,
+  "versionId": "4191d89f-e30f-4725-b89c-ccf19bc422e4",
+  "activeVersionId": "4191d89f-e30f-4725-b89c-ccf19bc422e4",
+  "versionCounter": 121,
   "triggerCount": 1,
   "shared": [
     {
-      "updatedAt": "2026-02-25T18:56:02.257Z",
-      "createdAt": "2026-02-25T18:56:02.257Z",
+      "updatedAt": "2026-03-10T21:38:13.690Z",
+      "createdAt": "2026-03-10T21:38:13.690Z",
       "role": "workflow:owner",
-      "workflowId": "6F1Bjyb8R32FOcsX",
+      "workflowId": "EYdPkwt8yg12pmpd",
       "projectId": "rbmFyQ0fPfUjlaVB",
       "project": {
         "updatedAt": "2025-10-28T16:01:24.976Z",
@@ -252,15 +227,15 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-10T20:41:08.380Z",
-    "createdAt": "2026-03-10T20:40:53.489Z",
-    "versionId": "2332f362-a799-425c-a71b-15de558a8585",
-    "workflowId": "6F1Bjyb8R32FOcsX",
+    "updatedAt": "2026-03-11T16:19:30.482Z",
+    "createdAt": "2026-03-11T16:14:35.077Z",
+    "versionId": "4191d89f-e30f-4725-b89c-ccf19bc422e4",
+    "workflowId": "EYdPkwt8yg12pmpd",
     "nodes": [
       {
         "parameters": {
           "httpMethod": "POST",
-          "path": "webhooktest",
+          "path": "02f660ec-acdc-4451-9035-a9a494f08978",
           "options": {}
         },
         "type": "n8n-nodes-base.webhook",
@@ -269,63 +244,31 @@
           0,
           0
         ],
-        "id": "1854a6eb-dc60-4e6c-ab1e-1312fc71c763",
+        "id": "f8efc68e-a59b-4f6c-8525-5c1228f14032",
         "name": "Webhook",
-        "webhookId": "f41ebadc-7c07-4d81-a1c6-6971963e2c03",
-        "notes": "@body book_url string\n@body another_url string\n@query field_name string "
-      },
-      {
-        "parameters": {
-          "resource": "chatMessage",
-          "chatId": {
-            "__rl": true,
-            "value": "19:meeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi@thread.v2",
-            "mode": "list",
-            "cachedResultName": "Nexus MVP Update (meeting)",
-            "cachedResultUrl": "https://teams.microsoft.com/l/chat/19%3Ameeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi%40thread.v2/0?tenantId=6b4efe47-744c-4c5a-8c28-bd33982a4653"
-          },
-          "message": "=Incident {{ $json.OID }} Created",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.microsoftTeams",
-        "typeVersion": 2,
-        "position": [
-          448,
-          0
-        ],
-        "id": "ab75051a-ad36-4c74-97d9-ff15897e5b64",
-        "name": "Create chat message",
-        "webhookId": "5c3aea71-0920-4180-95f4-4c4633c7f943",
-        "credentials": {
-          "microsoftTeamsOAuth2Api": {
-            "id": "jV3Fzm5Isy9k4AZd",
-            "name": "Microsoft Teams account"
-          }
-        },
-        "disabled": true
+        "webhookId": "02f660ec-acdc-4451-9035-a9a494f08978"
       },
       {
         "parameters": {
           "workflowId": {
             "__rl": true,
             "value": "2W89dAgSUHdcNYei",
-            "mode": "list",
-            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
-            "cachedResultName": "createNexusIncident"
+            "mode": "id",
+            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei"
           },
           "workflowInputs": {
             "mappingMode": "defineBelow",
             "value": {
-              "MajorIncident": "={{ $json.body.MajorIncident }}",
-              "Title": "=AL-{{ $json.body.Title }}",
-              "Description": "={{ $json.body.Description }}",
-              "Category.name": "={{ $json.body['Category.name'] }}",
-              "SubCategory.name": "={{ $json.body['SubCategory.name'] }}",
-              "Impact.Name": "={{ $json.body['Impact.Name'] }}",
-              "Urgency.Name": "={{ $json.body['Urgency.Name'] }}",
-              "Customer.Name": "={{ $json.body['Customer.Name'] }}",
-              "BusinessService.Name": "={{ $json.body['BusinessService.Name'] }}",
-              "Caller.EmployeeID": "={{ $json.body['Caller.EmployeeID'] }}"
+              "MajorIncident": false,
+              "Title": "={{ $json.ReferenceNumber }} - {{ $json.Title }}",
+              "Description": "={{ $json.Description }}",
+              "Category.name": "={{ $json.Category }}",
+              "SubCategory.name": "={{ $json.SubCategory }}",
+              "Impact.Name": "={{ $json.Impact }}",
+              "Urgency.Name": "={{ $json.Urgency }}",
+              "Customer.Name": "={{ $json.Customer }}",
+              "Caller.EmployeeID": "={{ $json.Caller }}",
+              "BusinessService.Name": "={{ $json.ServiceRequestType }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -336,8 +279,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "Description",
@@ -346,8 +288,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "Category.name",
@@ -356,8 +297,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "SubCategory.name",
@@ -366,8 +306,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "MajorIncident",
@@ -376,8 +315,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "boolean",
-                "removed": false
+                "type": "boolean"
               },
               {
                 "id": "Impact.Name",
@@ -386,8 +324,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "Urgency.Name",
@@ -396,8 +333,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "Customer.Name",
@@ -406,8 +342,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "BusinessService.Name",
@@ -416,8 +351,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               },
               {
                 "id": "Caller.EmployeeID",
@@ -426,8 +360,7 @@
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
+                "type": "string"
               }
             ],
             "attemptToConvertTypes": false,
@@ -439,15 +372,43 @@
         "type": "n8n-nodes-base.executeWorkflow",
         "typeVersion": 1.3,
         "position": [
-          240,
+          416,
           0
         ],
-        "id": "29b984ee-ec9e-4c3d-8fc6-b5061c4bfadd",
+        "id": "8c6a013b-2d9d-4889-be78-7227980c8512",
         "name": "Call 'createNexusIncident'"
+      },
+      {
+        "parameters": {
+          "binaryPropertyName": "={{ $('Webhook').item.binary.data }}",
+          "options": {
+            "headerRow": true,
+            "fromLine": 1
+          }
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          208,
+          0
+        ],
+        "id": "2ad1b69f-adca-4bfd-877a-c309d59883ad",
+        "name": "ImportIncidentsCSV"
       }
     ],
     "connections": {
       "Webhook": {
+        "main": [
+          [
+            {
+              "node": "ImportIncidentsCSV",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ImportIncidentsCSV": {
         "main": [
           [
             {
@@ -457,29 +418,18 @@
             }
           ]
         ]
-      },
-      "Call 'createNexusIncident'": {
-        "main": [
-          [
-            {
-              "node": "Create chat message",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
       }
     },
     "authors": "sean keery",
-    "name": "0.0.27",
-    "description": "deactivated teams message",
+    "name": "0.0.4",
+    "description": "import csv and create incidents",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-10T20:41:08.370Z",
-        "id": 40,
-        "workflowId": "6F1Bjyb8R32FOcsX",
-        "versionId": "2332f362-a799-425c-a71b-15de558a8585",
+        "createdAt": "2026-03-11T16:19:30.470Z",
+        "id": 41,
+        "workflowId": "EYdPkwt8yg12pmpd",
+        "versionId": "4191d89f-e30f-4725-b89c-ccf19bc422e4",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }
