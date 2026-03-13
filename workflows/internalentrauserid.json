@@ -7,7 +7,7 @@
     {
       "parameters": {
         "limit": 5,
-        "filter": "=userPrincipalName eq '{{$json.recipient}}'",
+        "filter": "=userPrincipalName eq '{{$json.email}}'",
         "requestOptions": {}
       },
       "type": "n8n-nodes-base.microsoftEntra",
@@ -39,7 +39,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\"recipient\": \"greg.cole@rmscorp.com\"}"
+        "jsonExample": "{\"email\": \"greg.cole@rmscorp.com\"}"
       },
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
@@ -93,21 +93,21 @@
     "When clicking ‘Execute workflow’": [
       {
         "json": {
-          "recipient": "gcole@rmscorp.com"
+          "email": "gcole@rmscorp.com"
         }
       }
     ],
     "When Executed by Another Workflow": [
       {
         "json": {
-          "recipient": "gcole@rmscorp.com"
+          "email": "gcole@rmscorp.com"
         }
       }
     ]
   },
-  "versionId": "32648ad5-e992-4679-949d-091f666c69e6",
+  "versionId": "cdcaac22-30aa-473e-9b10-79b3a8bd3671",
   "activeVersionId": null,
-  "versionCounter": 1,
+  "versionCounter": 6,
   "triggerCount": 0,
   "shared": [
     {

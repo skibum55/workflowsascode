@@ -1,5 +1,5 @@
 source_instance: https://oauth2test.manageddeployment.com
-last_sync: '2026-03-12T21:24:21.877Z'
+last_sync: '2026-03-13T22:41:55.311Z'
 workflows:
   - name: nexusPostMsgTest
     source_id: AckYLB8SiERiCmNV
@@ -40,9 +40,9 @@ workflows:
   - name: teams-message
     source_id: yKBzjfpk4ajjJA0i
     file: teams_message.json
-  - name: teams-channel-message
+  - name: postTeamsChannelChat
     source_id: FSDPXG7h8rJ9zFfS
-    file: teams_channel_message.json
+    file: postteamschannelchat.json
   - name: getnexusincident
     source_id: ulYyrr3UXVEo2OWI
     file: getnexusincident.json
@@ -91,3 +91,6 @@ workflows:
   - name: postImportIncidentsCSV
     source_id: EYdPkwt8yg12pmpd
     file: postimportincidentscsv.json
+  - name: postSendEmail
+    source_id: FW9zpuofDr8aAENT
+    file: postsendemail.json

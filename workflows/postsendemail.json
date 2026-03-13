@@ -1,0 +1,101 @@
+{
+  "name": "postSendEmail",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "sendChatTeamsChannel",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d4c54131-40de-48d5-a80a-d9bfe7f52525",
+      "name": "Webhook",
+      "webhookId": "489ae484-a52c-44b0-b148-930f7289e9dd"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "nodeCredentialType": "[PLACEHOLDER_SECRET]",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n\"message\": {\n\"subject\": \"Team Meeting Test Reminder\",\n\"body\": {\n\"contentType\": \"Text\",\n\"content\": \"Don't forget about the team meeting tomorrow at 10 AM.\"\n},\n\"toRecipients\": [\n{\n\"emailAddress\": {\n\"address\": \"n8n-documentation-demo - Nexus & AI <0a8e2a59.rmscorp.com@amer.teams.ms>\"\n}\n}\n],\n\"ccRecipients\": [\n{\n\"emailAddress\": {\n\"address\": \"skibum55@hotmail.com\"\n}\n}\n]\n},\n\"saveToSentItems\": \"true\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "9fb94eb5-4b8a-4e02-abb3-c6c96b9e0641",
+      "name": "postMSGraphSendEmail",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        },
+        "microsoftEntraOAuth2Api": {
+          "id": "chYVmfYYfIYSkFxI",
+          "name": "Microsoft Entra ID (Azure Active Directory) account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "postMSGraphSendEmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "440a52dc-88ab-4c02-acf9-f13a4d2aaa0f",
+  "activeVersionId": null,
+  "versionCounter": 33,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-13T21:50:45.499Z",
+      "createdAt": "2026-03-13T21:50:45.499Z",
+      "role": "workflow:owner",
+      "workflowId": "FW9zpuofDr8aAENT",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

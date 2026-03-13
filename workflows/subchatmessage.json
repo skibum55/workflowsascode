@@ -20,17 +20,17 @@
         "resource": "chatMessage",
         "chatId": {
           "__rl": true,
-          "mode": "list",
-          "value": "Heidi.Lukowitsch@rmscorp.com"
+          "value": "={{ $(createEntraOneonOneChat).item.json.id }}",
+          "mode": "id"
         },
-        "message": "Testing ID",
+        "message": "={{ $('When Executed by Another Workflow').item.json.message }}",
         "options": {}
       },
       "type": "n8n-nodes-base.microsoftTeams",
       "typeVersion": 2,
       "position": [
-        208,
-        0
+        832,
+        -64
       ],
       "id": "236125cc-1e12-4b40-82a0-1910cc97d269",
       "name": "Create chat message",
@@ -63,6 +63,84 @@
       ],
       "id": "3a0f1144-b92a-4ccf-8fad-5236890fef2c",
       "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Wzu9lip9cNU2FUWU",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Wzu9lip9cNU2FUWU",
+          "cachedResultName": "internalEntraUserID"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        176,
+        -144
+      ],
+      "id": "ff43382f-eabb-4e92-b179-074e9a7686c2",
+      "name": "getEntraIDfromEmail"
+    },
+    {
+      "parameters": {
+        "url": "https://graph.microsoft.com/v1.0/me",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "nodeCredentialType": "[PLACEHOLDER_SECRET]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        384,
+        -144
+      ],
+      "id": "b815d5fc-5d5a-423b-ba82-dac402fe6acc",
+      "name": "getAutomationID",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/chats",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "nodeCredentialType": "[PLACEHOLDER_SECRET]",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatType\": \"oneOnOne\",\n  \"members\": [\n    {\n      \"@odata.type\": \"#microsoft.graph.aadUserConversationMember\",\n      \"roles\": [\"owner\"],\n      \"user@odata.bind\": \"https://graph.microsoft.com/v1.0/users('{{ $('getEntraIDfromEmail').item.json.id }}')\"\n    },\n    {\n      \"@odata.type\": \"#microsoft.graph.aadUserConversationMember\",\n      \"roles\": [\"owner\"],\n      \"user@odata.bind\": \"https://graph.microsoft.com/v1.0/users('{{ $('getAutomationID').item.json.id }}')\"\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        592,
+        -144
+      ],
+      "id": "806b999b-bb0f-4c65-997a-04d875cf7726",
+      "name": "createEntraOneonOneChat",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
     }
   ],
   "connections": {
@@ -78,6 +156,39 @@
       ]
     },
     "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "getEntraIDfromEmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getEntraIDfromEmail": {
+      "main": [
+        [
+          {
+            "node": "getAutomationID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAutomationID": {
+      "main": [
+        [
+          {
+            "node": "createEntraOneonOneChat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "createEntraOneonOneChat": {
       "main": [
         [
           {
@@ -98,10 +209,19 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "cc3c13cf-ae71-43e0-8a88-e33b82ca7af0",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "email": "rob.carmichael@rmscorp.com",
+          "message": "test workflow"
+        }
+      }
+    ]
+  },
+  "versionId": "3011117d-23dc-4556-b011-9b0d29d22c88",
   "activeVersionId": null,
-  "versionCounter": 20,
+  "versionCounter": 118,
   "triggerCount": 0,
   "shared": [
     {
