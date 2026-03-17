@@ -1,0 +1,104 @@
+# file: .github/workflows/02_cd_prod.yml
+# PHASE 2 | STEP 2: Implement Version Tagging
+# PHASE 4 | STEP 3: Promote to Fleet (Tag Based)
+# PHASE 4 | STEP 5: Audit Trail & Logs
+
+name: CD - Fleet Promotion (Tag)
+
+# TRIGGER ON PUSHED TAGS
+on:
+  push:
+    tags:
+      - 'v*' # Matches semantic versions (e.g., v1.0.0)
+  release:
+    types: [published] # Matches created via Release UI
+
+concurrency:
+  group: prod-deploy-${{ github.ref }}
+  cancel-in-progress: true # Prevent duplicate deployments for same tag
+
+jobs:
+  promote-fleet:
+    name: Deploy Verified Artifacts
+    runs-on: ubuntu-latest
+    
+    outputs:
+      deployment-status: ${{ steps.deploy.outputs.status }}
+      audit-log: ${{ steps.audit.outputs.log }}
+
+    steps:
+      # PHASE 4 | STEP 3: Get Source Code & Dependencies
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Needed to access git history/tags accurately
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm ci --only=production
+
+      # PHASE 4 | STEP 2: Extract Version Info
+      - name: Extract Version Number
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      # PHASE 4 | STEP 3: Initialize Fleet Deployment Script
+      - name: Validate Credentials Present
+        id: validate-secrets
+        run: |
+          # Fail early if secrets aren't mapped for expected targets
+          if [ -z "${{ secrets.ALPHA_N8N_KEY }}" ] || [ -z "${{ secrets.BETA_N8N_KEY }}" ]; then
+            echo "Error: Missing required API Keys for Fleet"
+            exit 1
+          fi
+          echo "status=valid" >> $GITHUB_OUTPUT
+
+      # PHASE 4 | STEP 3: Execute Fleet Distribution
+      - name: Run Fleet Deployment Script
+        id: deploy
+        env:
+          VERSION_TAG: ${{ steps.version.outputs.tag }}
+          DEV_URL: ${{ secrets.DEV_N8N_URL }}
+          DEV_API_KEY: ${{ secrets.DEV_N8N_KEY }}
+          ALPHA_KEY: ${{ secrets.ALPHA_N8N_KEY }}
+          BETA_KEY: ${{ secrets.BETA_N8N_KEY }}
+          MANIFEST_PATH: config/manifest.json
+        run: |
+          # PHASE 4 | STEP 3: Call Fleet Iterator Script
+          # This script reads manifest.json and deploys the tagged version to all listed customers
+          node scripts/deploy_fleet.js "$VERSION_TAG"
+
+      # PHASE 4 | STEP 5: Generate Audit Report
+      - name: Finalize Audit Trail
+        id: audit
+        if: always()
+        run: |
+          {
+            echo 'AUDIT LOG START ---';
+            echo "TAG: ${{ steps.version.outputs.tag }}";
+            echo "TIMESTAMP: $(date -u +%Y-%m-%dT%H:%M:%SZ)";
+            echo "BRANCH/REF: ${{ github.ref }}";
+            echo "ENVIRONMENT: PRODUCTION FLEET";
+            echo "STATUS: ${{ steps.deploy.outputs.status || 'unknown' }}";
+            echo 'AUDIT LOG END ---';
+          } > /tmp/deployment_audit.txt
+            
+          cat /tmp/deployment_audit.txt
+          echo "log=@$(cat /tmp/deployment_audit.txt)" >> $GITHUB_OUTPUT
+
+      # PHASE 4 | STEP 5: Notify Success/Failure
+      - name: Post Notification (Slack/GitHub Status)
+        if: failure()
+        run: |
+          echo "[CRITICAL] Deployment Failed for ${{ steps.version.outputs.tag }}"
+          # Example: curl -X POST ... for Slack Webhook here
