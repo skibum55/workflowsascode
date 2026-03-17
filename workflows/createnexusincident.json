@@ -126,9 +126,8 @@
           ]
         },
         "sendBody": true,
-        "contentType": "raw",
-        "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
-        "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\n\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\n\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\n\"MajorIncident\":false,\n\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\n\"Urgency.Name\":\"2-High\",\n\"Customer.Name\":\"Morton\",\n\"BusinessService.Name\":\"Web Portal\",\n\"Caller.EmployeeID\":\"743248\",\n\"ReferenceNumber\": \"SN-{{ $('When Executed by Another Workflow').item.json.Number || $('When Executed by Another Workflow').item.json.ReferenceNumber || '12345' }}\"}",
+        "specifyBody": "json",
+        "jsonBody": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\n\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\n\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\n\"MajorIncident\":false,\n\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\n\"Urgency.Name\":\"2-High\",\n\"Customer.Name\":\"Morton\",\n\"BusinessService.Name\":\"Web Portal\",\n\"Caller.EmployeeID\":\"743248\",\n\"ReferenceNumber\": \"SN-{{ $('When Executed by Another Workflow').item.json.Number || $('When Executed by Another Workflow').item.json.ReferenceNumber || '12345' }}\"}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -259,9 +258,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "06f1829d-3d18-47a6-a5e6-6cef69485f0d",
+  "versionId": "95c03b38-f1c8-4354-b464-9eb9dfad7539",
   "activeVersionId": "06f1829d-3d18-47a6-a5e6-6cef69485f0d",
-  "versionCounter": 237,
+  "versionCounter": 250,
   "triggerCount": 1,
   "shared": [
     {

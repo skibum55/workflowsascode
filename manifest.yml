@@ -1,5 +1,5 @@
 source_instance: https://oauth2test.manageddeployment.com
-last_sync: '2026-03-17T15:51:53.144Z'
+last_sync: '2026-03-17T23:19:12.977Z'
 workflows:
   - name: nexusPostMsgTest
     source_id: AckYLB8SiERiCmNV
@@ -106,3 +106,9 @@ workflows:
   - name: PostServiceNowRequest
     source_id: 9ljpRhJV1dObmiqN
     file: postservicenowrequest.json
+  - name: subPostNexusComment
+    source_id: GD78uRq84byq35zo
+    file: subpostnexuscomment.json
+  - name: subNexusToken
+    source_id: QbnoTYAS03Cs71mw
+    file: subnexustoken.json

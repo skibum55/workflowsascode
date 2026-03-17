@@ -37,7 +37,7 @@
       "type": "n8n-nodes-base.microsoftTeams",
       "typeVersion": 2,
       "position": [
-        448,
+        400,
         0
       ],
       "id": "ab75051a-ad36-4c74-97d9-ff15897e5b64",
@@ -63,16 +63,18 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "MajorIncident": "={{ $json.body.MajorIncident }}",
-            "Title": "=AL-{{ $json.body.Title }}",
-            "Description": "={{ $json.body.Description }}",
-            "Category.name": "={{ $json.body['Category.name'] }}",
-            "SubCategory.name": "={{ $json.body['SubCategory.name'] }}",
-            "Impact.Name": "={{ $json.body['Impact.Name'] }}",
-            "Urgency.Name": "={{ $json.body['Urgency.Name'] }}",
-            "Customer.Name": "={{ $json.body['Customer.Name'] }}",
-            "BusinessService.Name": "={{ $json.body['BusinessService.Name'] }}",
-            "Caller.EmployeeID": "={{ $json.body['Caller.EmployeeID'] }}"
+            "MajorIncident": false,
+            "Title": "=AL-{{ $json.body.title }}",
+            "Description": "={{ $json.body.message.toJsonString().replaceAll('\"',\"\") }}",
+            "Category.name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_instance_id }}",
+            "SubCategory.name": "={{ $('Webhook').item.json.body.alerts[0].labels.deployment_environment }}",
+            "Impact.Name": "={{ $('Webhook').item.json.body.alerts[0].status }}",
+            "Urgency.Name": "={{ $('Webhook').item.json.body.alerts[0].annotations.grafana_state_reason }}",
+            "Customer.Name": "=Morton",
+            "BusinessService.Name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_name }}",
+            "Caller.EmployeeID": "=2938063",
+            "ReferenceNumber": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}",
+            "Number": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -175,6 +177,26 @@
               "canBeUsedToMatch": true,
               "type": "string",
               "removed": false
+            },
+            {
+              "id": "ReferenceNumber",
+              "displayName": "ReferenceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -186,11 +208,12 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        240,
+        208,
         0
       ],
       "id": "29b984ee-ec9e-4c3d-8fc6-b5061c4bfadd",
-      "name": "Call 'createNexusIncident'"
+      "name": "Call 'createNexusIncident'",
+      "executeOnce": false
     }
   ],
   "connections": {
@@ -226,10 +249,144 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "2332f362-a799-425c-a71b-15de558a8585",
-  "activeVersionId": "2332f362-a799-425c-a71b-15de558a8585",
-  "versionCounter": 236,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "oauth2test.manageddeployment.com",
+            "user-agent": "Grafana",
+            "content-length": "5600",
+            "content-type": "application/json",
+            "accept-encoding": "gzip",
+            "x-forwarded-for": "20.7.131.60",
+            "x-envoy-external-address": "20.7.131.60",
+            "x-request-id": "ec3229b7-bd5a-4a36-aad4-1dbe2daa5f1f",
+            "x-envoy-expected-rq-timeout-ms": "1800000",
+            "x-k8se-app-name": "n8n-app-test-east2--0000030",
+            "x-k8se-app-namespace": "k8se-apps",
+            "x-k8se-protocol": "http1",
+            "x-k8se-app-kind": "web",
+            "x-ms-containerapp-name": "n8n-app-test-east2",
+            "x-ms-containerapp-revision-name": "n8n-app-test-east2--0000030",
+            "x-arr-ssl": "true",
+            "x-forwarded-proto": "https",
+            "x-forwarded-path": "/webhook/webhooktest"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "receiver": "n8n_sample_webhook_alert",
+            "status": "firing",
+            "alerts": [
+              {
+                "status": "firing",
+                "labels": {
+                  "alertname": "n8n_sample_webhook_alert",
+                  "deployment_environment": "development",
+                  "grafana_folder": "NexusAlerts",
+                  "host_name": "nexuscoresk--0000019-696879d447-kzl75",
+                  "instance": "nexusCoreAzure",
+                  "job": "alpine/NexusCore",
+                  "service_instance_id": "nexusCoreAzure",
+                  "service_name": "NexusCore",
+                  "service_namespace": "alpine",
+                  "service_version": "1.0.0"
+                },
+                "annotations": {
+                  "datasource_uid": "prometheus",
+                  "grafana_state_reason": "NoData",
+                  "ref_id": "A"
+                },
+                "startsAt": "2026-03-17T21:24:00Z",
+                "endsAt": "0001-01-01T00:00:00Z",
+                "generatorURL": "http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1",
+                "fingerprint": "17d7423c3b1644f8",
+                "silenceURL": "http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000019-696879d447-kzl75&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1",
+                "dashboardURL": "",
+                "panelURL": "",
+                "ruleUID": "efgbk3l70mo74f",
+                "values": {
+                  "A": -1,
+                  "C": -1
+                },
+                "valueString": "",
+                "orgId": 1
+              },
+              {
+                "status": "firing",
+                "labels": {
+                  "alertname": "n8n_sample_webhook_alert",
+                  "deployment_environment": "development",
+                  "grafana_folder": "NexusAlerts",
+                  "host_name": "nexuscoresk--0000020-bc5d5cc8-tsqkp",
+                  "instance": "nexusCoreAzure",
+                  "job": "alpine/NexusCore",
+                  "service_instance_id": "nexusCoreAzure",
+                  "service_name": "NexusCore",
+                  "service_namespace": "alpine",
+                  "service_version": "1.0.0"
+                },
+                "annotations": {
+                  "datasource_uid": "prometheus",
+                  "grafana_state_reason": "NoData",
+                  "ref_id": "A"
+                },
+                "startsAt": "2026-03-17T21:24:00Z",
+                "endsAt": "0001-01-01T00:00:00Z",
+                "generatorURL": "http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1",
+                "fingerprint": "d86ba2c3125285b9",
+                "silenceURL": "http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000020-bc5d5cc8-tsqkp&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1",
+                "dashboardURL": "",
+                "panelURL": "",
+                "ruleUID": "efgbk3l70mo74f",
+                "values": {
+                  "A": -1,
+                  "C": -1
+                },
+                "valueString": "",
+                "orgId": 1
+              }
+            ],
+            "groupLabels": {
+              "alertname": "n8n_sample_webhook_alert",
+              "grafana_folder": "NexusAlerts"
+            },
+            "commonLabels": {
+              "alertname": "n8n_sample_webhook_alert",
+              "deployment_environment": "development",
+              "grafana_folder": "NexusAlerts",
+              "instance": "nexusCoreAzure",
+              "job": "alpine/NexusCore",
+              "service_instance_id": "nexusCoreAzure",
+              "service_name": "NexusCore",
+              "service_namespace": "alpine",
+              "service_version": "1.0.0"
+            },
+            "commonAnnotations": {
+              "datasource_uid": "prometheus",
+              "grafana_state_reason": "NoData",
+              "ref_id": "A"
+            },
+            "externalURL": "http://localhost:3000/",
+            "appVersion": "12.4.1",
+            "version": "1",
+            "groupKey": "{}/{__grafana_autogenerated__=\"true\"}/{__grafana_receiver__=\"n8n_sample_webhook_alert\"}:{alertname=\"n8n_sample_webhook_alert\", grafana_folder=\"NexusAlerts\"}",
+            "truncatedAlerts": 0,
+            "orgId": 1,
+            "title": "[FIRING:2] n8n_sample_webhook_alert NexusAlerts (development nexusCoreAzure alpine/NexusCore nexusCoreAzure NexusCore alpine 1.0.0)",
+            "state": "alerting",
+            "message": "**Firing**\n\nValue: A=-1, C=-1\nLabels:\n - alertname = n8n_sample_webhook_alert\n - deployment_environment = development\n - grafana_folder = NexusAlerts\n - host_name = nexuscoresk--0000019-696879d447-kzl75\n - instance = nexusCoreAzure\n - job = alpine/NexusCore\n - service_instance_id = nexusCoreAzure\n - service_name = NexusCore\n - service_namespace = alpine\n - service_version = 1.0.0\nAnnotations:\n - datasource_uid = prometheus\n - grafana_state_reason = NoData\n - ref_id = A\nSource: http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1\nSilence: http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000019-696879d447-kzl75&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1\n\nValue: A=-1, C=-1\nLabels:\n - alertname = n8n_sample_webhook_alert\n - deployment_environment = development\n - grafana_folder = NexusAlerts\n - host_name = nexuscoresk--0000020-bc5d5cc8-tsqkp\n - instance = nexusCoreAzure\n - job = alpine/NexusCore\n - service_instance_id = nexusCoreAzure\n - service_name = NexusCore\n - service_namespace = alpine\n - service_version = 1.0.0\nAnnotations:\n - datasource_uid = prometheus\n - grafana_state_reason = NoData\n - ref_id = A\nSource: http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1\nSilence: http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000020-bc5d5cc8-tsqkp&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1\n"
+          },
+          "webhookUrl": "https://oauth2test.manageddeployment.com/webhook/webhooktest",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
+  "activeVersionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
+  "versionCounter": 420,
   "triggerCount": 1,
   "shared": [
     {
@@ -252,9 +409,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-10T20:41:08.380Z",
-    "createdAt": "2026-03-10T20:40:53.489Z",
-    "versionId": "2332f362-a799-425c-a71b-15de558a8585",
+    "updatedAt": "2026-03-17T22:40:22.984Z",
+    "createdAt": "2026-03-17T22:37:39.862Z",
+    "versionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
     "workflowId": "6F1Bjyb8R32FOcsX",
     "nodes": [
       {
@@ -290,7 +447,7 @@
         "type": "n8n-nodes-base.microsoftTeams",
         "typeVersion": 2,
         "position": [
-          448,
+          400,
           0
         ],
         "id": "ab75051a-ad36-4c74-97d9-ff15897e5b64",
@@ -316,16 +473,18 @@
           "workflowInputs": {
             "mappingMode": "defineBelow",
             "value": {
-              "MajorIncident": "={{ $json.body.MajorIncident }}",
-              "Title": "=AL-{{ $json.body.Title }}",
-              "Description": "={{ $json.body.Description }}",
-              "Category.name": "={{ $json.body['Category.name'] }}",
-              "SubCategory.name": "={{ $json.body['SubCategory.name'] }}",
-              "Impact.Name": "={{ $json.body['Impact.Name'] }}",
-              "Urgency.Name": "={{ $json.body['Urgency.Name'] }}",
-              "Customer.Name": "={{ $json.body['Customer.Name'] }}",
-              "BusinessService.Name": "={{ $json.body['BusinessService.Name'] }}",
-              "Caller.EmployeeID": "={{ $json.body['Caller.EmployeeID'] }}"
+              "MajorIncident": false,
+              "Title": "=AL-{{ $json.body.title }}",
+              "Description": "={{ $json.body.message.toJsonString().replaceAll('\"',\"\") }}",
+              "Category.name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_instance_id }}",
+              "SubCategory.name": "={{ $('Webhook').item.json.body.alerts[0].labels.deployment_environment }}",
+              "Impact.Name": "={{ $('Webhook').item.json.body.alerts[0].status }}",
+              "Urgency.Name": "={{ $('Webhook').item.json.body.alerts[0].annotations.grafana_state_reason }}",
+              "Customer.Name": "=Morton",
+              "BusinessService.Name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_name }}",
+              "Caller.EmployeeID": "=2938063",
+              "ReferenceNumber": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}",
+              "Number": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}"
             },
             "matchingColumns": [],
             "schema": [
@@ -428,6 +587,26 @@
                 "canBeUsedToMatch": true,
                 "type": "string",
                 "removed": false
+              },
+              {
+                "id": "ReferenceNumber",
+                "displayName": "ReferenceNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Number",
+                "displayName": "Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
               }
             ],
             "attemptToConvertTypes": false,
@@ -439,11 +618,12 @@
         "type": "n8n-nodes-base.executeWorkflow",
         "typeVersion": 1.3,
         "position": [
-          240,
+          208,
           0
         ],
         "id": "29b984ee-ec9e-4c3d-8fc6-b5061c4bfadd",
-        "name": "Call 'createNexusIncident'"
+        "name": "Call 'createNexusIncident'",
+        "executeOnce": false
       }
     ],
     "connections": {
@@ -471,15 +651,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "0.0.27",
-    "description": "deactivated teams message",
+    "name": "Version c87a6c5a",
+    "description": "tojson().replaceAll('\"',\"\")",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-10T20:41:08.370Z",
-        "id": 40,
+        "createdAt": "2026-03-17T22:40:22.978Z",
+        "id": 152,
         "workflowId": "6F1Bjyb8R32FOcsX",
-        "versionId": "2332f362-a799-425c-a71b-15de558a8585",
+        "versionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }
