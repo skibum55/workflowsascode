@@ -128,7 +128,7 @@
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
-        "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\n\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\n\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\n\"MajorIncident\":false,\n\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\n\"Urgency.Name\":\"2-High\",\n\"Customer.Name\":\"Morton\",\n\"BusinessService.Name\":\"Web Portal\",\n\"Caller.EmployeeID\":\"743248\",\n\"ReferenceNumber\": \"{{ $('When Executed by Another Workflow').item.json.ReferenceNumber || '' }}\"}",
+        "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\n\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\n\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\n\"MajorIncident\":false,\n\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\n\"Urgency.Name\":\"2-High\",\n\"Customer.Name\":\"Morton\",\n\"BusinessService.Name\":\"Web Portal\",\n\"Caller.EmployeeID\":\"743248\",\n\"ReferenceNumber\": \"SN-{{ $('When Executed by Another Workflow').item.json.Number || $('When Executed by Another Workflow').item.json.ReferenceNumber || '12345' }}\"}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -144,7 +144,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "  {\n      \"Title\": \"SKTest7\",\n      \"Description\": \"Web Catalogs\",\n      \"Category.name\": \"Network\",\n      \"SubCategory.name\": \"Wireless\",\n      \"MajorIncident\": false,\n      \"Impact.Name\": \"1-Enterprise\",\n      \"Urgency.Name\": \"2-High\",\n      \"Customer.Name\": \"Morton\",\n      \"BusinessService.Name\": \"Web Portal\",\n      \"Caller.EmployeeID\": \"743248\",\n      \"ReferenceNumber\": \"12345\"\n    }"
+        "jsonExample": "  {\n      \"Title\": \"SKTest7\",\n      \"Description\": \"Web Catalogs\",\n      \"Category.name\": \"Network\",\n      \"SubCategory.name\": \"Wireless\",\n      \"MajorIncident\": false,\n      \"Impact.Name\": \"1-Enterprise\",\n      \"Urgency.Name\": \"2-High\",\n      \"Customer.Name\": \"Morton\",\n      \"BusinessService.Name\": \"Web Portal\",\n      \"Caller.EmployeeID\": \"743248\",\n      \"ReferenceNumber\": \"12345\",\n      \"Number\": \"54321\"\n    }"
       },
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
@@ -259,9 +259,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ca920d03-a5b6-4114-8a3a-dd4b8e23e6bc",
-  "activeVersionId": "ca920d03-a5b6-4114-8a3a-dd4b8e23e6bc",
-  "versionCounter": 196,
+  "versionId": "06f1829d-3d18-47a6-a5e6-6cef69485f0d",
+  "activeVersionId": "06f1829d-3d18-47a6-a5e6-6cef69485f0d",
+  "versionCounter": 237,
   "triggerCount": 1,
   "shared": [
     {
@@ -284,9 +284,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-13T16:48:01.722Z",
-    "createdAt": "2026-03-13T16:47:48.984Z",
-    "versionId": "ca920d03-a5b6-4114-8a3a-dd4b8e23e6bc",
+    "updatedAt": "2026-03-16T16:47:19.807Z",
+    "createdAt": "2026-03-16T16:47:01.810Z",
+    "versionId": "06f1829d-3d18-47a6-a5e6-6cef69485f0d",
     "workflowId": "2W89dAgSUHdcNYei",
     "nodes": [
       {
@@ -413,7 +413,7 @@
           "sendBody": true,
           "contentType": "raw",
           "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
-          "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\n\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\n\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\n\"MajorIncident\":false,\n\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\n\"Urgency.Name\":\"2-High\",\n\"Customer.Name\":\"Morton\",\n\"BusinessService.Name\":\"Web Portal\",\n\"Caller.EmployeeID\":\"743248\",\n\"ReferenceNumber\": \"{{ $('When Executed by Another Workflow').item.json.ReferenceNumber || '' }}\"}",
+          "body": "={\"Title\":\"{{ $('When Executed by Another Workflow').item.json.Title }} {{$now}}\",\n\"Description\":\"{{ $('When Executed by Another Workflow').item.json.Description || 'Web Catalogs' }}\",\n\"Category.name\":\"Network\",\"SubCategory.name\":\"Wireless\",\n\"MajorIncident\":false,\n\"Impact.Name\":\"{{ $('When Executed by Another Workflow').item.json.business_impact || '1-Enterprise' }}\",\n\"Urgency.Name\":\"2-High\",\n\"Customer.Name\":\"Morton\",\n\"BusinessService.Name\":\"Web Portal\",\n\"Caller.EmployeeID\":\"743248\",\n\"ReferenceNumber\": \"SN-{{ $('When Executed by Another Workflow').item.json.Number || $('When Executed by Another Workflow').item.json.ReferenceNumber || '12345' }}\"}",
           "options": {}
         },
         "type": "n8n-nodes-base.httpRequest",
@@ -429,7 +429,7 @@
       {
         "parameters": {
           "inputSource": "jsonExample",
-          "jsonExample": "  {\n      \"Title\": \"SKTest7\",\n      \"Description\": \"Web Catalogs\",\n      \"Category.name\": \"Network\",\n      \"SubCategory.name\": \"Wireless\",\n      \"MajorIncident\": false,\n      \"Impact.Name\": \"1-Enterprise\",\n      \"Urgency.Name\": \"2-High\",\n      \"Customer.Name\": \"Morton\",\n      \"BusinessService.Name\": \"Web Portal\",\n      \"Caller.EmployeeID\": \"743248\",\n      \"ReferenceNumber\": \"12345\"\n    }"
+          "jsonExample": "  {\n      \"Title\": \"SKTest7\",\n      \"Description\": \"Web Catalogs\",\n      \"Category.name\": \"Network\",\n      \"SubCategory.name\": \"Wireless\",\n      \"MajorIncident\": false,\n      \"Impact.Name\": \"1-Enterprise\",\n      \"Urgency.Name\": \"2-High\",\n      \"Customer.Name\": \"Morton\",\n      \"BusinessService.Name\": \"Web Portal\",\n      \"Caller.EmployeeID\": \"743248\",\n      \"ReferenceNumber\": \"12345\",\n      \"Number\": \"54321\"\n    }"
         },
         "type": "n8n-nodes-base.executeWorkflowTrigger",
         "typeVersion": 1.1,
@@ -535,15 +535,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "0.0.42",
-    "description": "rollback comments",
+    "name": "0.0.54",
+    "description": "support referencenumber and number",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-13T16:48:01.715Z",
-        "id": 65,
+        "createdAt": "2026-03-16T16:47:19.803Z",
+        "id": 85,
         "workflowId": "2W89dAgSUHdcNYei",
-        "versionId": "ca920d03-a5b6-4114-8a3a-dd4b8e23e6bc",
+        "versionId": "06f1829d-3d18-47a6-a5e6-6cef69485f0d",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }

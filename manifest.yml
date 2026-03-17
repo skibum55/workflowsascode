@@ -1,5 +1,5 @@
 source_instance: https://oauth2test.manageddeployment.com
-last_sync: '2026-03-13T22:41:55.311Z'
+last_sync: '2026-03-17T15:51:53.144Z'
 workflows:
   - name: nexusPostMsgTest
     source_id: AckYLB8SiERiCmNV
@@ -76,9 +76,9 @@ workflows:
   - name: getOpenAPI
     source_id: NsXpM2VX76Okkh43
     file: getopenapi.json
-  - name: OpenAPIspecExample
+  - name: OpenAPIGetExample
     source_id: S6WPiDC2GfFekEHN
-    file: openapispecexample.json
+    file: openapigetexample.json
   - name: subChatMessage
     source_id: hgOznvKnhtJWUL90
     file: subchatmessage.json
@@ -94,3 +94,15 @@ workflows:
   - name: postSendEmail
     source_id: FW9zpuofDr8aAENT
     file: postsendemail.json
+  - name: OpenAPIPostExample
+    source_id: ldeNSC3VgZ79rYGM
+    file: openapipostexample.json
+  - name: OpenAPIPutExample
+    source_id: cMQt9LXxEmLYcEfk
+    file: openapiputexample.json
+  - name: OpenAPIDeleteExample
+    source_id: dsXkpe2grZ3Pn69V
+    file: openapideleteexample.json
+  - name: PostServiceNowRequest
+    source_id: 9ljpRhJV1dObmiqN
+    file: postservicenowrequest.json

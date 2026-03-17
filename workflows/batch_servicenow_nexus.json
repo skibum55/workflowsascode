@@ -95,17 +95,30 @@
         "workflowId": {
           "__rl": true,
           "value": "2W89dAgSUHdcNYei",
-          "mode": "id",
-          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei"
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+          "cachedResultName": "createNexusIncident"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
-          "value": {},
+          "value": {
+            "MajorIncident": false,
+            "Title": "={{ $('If incidents exist').item.json.short_description }}",
+            "Description": "={{ $('If incidents exist').item.json.description }}",
+            "Category.name": "={{ $('If incidents exist').item.json.category }}",
+            "SubCategory.name": "={{ $('If incidents exist').item.json.subcategory }}",
+            "Impact.Name": "={{ $('If incidents exist').item.json.impact }}",
+            "Urgency.Name": "={{ $('If incidents exist').item.json.urgency }}",
+            "Customer.Name": "={{ $('If incidents exist').item.json.company }}",
+            "BusinessService.Name": "={{ $('If incidents exist').item.json.service_offering }}",
+            "Caller.EmployeeID": "={{ $('If incidents exist').item.json.sys_created_by }}",
+            "ReferenceNumber": "={{ $('If incidents exist').item.json.number }}"
+          },
           "matchingColumns": [],
           "schema": [
             {
-              "id": "parent",
-              "displayName": "parent",
+              "id": "Title",
+              "displayName": "Title",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -114,8 +127,8 @@
               "removed": false
             },
             {
-              "id": "made_sla",
-              "displayName": "made_sla",
+              "id": "Description",
+              "displayName": "Description",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -124,8 +137,8 @@
               "removed": false
             },
             {
-              "id": "caused_by",
-              "displayName": "caused_by",
+              "id": "Category.name",
+              "displayName": "Category.name",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -134,8 +147,8 @@
               "removed": false
             },
             {
-              "id": "watch_list",
-              "displayName": "watch_list",
+              "id": "SubCategory.name",
+              "displayName": "SubCategory.name",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -144,828 +157,18 @@
               "removed": false
             },
             {
-              "id": "upon_reject",
-              "displayName": "upon_reject",
+              "id": "MajorIncident",
+              "displayName": "MajorIncident",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_updated_on",
-              "displayName": "sys_updated_on",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "child_incidents",
-              "displayName": "child_incidents",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "hold_reason",
-              "displayName": "hold_reason",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "origin_table",
-              "displayName": "origin_table",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "task_effective_number",
-              "displayName": "task_effective_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "approval_history",
-              "displayName": "approval_history",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "number",
-              "displayName": "number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "resolved_by",
-              "displayName": "resolved_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_updated_by",
-              "displayName": "sys_updated_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "opened_by",
-              "displayName": "opened_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "user_input",
-              "displayName": "user_input",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_created_on",
-              "displayName": "sys_created_on",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_domain",
-              "displayName": "sys_domain",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "state",
-              "displayName": "state",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route_reason",
-              "displayName": "route_reason",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_created_by",
-              "displayName": "sys_created_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "knowledge",
-              "displayName": "knowledge",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "order",
-              "displayName": "order",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "calendar_stc",
-              "displayName": "calendar_stc",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "closed_at",
-              "displayName": "closed_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "cmdb_ci",
-              "displayName": "cmdb_ci",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "delivery_plan",
-              "displayName": "delivery_plan",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "contract",
-              "displayName": "contract",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "impact",
-              "displayName": "impact",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "active",
-              "displayName": "active",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "work_notes_list",
-              "displayName": "work_notes_list",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "business_service",
-              "displayName": "business_service",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "business_impact",
-              "displayName": "business_impact",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "priority",
-              "displayName": "priority",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_domain_path",
-              "displayName": "sys_domain_path",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "rfc",
-              "displayName": "rfc",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "time_worked",
-              "displayName": "time_worked",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "expected_start",
-              "displayName": "expected_start",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "opened_at",
-              "displayName": "opened_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "business_duration",
-              "displayName": "business_duration",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "group_list",
-              "displayName": "group_list",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "work_end",
-              "displayName": "work_end",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "caller_id",
-              "displayName": "caller_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "reopened_time",
-              "displayName": "reopened_time",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "resolved_at",
-              "displayName": "resolved_at",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "approval_set",
-              "displayName": "approval_set",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "subcategory",
-              "displayName": "subcategory",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "work_notes",
-              "displayName": "work_notes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "universal_request",
-              "displayName": "universal_request",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "short_description",
-              "displayName": "short_description",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "close_code",
-              "displayName": "close_code",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "correlation_display",
-              "displayName": "correlation_display",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "delivery_task",
-              "displayName": "delivery_task",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "work_start",
-              "displayName": "work_start",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "assignment_group",
-              "displayName": "assignment_group",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "additional_assignee_list",
-              "displayName": "additional_assignee_list",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "business_stc",
-              "displayName": "business_stc",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "cause",
-              "displayName": "cause",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "description",
-              "displayName": "description",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "origin_id",
-              "displayName": "origin_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "calendar_duration",
-              "displayName": "calendar_duration",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "close_notes",
-              "displayName": "close_notes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "notify",
-              "displayName": "notify",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "service_offering",
-              "displayName": "service_offering",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_class_name",
-              "displayName": "sys_class_name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "closed_by",
-              "displayName": "closed_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "follow_up",
-              "displayName": "follow_up",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "parent_incident",
-              "displayName": "parent_incident",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_id",
-              "displayName": "sys_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "contact_type",
-              "displayName": "contact_type",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "reopened_by",
-              "displayName": "reopened_by",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "incident_state",
-              "displayName": "incident_state",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "urgency",
-              "displayName": "urgency",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "problem_id",
-              "displayName": "problem_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "company",
-              "displayName": "company",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "reassignment_count",
-              "displayName": "reassignment_count",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "activity_due",
-              "displayName": "activity_due",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "assigned_to",
-              "displayName": "assigned_to",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "severity",
-              "displayName": "severity",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comments",
-              "displayName": "comments",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "approval",
-              "displayName": "approval",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sla_due",
-              "displayName": "sla_due",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comments_and_work_notes",
-              "displayName": "comments_and_work_notes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "due_date",
-              "displayName": "due_date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "sys_mod_count",
-              "displayName": "sys_mod_count",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "reopen_count",
-              "displayName": "reopen_count",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
+              "type": "boolean",
               "removed": false
             },
             {
-              "id": "sys_tags",
-              "displayName": "sys_tags",
+              "id": "Impact.Name",
+              "displayName": "Impact.Name",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -974,8 +177,8 @@
               "removed": false
             },
             {
-              "id": "escalation",
-              "displayName": "escalation",
+              "id": "Urgency.Name",
+              "displayName": "Urgency.Name",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -984,8 +187,8 @@
               "removed": false
             },
             {
-              "id": "upon_approval",
-              "displayName": "upon_approval",
+              "id": "Customer.Name",
+              "displayName": "Customer.Name",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -994,8 +197,8 @@
               "removed": false
             },
             {
-              "id": "correlation_id",
-              "displayName": "correlation_id",
+              "id": "BusinessService.Name",
+              "displayName": "BusinessService.Name",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1004,8 +207,8 @@
               "removed": false
             },
             {
-              "id": "location",
-              "displayName": "location",
+              "id": "Caller.EmployeeID",
+              "displayName": "Caller.EmployeeID",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1014,8 +217,8 @@
               "removed": false
             },
             {
-              "id": "category",
-              "displayName": "category",
+              "id": "ReferenceNumber",
+              "displayName": "ReferenceNumber",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1040,8 +243,7 @@
       ],
       "id": "eaf119cb-a6e2-4941-9eb6-b2d41d9f8b16",
       "name": "Call 'createNexusIncident'",
-      "executeOnce": false,
-      "disabled": true
+      "executeOnce": false
     },
     {
       "parameters": {},
@@ -1078,10 +280,11 @@
             {
               "id": "6d065b39-f4ac-464b-9d42-f1d88c6ba036",
               "leftValue": "={{ $json.number }}",
-              "rightValue": "",
+              "rightValue": 0,
               "operator": {
                 "type": "string",
-                "operation": "equals"
+                "operation": "notEmpty",
+                "singleValue": true
               }
             }
           ],
@@ -1183,9 +386,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
-  "activeVersionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
-  "versionCounter": 159,
+  "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+  "activeVersionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+  "versionCounter": 244,
   "triggerCount": 1,
   "shared": [
     {
@@ -1208,9 +411,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-12T21:14:35.041Z",
-    "createdAt": "2026-03-12T21:14:01.175Z",
-    "versionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
+    "updatedAt": "2026-03-16T16:53:20.542Z",
+    "createdAt": "2026-03-16T16:53:03.286Z",
+    "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
     "workflowId": "8fgOWTxRxYPHB5R8",
     "nodes": [
       {
@@ -1304,17 +507,30 @@
           "workflowId": {
             "__rl": true,
             "value": "2W89dAgSUHdcNYei",
-            "mode": "id",
-            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei"
+            "mode": "list",
+            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+            "cachedResultName": "createNexusIncident"
           },
           "workflowInputs": {
             "mappingMode": "defineBelow",
-            "value": {},
+            "value": {
+              "MajorIncident": false,
+              "Title": "={{ $('If incidents exist').item.json.short_description }}",
+              "Description": "={{ $('If incidents exist').item.json.description }}",
+              "Category.name": "={{ $('If incidents exist').item.json.category }}",
+              "SubCategory.name": "={{ $('If incidents exist').item.json.subcategory }}",
+              "Impact.Name": "={{ $('If incidents exist').item.json.impact }}",
+              "Urgency.Name": "={{ $('If incidents exist').item.json.urgency }}",
+              "Customer.Name": "={{ $('If incidents exist').item.json.company }}",
+              "BusinessService.Name": "={{ $('If incidents exist').item.json.service_offering }}",
+              "Caller.EmployeeID": "={{ $('If incidents exist').item.json.sys_created_by }}",
+              "ReferenceNumber": "={{ $('If incidents exist').item.json.number }}"
+            },
             "matchingColumns": [],
             "schema": [
               {
-                "id": "parent",
-                "displayName": "parent",
+                "id": "Title",
+                "displayName": "Title",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -1323,8 +539,8 @@
                 "removed": false
               },
               {
-                "id": "made_sla",
-                "displayName": "made_sla",
+                "id": "Description",
+                "displayName": "Description",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -1333,8 +549,8 @@
                 "removed": false
               },
               {
-                "id": "caused_by",
-                "displayName": "caused_by",
+                "id": "Category.name",
+                "displayName": "Category.name",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -1343,8 +559,8 @@
                 "removed": false
               },
               {
-                "id": "watch_list",
-                "displayName": "watch_list",
+                "id": "SubCategory.name",
+                "displayName": "SubCategory.name",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -1353,828 +569,18 @@
                 "removed": false
               },
               {
-                "id": "upon_reject",
-                "displayName": "upon_reject",
+                "id": "MajorIncident",
+                "displayName": "MajorIncident",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
                 "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_updated_on",
-                "displayName": "sys_updated_on",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "child_incidents",
-                "displayName": "child_incidents",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "hold_reason",
-                "displayName": "hold_reason",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "origin_table",
-                "displayName": "origin_table",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "task_effective_number",
-                "displayName": "task_effective_number",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "approval_history",
-                "displayName": "approval_history",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "number",
-                "displayName": "number",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "resolved_by",
-                "displayName": "resolved_by",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_updated_by",
-                "displayName": "sys_updated_by",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "opened_by",
-                "displayName": "opened_by",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "object",
-                "removed": false
-              },
-              {
-                "id": "user_input",
-                "displayName": "user_input",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_created_on",
-                "displayName": "sys_created_on",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_domain",
-                "displayName": "sys_domain",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "object",
-                "removed": false
-              },
-              {
-                "id": "state",
-                "displayName": "state",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "route_reason",
-                "displayName": "route_reason",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_created_by",
-                "displayName": "sys_created_by",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "knowledge",
-                "displayName": "knowledge",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "order",
-                "displayName": "order",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "calendar_stc",
-                "displayName": "calendar_stc",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "closed_at",
-                "displayName": "closed_at",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "cmdb_ci",
-                "displayName": "cmdb_ci",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "delivery_plan",
-                "displayName": "delivery_plan",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "contract",
-                "displayName": "contract",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "impact",
-                "displayName": "impact",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "active",
-                "displayName": "active",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "work_notes_list",
-                "displayName": "work_notes_list",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "business_service",
-                "displayName": "business_service",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "object",
-                "removed": false
-              },
-              {
-                "id": "business_impact",
-                "displayName": "business_impact",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "priority",
-                "displayName": "priority",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_domain_path",
-                "displayName": "sys_domain_path",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "rfc",
-                "displayName": "rfc",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "time_worked",
-                "displayName": "time_worked",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "expected_start",
-                "displayName": "expected_start",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "opened_at",
-                "displayName": "opened_at",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "business_duration",
-                "displayName": "business_duration",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "group_list",
-                "displayName": "group_list",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "work_end",
-                "displayName": "work_end",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "caller_id",
-                "displayName": "caller_id",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "object",
-                "removed": false
-              },
-              {
-                "id": "reopened_time",
-                "displayName": "reopened_time",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "resolved_at",
-                "displayName": "resolved_at",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "approval_set",
-                "displayName": "approval_set",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "subcategory",
-                "displayName": "subcategory",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "work_notes",
-                "displayName": "work_notes",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "universal_request",
-                "displayName": "universal_request",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "short_description",
-                "displayName": "short_description",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "close_code",
-                "displayName": "close_code",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "correlation_display",
-                "displayName": "correlation_display",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "delivery_task",
-                "displayName": "delivery_task",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "work_start",
-                "displayName": "work_start",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "assignment_group",
-                "displayName": "assignment_group",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "additional_assignee_list",
-                "displayName": "additional_assignee_list",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "business_stc",
-                "displayName": "business_stc",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "cause",
-                "displayName": "cause",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "description",
-                "displayName": "description",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "origin_id",
-                "displayName": "origin_id",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "calendar_duration",
-                "displayName": "calendar_duration",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "close_notes",
-                "displayName": "close_notes",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "notify",
-                "displayName": "notify",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "service_offering",
-                "displayName": "service_offering",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_class_name",
-                "displayName": "sys_class_name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "closed_by",
-                "displayName": "closed_by",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "follow_up",
-                "displayName": "follow_up",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "parent_incident",
-                "displayName": "parent_incident",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_id",
-                "displayName": "sys_id",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "contact_type",
-                "displayName": "contact_type",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "reopened_by",
-                "displayName": "reopened_by",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "incident_state",
-                "displayName": "incident_state",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "urgency",
-                "displayName": "urgency",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "problem_id",
-                "displayName": "problem_id",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "company",
-                "displayName": "company",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "reassignment_count",
-                "displayName": "reassignment_count",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "activity_due",
-                "displayName": "activity_due",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "assigned_to",
-                "displayName": "assigned_to",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "severity",
-                "displayName": "severity",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "comments",
-                "displayName": "comments",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "approval",
-                "displayName": "approval",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sla_due",
-                "displayName": "sla_due",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "comments_and_work_notes",
-                "displayName": "comments_and_work_notes",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "due_date",
-                "displayName": "due_date",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "sys_mod_count",
-                "displayName": "sys_mod_count",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "reopen_count",
-                "displayName": "reopen_count",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
+                "type": "boolean",
                 "removed": false
               },
               {
-                "id": "sys_tags",
-                "displayName": "sys_tags",
+                "id": "Impact.Name",
+                "displayName": "Impact.Name",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -2183,8 +589,8 @@
                 "removed": false
               },
               {
-                "id": "escalation",
-                "displayName": "escalation",
+                "id": "Urgency.Name",
+                "displayName": "Urgency.Name",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -2193,8 +599,8 @@
                 "removed": false
               },
               {
-                "id": "upon_approval",
-                "displayName": "upon_approval",
+                "id": "Customer.Name",
+                "displayName": "Customer.Name",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -2203,8 +609,8 @@
                 "removed": false
               },
               {
-                "id": "correlation_id",
-                "displayName": "correlation_id",
+                "id": "BusinessService.Name",
+                "displayName": "BusinessService.Name",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -2213,8 +619,8 @@
                 "removed": false
               },
               {
-                "id": "location",
-                "displayName": "location",
+                "id": "Caller.EmployeeID",
+                "displayName": "Caller.EmployeeID",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -2223,8 +629,8 @@
                 "removed": false
               },
               {
-                "id": "category",
-                "displayName": "category",
+                "id": "ReferenceNumber",
+                "displayName": "ReferenceNumber",
                 "required": false,
                 "defaultMatch": false,
                 "display": true,
@@ -2249,8 +655,7 @@
         ],
         "id": "eaf119cb-a6e2-4941-9eb6-b2d41d9f8b16",
         "name": "Call 'createNexusIncident'",
-        "executeOnce": false,
-        "disabled": true
+        "executeOnce": false
       },
       {
         "parameters": {},
@@ -2287,10 +692,11 @@
               {
                 "id": "6d065b39-f4ac-464b-9d42-f1d88c6ba036",
                 "leftValue": "={{ $json.number }}",
-                "rightValue": "",
+                "rightValue": 0,
                 "operator": {
                   "type": "string",
-                  "operation": "equals"
+                  "operation": "notEmpty",
+                  "singleValue": true
                 }
               }
             ],
@@ -2383,15 +789,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "0.0.30",
-    "description": "hourly batch & filter. if node added to handle blank response.  createincident sub-workflow enabled",
+    "name": "0.0.38",
+    "description": "re-re-map",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-12T21:14:35.031Z",
-        "id": 47,
+        "createdAt": "2026-03-16T16:53:20.537Z",
+        "id": 87,
         "workflowId": "8fgOWTxRxYPHB5R8",
-        "versionId": "a92cc619-77ff-4355-bdc4-21d31b117840",
+        "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }
