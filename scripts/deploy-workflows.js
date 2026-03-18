@@ -114,7 +114,7 @@ async function deploy() {
   const prodByName = new Map(existingWorkflows.data.map(w => [w.name, w]));
 
 
-  // 6. Deploy each workflow
+   // 6. Deploy each workflow
   for (const config of toDeploy) {
     const filePath = path.join(WORKFLOWS_DIR, config.file);
     let payload = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -124,6 +124,33 @@ async function deploy() {
     payload.active = config.active === true; // Default false for safety
 
     const existing = prodByName.get(config.name);
+    let result;
+
+    try {
+      if (existing) {
+        console.log(`🔄 Updating: ${config.name}`);
+        result = await fetchJSON(`/workflows/${existing.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(payload)
+        });
+      } else {
+        console.log(`➕ Creating: ${config.name}`);
+        result = await fetchJSON('/workflows', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+      }
+      console.log(`✅ Success: ${config.name} (ID: ${result.data.id}, Active: ${result.data.active})`);
+    } catch (err) {
+      console.error(`❌ Failed to deploy ${config.name}: ${err.message}`);
+      process.exit(1);
+    }
+  }
+
+  console.log('\n🎉 Deployment complete');
+  process.exit(0);
+}
+
 /**
  * Get list of changed workflow JSON files in the current PR.
  * Returns absolute paths relative to repo root.
@@ -148,3 +175,8 @@ function getChangedWorkflowFiles() {
     return [];
   }
 }
+
+deploy().catch(err => {
+  console.error(`❌ Deployment failed: ${err.message}`);
+  process.exit(1);
+});
