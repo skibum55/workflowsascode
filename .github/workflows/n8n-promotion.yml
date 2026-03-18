@@ -1,0 +1,43 @@
+name: n8n Workflow Promotion
+
+on:
+  pull_request:
+    branches: [production]
+    paths: ['workflows/**', 'mapping.yaml']
+  push:
+    branches: [production]
+    paths: ['workflows/**', 'mapping.yaml']
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '20'}
+      - run: npm ci
+      - name: Validate Workflows & Mapping
+        run: node scripts/validate-workflows.js
+        env:
+          N8N_PROD_URL: ${{ vars.N8N_PROD_URL }}
+          N8N_PROD_API_KEY: ${{ secrets.N8N_PROD_API_KEY }}
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - uses: actions/setup-node@v4
+        with: {node-version: '20'}
+      - run: npm ci
+      - name: Deploy Changed Workflows
+        run: node scripts/deploy-workflows.js
+        env:
+          N8N_PROD_URL: ${{ vars.N8N_PROD_URL }}
+          N8N_PROD_API_KEY: ${{ secrets.N8N_PROD_API_KEY }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_BEFORE: ${{ github.event.before }}

@@ -1,0 +1,140 @@
+{
+  "name": "OpenAPIPutExample",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "PUT",
+        "path": "fa7ec534-f355-4558-a62e-1fdb75761790",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fce6f54d-e8b3-42d9-bfea-9a156e14fde6",
+      "name": "Webhook",
+      "webhookId": "fa7ec534-f355-4558-a62e-1fdb75761790",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "RJhJmCqaBUMOsnYt",
+          "name": "NexusBasicAuth"
+        }
+      },
+      "notes": "@path userId string required User identifier\n@header Authorization string required Bearer access token\n\n@body firstName string optional Updated first name\n@body lastName string optional Updated last name\n@body email string optional Updated email\n@body isActive boolean optional Whether the user is active\n\n@response 200 application/json User updated\n@response 400 application/json Invalid request\n@response 404 application/json User not found\n"
+    },
+    {
+      "parameters": {
+        "content": "✅ 3️⃣ PUT Webhook Example\nScenario:\nUpdate an existing user.\n\nWebhook Configuration\nHTTP Method: PUT\nPath: users/{userId}\nNotes\ntext\n\n@path userId string required User identifier\n@header Authorization string required Bearer access token\n\n@body firstName string optional Updated first name\n@body lastName string optional Updated last name\n@body email string optional Updated email\n@body isActive boolean optional Whether the user is active\n\n@response 200 application/json User updated\n@response 400 application/json Invalid request\n@response 404 application/json User not found\nBehavior\nPartial updates allowed\nOnly provided fields are required in schema\nPath parameter required automatically\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -480,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "904c0443-c708-4b39-8294-6ce1ec7202ee",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fda051d5-3e32-4f9f-8f1e-3bf1770a6eb2",
+  "activeVersionId": "fda051d5-3e32-4f9f-8f1e-3bf1770a6eb2",
+  "versionCounter": 9,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-16T18:39:26.828Z",
+      "createdAt": "2026-03-16T18:39:26.828Z",
+      "role": "workflow:owner",
+      "workflowId": "cMQt9LXxEmLYcEfk",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-16T18:40:37.171Z",
+    "createdAt": "2026-03-16T18:40:34.098Z",
+    "versionId": "fda051d5-3e32-4f9f-8f1e-3bf1770a6eb2",
+    "workflowId": "cMQt9LXxEmLYcEfk",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "PUT",
+          "path": "fa7ec534-f355-4558-a62e-1fdb75761790",
+          "authentication": "basicAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "fce6f54d-e8b3-42d9-bfea-9a156e14fde6",
+        "name": "Webhook",
+        "webhookId": "fa7ec534-f355-4558-a62e-1fdb75761790",
+        "credentials": {
+          "httpBasicAuth": {
+            "id": "RJhJmCqaBUMOsnYt",
+            "name": "NexusBasicAuth"
+          }
+        },
+        "notes": "@path userId string required User identifier\n@header Authorization string required Bearer access token\n\n@body firstName string optional Updated first name\n@body lastName string optional Updated last name\n@body email string optional Updated email\n@body isActive boolean optional Whether the user is active\n\n@response 200 application/json User updated\n@response 400 application/json Invalid request\n@response 404 application/json User not found\n"
+      },
+      {
+        "parameters": {
+          "content": "✅ 3️⃣ PUT Webhook Example\nScenario:\nUpdate an existing user.\n\nWebhook Configuration\nHTTP Method: PUT\nPath: users/{userId}\nNotes\ntext\n\n@path userId string required User identifier\n@header Authorization string required Bearer access token\n\n@body firstName string optional Updated first name\n@body lastName string optional Updated last name\n@body email string optional Updated email\n@body isActive boolean optional Whether the user is active\n\n@response 200 application/json User updated\n@response 400 application/json Invalid request\n@response 404 application/json User not found\nBehavior\nPartial updates allowed\nOnly provided fields are required in schema\nPath parameter required automatically\n"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -480,
+          -144
+        ],
+        "typeVersion": 1,
+        "id": "904c0443-c708-4b39-8294-6ce1ec7202ee",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {},
+    "authors": "sean keery",
+    "name": "Version fda051d5",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-16T18:40:37.165Z",
+        "id": 123,
+        "workflowId": "cMQt9LXxEmLYcEfk",
+        "versionId": "fda051d5-3e32-4f9f-8f1e-3bf1770a6eb2",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

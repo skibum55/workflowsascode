@@ -1,0 +1,165 @@
+{
+  "name": "subPostNexusComment",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "Comment"
+            },
+            {
+              "name": "Token"
+            },
+            {
+              "name": "OID"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1f87bfd1-409a-41cf-ab90-42fe3217bb06",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://nexuscoreai.azurewebsites.net/utils/commentv3",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "*/*"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json;odata.metadata=minimal;odata.streaming=true",
+        "body": "{\"Description\":\"Rob wanted the most solutions\",\"ServiceRequestEvent.oid\":\"06303f5f-52c2-4eed-a79d-4458c7e6e317\",\"CommentCategories.oid\":\"ba9d2aee-b853-482a-a100-bc15fa27b108\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "6579f4d2-e455-4d09-8c2e-e00cbbbdbc53",
+      "name": "postNexusComment"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "QbnoTYAS03Cs71mw",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/QbnoTYAS03Cs71mw",
+          "cachedResultName": "subNexusToken"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "bd7b636a-d642-4b0a-a932-8c415b57ec3b",
+      "name": "Call 'subNexusToken'"
+    },
+    {
+      "parameters": {
+        "content": "## Post Nexus Comment to existing entity\n**Inputs**\n*OID* Entity ID\n*Comment* Comment you want added",
+        "height": 112,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "0cff51dd-7726-43bb-b392-c542dbd88fb7",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Call 'subNexusToken'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'subNexusToken'": {
+      "main": [
+        [
+          {
+            "node": "postNexusComment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6ac04909-4dfd-4d1e-9bae-fc8dc36af027",
+  "activeVersionId": null,
+  "versionCounter": 46,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-17T19:13:21.736Z",
+      "createdAt": "2026-03-17T19:13:21.736Z",
+      "role": "workflow:owner",
+      "workflowId": "GD78uRq84byq35zo",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

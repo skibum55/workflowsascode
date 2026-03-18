@@ -1,0 +1,138 @@
+{
+  "name": "OpenAPIGetExample",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+        "authentication": "[PLACEHOLDER_SECRET]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "382511df-b624-4ed8-87dc-2f2306b48ee9",
+      "name": "Webhook",
+      "webhookId": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "RJhJmCqaBUMOsnYt",
+          "name": "NexusBasicAuth"
+        }
+      },
+      "notes": "@path userId string required The unique user identifier\n@query includePosts boolean optional Whether to include user posts\n@header Authorization string required Bearer access token\n@response 200 application/json User retrieved successfully\n@response 404 application/json User not found\n@response 401 application/json Unauthorized\n"
+    },
+    {
+      "parameters": {
+        "content": "✅ 1️⃣ GET Webhook Example\nScenario:\nGet a user by ID with optional includePosts query param.\n\nWebhook Configuration\nHTTP Method: GET\nPath: users/{userId}\nNotes\ntext\n\n@path userId string required The unique user identifier\n@query includePosts boolean optional Whether to include user posts\n@header Authorization string required Bearer access token\n\n@response 200 application/json User retrieved successfully\n@response 404 application/json User not found\n@response 401 application/json Unauthorized\nResulting OpenAPI Behavior\nPath parameter required\nOptional query parameter\nRequired Authorization header\nMultiple response codes\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -480,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "c1496b03-35d8-45a2-8594-2d2b8f247562",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ab8b4955-0f25-4add-b72b-9c11ad0ddc5e",
+  "activeVersionId": "ab8b4955-0f25-4add-b72b-9c11ad0ddc5e",
+  "versionCounter": 92,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-09T16:35:55.649Z",
+      "createdAt": "2026-03-09T16:35:55.649Z",
+      "role": "workflow:owner",
+      "workflowId": "S6WPiDC2GfFekEHN",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-16T18:28:02.763Z",
+    "createdAt": "2026-03-16T18:27:55.143Z",
+    "versionId": "ab8b4955-0f25-4add-b72b-9c11ad0ddc5e",
+    "workflowId": "S6WPiDC2GfFekEHN",
+    "nodes": [
+      {
+        "parameters": {
+          "path": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+          "authentication": "basicAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "382511df-b624-4ed8-87dc-2f2306b48ee9",
+        "name": "Webhook",
+        "webhookId": "b3f1e1ad-cc02-49a3-8245-76c9ac127087",
+        "credentials": {
+          "httpBasicAuth": {
+            "id": "RJhJmCqaBUMOsnYt",
+            "name": "NexusBasicAuth"
+          }
+        },
+        "notes": "@path userId string required The unique user identifier\n@query includePosts boolean optional Whether to include user posts\n@header Authorization string required Bearer access token\n@response 200 application/json User retrieved successfully\n@response 404 application/json User not found\n@response 401 application/json Unauthorized\n"
+      },
+      {
+        "parameters": {
+          "content": "✅ 1️⃣ GET Webhook Example\nScenario:\nGet a user by ID with optional includePosts query param.\n\nWebhook Configuration\nHTTP Method: GET\nPath: users/{userId}\nNotes\ntext\n\n@path userId string required The unique user identifier\n@query includePosts boolean optional Whether to include user posts\n@header Authorization string required Bearer access token\n\n@response 200 application/json User retrieved successfully\n@response 404 application/json User not found\n@response 401 application/json Unauthorized\nResulting OpenAPI Behavior\nPath parameter required\nOptional query parameter\nRequired Authorization header\nMultiple response codes\n"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -480,
+          -144
+        ],
+        "typeVersion": 1,
+        "id": "c1496b03-35d8-45a2-8594-2d2b8f247562",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {},
+    "authors": "sean keery",
+    "name": "Version ab8b4955",
+    "description": "documented get",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-16T18:28:02.759Z",
+        "id": 109,
+        "workflowId": "S6WPiDC2GfFekEHN",
+        "versionId": "ab8b4955-0f25-4add-b72b-9c11ad0ddc5e",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

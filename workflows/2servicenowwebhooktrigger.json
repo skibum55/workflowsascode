@@ -1,0 +1,94 @@
+{
+  "name": "2ServiceNowWebhookTrigger",
+  "description": null,
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "fc40eda4-5d0f-4f3c-af0a-632124ab0c32",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        16,
+        -80
+      ],
+      "id": "c148e0f5-9fb1-43c4-8bb9-a60b7eaa4f2b",
+      "name": "Webhook",
+      "webhookId": "fc40eda4-5d0f-4f3c-af0a-632124ab0c32"
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "create",
+        "short_description": "Bemsid query parameter Test",
+        "additionalFields": {
+          "caller_id": "={{ $json.query.bemsid }}"
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        240,
+        -80
+      ],
+      "id": "c9b0169f-f6f4-4226-9b6e-556335009e0d",
+      "name": "Create an incident"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create an incident",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "8123c619-ed1a-4967-9f4c-0bcd93ddf244",
+  "activeVersionId": null,
+  "versionCounter": 3,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-27T16:39:07.863Z",
+      "createdAt": "2026-02-27T16:39:07.863Z",
+      "role": "workflow:owner",
+      "workflowId": "PxaooajzTeAM1scS",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2026-02-27T16:39:06.184Z",
+      "createdAt": "2026-02-27T16:39:06.184Z",
+      "id": "fe6QR0QxW1Coaxns",
+      "name": "servicenow"
+    }
+  ],
+  "activeVersion": null
+}
