@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const MAPPING_PATH = path.join(process.cwd(), 'mapping.yaml');
+const MAPPING_PATH = path.join(process.cwd(), 'mapping.yml');
 const WORKFLOWS_DIR = path.join(process.cwd(), 'workflows');
 const N8N_URL = process.env.N8N_PROD_URL?.replace(/\/$/, '');
 const API_KEY = process.env.N8N_PROD_API_KEY;
@@ -61,9 +61,9 @@ async function deploy() {
       deployAll = true;
     }
 
-    // Safety Rule: If mapping.yaml changed, deploy EVERYTHING
-    if (changedFiles.includes('mapping.yaml')) {
-      console.log('⚠️  mapping.yaml changed in this commit, running full deployment of all workflows');
+    // Safety Rule: If mapping.yml changed, deploy EVERYTHING
+    if (changedFiles.includes('mapping.yml')) {
+      console.log('⚠️  mapping.yml changed in this commit, running full deployment of all workflows');
       deployAll = true;
     }
 
