@@ -120,7 +120,7 @@ async function deploy() {
     let payload = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     
     payload = sanitizeWorkflow(payload);
-    payload.name = config.name;
+    // payload.name = config.name;
     // payload.active = config.active === true; // Default false for safety
 
     const existing = prodByName.get(config.name);
@@ -143,7 +143,7 @@ async function deploy() {
       console.log(`✅ Success: ${config.name} (ID: ${result.data.id}, Active: ${result.data.active})`);
     } catch (err) {
       console.error(`❌ Failed to deploy ${config.name}: ${err.message}`);
-      console.log(`${JSON.stringify(payload)}`)
+      // console.log(`${JSON.stringify(payload)}`)
       process.exit(1);
     }
   }
