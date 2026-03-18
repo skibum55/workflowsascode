@@ -18,7 +18,7 @@ A secure, PR-driven CI/CD system for promoting n8n workflows from development to
 ├── workflows/                         # Version-controlled workflow JSONs
 │   ├── nexuspostmsgtest.json
 │   └── nexuspostmsgtestauth.json
-├── mapping.yaml                       # Registry mapping names → files → dev IDs
+├── mapping.yml                       # Registry mapping names → files → dev IDs
 ├── package.json                       # Node.js dependencies
 └── README.md                          # This document
 ```
@@ -40,7 +40,7 @@ A secure, PR-driven CI/CD system for promoting n8n workflows from development to
 ```bash
 npm install
 git checkout develop
-# Ensure workflows/ and mapping.yaml are synced from your dev instance
+# Ensure workflows/ and mapping.yml are synced from your dev instance
 ```
 
 ---
@@ -48,10 +48,10 @@ git checkout develop
 ## 🔄 Promotion Process
 
 1. **Develop & Sync**  
-   Workflows are pulled into `workflows/` on the `develop` branch. `mapping.yaml` tracks dev instance IDs.
+   Workflows are pulled into `workflows/` on the `develop` branch. `mapping.yml` tracks dev instance IDs.
 
 2. **Prepare Promotion**  
-   - Update `mapping.yaml` with `active: true/false` per workflow
+   - Update `mapping.yml` with `active: true/false` per workflow
    - Commit changes to `develop`
 
 3. **Open PR**  
@@ -73,7 +73,7 @@ git checkout develop
    - `deploy` job triggers automatically
    - Only changed workflows are pushed to prod
    - IDs resolved by `name`; instance fields stripped
-   - Activation state applied per `mapping.yaml`
+   - Activation state applied per `mapping.yml`
 
 7. **Verify**  
    Check prod n8n UI or execution logs. Deployment status appears in GitHub PR + Deployments tab.
@@ -84,7 +84,7 @@ git checkout develop
 
 ### Adding a New Workflow
 1. Sync workflow JSON to `workflows/` on `develop`
-2. Add entry to `mapping.yaml`:
+2. Add entry to `mapping.yml`:
    ```yaml
    - name: MyNewWorkflow
      source_id: <dev-instance-id>
@@ -100,7 +100,7 @@ git checkout develop
 
 ### Controlling Activation
 - Default: `active: false` (safety-first)
-- Override per workflow in `mapping.yaml`
+- Override per workflow in `mapping.yml`
 - Activation is applied **after** successful deployment
 
 ### Handling Credentials
@@ -120,7 +120,7 @@ git push origin develop
 
 ## 🔧 Configuration Reference
 
-### `mapping.yaml` Schema
+### `mapping.yml` Schema
 ```yaml
 source_instance: https://oauth2test.manageddeployment.com
 last_sync: '2026-03-17T23:19:12.977Z'
@@ -174,7 +174,7 @@ workflows:
 - [ ] `production` GitHub Environment created with required reviewers
 - [ ] Branch protection enabled on `production`
 - [ ] `npm install` run locally; dependencies committed
-- [ ] `mapping.yaml` follows schema; all `file:` paths exist
+- [ ] `mapping.yml` follows schema; all `file:` paths exist
 - [ ] Test PR opened & merged to verify pipeline end-to-end
 - [ ] Team trained on PR template & rollback procedure
 
