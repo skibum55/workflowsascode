@@ -143,7 +143,7 @@ async function deploy() {
       console.log(`✅ Success: ${config.name} (ID: ${result.data.id}, Active: ${result.data.active})`);
     } catch (err) {
       console.error(`❌ Failed to deploy ${config.name}: ${err.message}`);
-      console.log(`${payload}`)
+      console.log(`${JSON.stringify(payload)}`)
       process.exit(1);
     }
   }
