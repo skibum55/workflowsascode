@@ -1,58 +1,56 @@
-## Promotion to Production
-
-**PR Type:** n8n Workflow Promotion
-
-### Summary
-<!-- Brief description of what is being promoted to production -->
-
-### Workflows Being Promoted
-
-<!-- List the workflows included in this promotion -->
-
-| Workflow Name | File | Source ID | Notes |
-|---------------|------|-----------|-------|
-| nexusPostMsgTest | `workflows/nexuspostmsgtest.json` | `AckYLB8SiERiCmNV` | |
-| nexusPostMsgTestAuth | `workflows/nexuspostmsgtestauth.json` | `DknlIskkKHT26g5x` | |
-
-### Changes
-<!-- Describe what has changed in these workflows since the last promotion -->
-
-- 
-- 
-
-### Testing Performed
-<!-- Please tick and describe testing done on develop environment -->
-
-- [ ] Workflows tested manually in development n8n instance
-- [ ] Error handling and edge cases verified
-- [ ] Performance / execution time checked
-- [ ] Dependencies with other workflows validated
-
-### Important Notes
-<!-- Any breaking changes, configuration requirements, environment variables needed, or things the production team should be aware of -->
-
-### Mapping File Updates
-<!-- Confirm if mapping.yaml was updated -->
-
-- [ ] `mapping.yaml` has been updated with latest workflow information
-- [ ] `last_sync` timestamp has been refreshed
-
-### Deployment
-- Target Branch: `production`
-- Will be deployed automatically after this PR is merged using `PROD_N8N_URL` and `PROD_N8N_API_KEY`
-
-### Rollback Plan
-<!-- How can we quickly rollback if issues are found after promotion? -->
-
+---
+name: n8n Workflow Promotion
+about: Promote n8n workflows from develop to production
+title: 'promote: <workflow-name(s)> | <brief description>'
+labels: ['n8n/workflow', 'env:production', 'promotion']
+assignees: ''
 ---
 
-**Reviewer Checklist:**
+## 📋 Summary
+<!-- Briefly describe what workflows are being promoted and why -->
+- **Purpose:** 
+- **Related Issue/Ticket:** 
 
-- [ ] Workflow JSON files are valid and readable
-- [ ] No sensitive credentials or secrets are present in workflow files
-- [ ] Changes match the described testing and notes
-- [ ] `mapping.yaml` is consistent with the workflows being promoted
+## 🔄 Workflows Being Promoted
+| Workflow Name | File Path | Action | Prod Activation |
+|---------------|-----------|--------|-----------------|
+| `name`        | `workflows/file.json` | New / Update | `true` / `false` |
 
----
+## ✅ Author Checklist
+_Complete before requesting review_
+- [ ] Workflows tested and validated in `develop` environment
+- [ ] `mapping.yaml` updated and matches `workflows/` directory
+- [ ] All referenced credentials are pre-provisioned in production
+- [ ] No hardcoded secrets, URLs, or environment-specific values (relies on CI/CD env vars)
+- [ ] CI validation checks (schema, lint, dry-run) are passing
+- [ ] Activation state explicitly defined per workflow
+- [ ] Cross-workflow dependencies or triggers documented (if applicable)
 
-**Note:** Only merge this PR when you are ready for these workflows to be pushed to the **Production** n8n instance.
+## 🔧 n8n-Specific Details
+- **Credentials Required:** <!-- List credential names expected in prod -->
+- **Node Version Compatibility:** <!-- Confirm compatibility with prod n8n version -->
+- **External Dependencies:** <!-- APIs, webhooks, databases, rate limits, etc. -->
+- **Known Risks/Limitations:** <!-- Breaking changes, manual steps, data migration needs -->
+
+## 🧪 Testing & Validation
+- **Dev Instance:** `https://oauth2test.manageddeployment.com`
+- **Test Scenarios Covered:** <!-- Brief list of execution paths validated -->
+- **CI Status:** <!-- Link to checks or confirm all required checks passed -->
+
+## 👀 Reviewer Checklist
+_For approvers before merging_
+- [ ] Workflow logic matches requirements and follows n8n best practices
+- [ ] `mapping.yaml` structure is valid, complete, and free of drift
+- [ ] Credential references are approved for production use
+- [ ] Activation policy is appropriate (default: `false` unless justified)
+- [ ] No deprecated nodes, version mismatches, or unhandled error paths
+- [ ] Rollback plan is documented and feasible
+
+## 🚀 Deployment & Rollback
+- **Post-Merge Behavior:** Workflows deploy automatically to production upon merge. Activation follows the `Prod Activation` column above.
+- **ID Resolution:** Production workflow IDs are resolved automatically by name. Do not modify or hardcode ID fields.
+- **Rollback Procedure:** `git revert <merge-commit-sha>` → open PR → merge to restore previous known-good state.
+- **Verification Steps:** <!-- How to confirm success post-deployment (e.g., check prod UI, monitor execution logs, test webhook endpoint) -->
+
+## 📎 Additional Notes
+<!-- Screenshots, architecture diagrams, runbook links, or extra context -->
