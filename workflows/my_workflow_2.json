@@ -20,7 +20,7 @@
           "value": "54321",
           "mode": "id"
         },
-        "message": "testing012934056987",
+        "message": "testing012934056987K",
         "options": {}
       },
       "type": "n8n-nodes-base.microsoftTeams",
