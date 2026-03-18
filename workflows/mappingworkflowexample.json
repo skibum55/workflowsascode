@@ -1,8 +1,5 @@
 {
   "name": "mappingWorkflowExample",
-  "description": null,
-  "active": true,
-  "isArchived": false,
   "nodes": [
     {
       "parameters": {},
@@ -10,7 +7,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        0
+        -144
       ],
       "id": "a5c7bfc0-805e-404a-be63-a41c5ab06d66",
       "name": "When clicking ‘Execute workflow’"
@@ -147,8 +144,8 @@
       "type": "CUSTOM.openApi",
       "typeVersion": 1,
       "position": [
-        208,
-        0
+        224,
+        16
       ],
       "id": "b6d725b7-08cc-4031-84f9-d96279febf35",
       "name": "MBTA OpenAPI",
@@ -187,8 +184,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        864,
-        0
+        720,
+        -128
       ],
       "id": "9d6802ce-f46d-4d21-b967-235fd6e57db6",
       "name": "If as another step"
@@ -200,7 +197,7 @@
             {
               "id": "08333017-1b7b-443d-b6c8-1eb53f074eda",
               "name": "Title",
-              "value": "={{$('MBTA OpenAPI').item.json.data[0].relationships.trip.data.type}}\n",
+              "value": "={{ $('Webhook').item.json.body.Title }} - {{$('MBTA OpenAPI').item.json.data[0].relationships.trip.data.type}}\n",
               "type": "string"
             },
             {
@@ -212,49 +209,49 @@
             {
               "id": "a7f6c231-9edb-4065-bbe0-bb0f1eb2622b",
               "name": "Category.name",
-              "value": "=mystring",
+              "value": "={{ $('Webhook').item.json.body['Category.name'] }}",
               "type": "string"
             },
             {
               "id": "9e037bfc-99f1-4cc9-8b59-69d195c51c38",
-              "name": "MajorIncident",
-              "value": false,
-              "type": "boolean"
+              "name": "=MajorIncident",
+              "value": "={{ $('Webhook').item.json.body.MajorIncident }}",
+              "type": "string"
             },
             {
               "id": "9930d571-dfca-47b3-865d-9791f1256366",
               "name": "Impact.Name",
-              "value": "Impact.Name",
+              "value": "={{ $('Webhook').item.json.body['Impact.Name'] }}",
               "type": "string"
             },
             {
               "id": "47151247-e0e9-4a97-9dcd-93b849418498",
               "name": "Urgency.Name",
-              "value": "Urgency.Name",
+              "value": "={{ $('Webhook').item.json.body['Urgency.Name'] }}",
               "type": "string"
             },
             {
               "id": "df257d44-47cd-426d-9c37-81655f62d1ac",
               "name": "Customer.Name",
-              "value": "Customer.Name",
+              "value": "={{ $('Webhook').item.json.body['Customer.Name'] }}",
               "type": "string"
             },
             {
               "id": "35923628-02b8-4a2c-bd30-5725162cd624",
               "name": "BusinessService.Name",
-              "value": "BusinessService.Name",
+              "value": "={{ $('Webhook').item.json.body['BusinessService.Name'] }}",
               "type": "string"
             },
             {
               "id": "6befe128-bba9-4039-8d95-6a55bf103b10",
               "name": "Caller.EmployeeID",
-              "value": "Caller.EmployeeID",
+              "value": "={{ $('Webhook').item.json.body['Caller.EmployeeID'] }}",
               "type": "string"
             },
             {
               "id": "60873a77-13a7-4f9b-87c0-e9e068a6aecd",
               "name": "ReferenceNumber",
-              "value": "ReferenceNumber",
+              "value": "={{ $('Webhook').item.json.body['Reference.Number'] }}",
               "type": "string"
             }
           ]
@@ -265,7 +262,7 @@
       "typeVersion": 3.4,
       "position": [
         416,
-        0
+        16
       ],
       "id": "bae3a2b5-9b91-4a39-bd60-3010db8dcf51",
       "name": "MapFields"
@@ -288,26 +285,28 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        864,
-        -144
+        560,
+        -128
       ],
       "id": "9f78f19b-b227-456d-8586-53da1ae90d04",
       "name": "Merge"
     },
     {
       "parameters": {
-        "path": "robsimport",
+        "httpMethod": "POST",
+        "path": "mappingexample",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -16,
-        -160
+        0,
+        16
       ],
       "id": "4626ec41-015e-4af1-b5c1-ba2d9437c471",
       "name": "Webhook",
-      "webhookId": "b52eda63-bc41-4d7b-b670-95684ae1c6db"
+      "webhookId": "b52eda63-bc41-4d7b-b670-95684ae1c6db",
+      "notes": "@header Authorization string optional Bearer token\n\n@body Reference.Number string required\n@body Description string required\n@body Category.name string required\n@body SubCategory.name string required\n@body MajorIncident boolean optional\n@body Impact.Name string required\n@body Urgency.Name string required\n@body  Customer.Name string required\n@body BusinessService.Name string required\n@body Caller.EmployeeID string required\n@body Title string required\n\n@response 201 application/json Incident created\n@response 400 application/json Validation error"
     },
     {
       "parameters": {
@@ -427,6 +426,26 @@
               "canBeUsedToMatch": true,
               "type": "string",
               "removed": false
+            },
+            {
+              "id": "ReferenceNumber",
+              "displayName": "ReferenceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -437,14 +456,69 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        624,
-        0
+        944,
+        -144
       ],
       "id": "76c9913c-63a3-4e1d-9bf2-8040d4cfc932",
       "name": "Call 'createNexusIncident'",
       "disabled": true
     }
   ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "oauth2test.manageddeployment.com",
+            "content-length": "409",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "accept": "application/json",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "origin": "null",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-US,en;q=0.9,sv;q=0.8",
+            "priority": "u=1, i",
+            "x-forwarded-for": "67.162.155.218",
+            "x-envoy-external-address": "67.162.155.218",
+            "x-request-id": "8297272e-2b31-4e2b-b4d9-ba71941d06a9",
+            "x-envoy-expected-rq-timeout-ms": "1800000",
+            "x-k8se-app-name": "n8n-app-test-east2--0000030",
+            "x-k8se-app-namespace": "k8se-apps",
+            "x-k8se-protocol": "http1",
+            "x-k8se-app-kind": "web",
+            "x-ms-containerapp-name": "n8n-app-test-east2",
+            "x-ms-containerapp-revision-name": "n8n-app-test-east2--0000030",
+            "x-arr-ssl": "true",
+            "x-forwarded-proto": "https",
+            "x-forwarded-path": "/webhook/mappingexample"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Reference.Number": "69c8a370-d653-415c-8b56-a7164be1e6cc}",
+            "Description": "Web Catalogs",
+            "Category.name": "Network",
+            "SubCategory.name": "Wireless",
+            "MajorIncident": false,
+            "Impact.Name": "1-Enterprise",
+            "Urgency.Name": "2-High",
+            "Customer.Name": "Morton",
+            "BusinessService.Name": "Web Portal",
+            "Caller.EmployeeID": "743248",
+            "Title": "MapFromPost"
+          },
+          "webhookUrl": "https://oauth2test.manageddeployment.com/webhook/mappingexample",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "connections": {
     "When clicking ‘Execute workflow’": {
       "main": [
@@ -480,7 +554,13 @@
             "node": "Merge",
             "type": "main",
             "index": 1
-          },
+          }
+        ]
+      ]
+    },
+    "If as another step": {
+      "main": [
+        [
           {
             "node": "Call 'createNexusIncident'",
             "type": "main",
@@ -489,16 +569,11 @@
         ]
       ]
     },
-    "If as another step": {
-      "main": [
-        []
-      ]
-    },
     "Webhook": {
       "main": [
         [
           {
-            "node": "MapFields",
+            "node": "MBTA OpenAPI",
             "type": "main",
             "index": 0
           }
@@ -506,6 +581,11 @@
       ]
     },
     "Call 'createNexusIncident'": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
       "main": [
         [
           {
@@ -517,572 +597,17 @@
       ]
     }
   },
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "staticData": null,
+  "versionId": "27505c54-e5fa-4636-9e35-30c6f4939897",
   "meta": {
-    "templateCredsSetupCompleted": true
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c4667b21a3f68f500e7a7fd98136646b512f15d73e4ee54205f14790adeaa0fa"
   },
-  "pinData": {},
-  "versionId": "dc292223-b689-444a-8c7d-5e9c5f8b3091",
-  "activeVersionId": "dc292223-b689-444a-8c7d-5e9c5f8b3091",
-  "versionCounter": 199,
-  "triggerCount": 1,
-  "shared": [
-    {
-      "updatedAt": "2026-03-03T18:04:52.747Z",
-      "createdAt": "2026-03-03T18:04:52.747Z",
-      "role": "workflow:owner",
-      "workflowId": "51HZyk0Bvgyti9mg",
-      "projectId": "rbmFyQ0fPfUjlaVB",
-      "project": {
-        "updatedAt": "2025-10-28T16:01:24.976Z",
-        "createdAt": "2025-10-28T15:59:42.193Z",
-        "id": "rbmFyQ0fPfUjlaVB",
-        "name": "sean keery <sean.keery@rmscorp.com>",
-        "type": "personal",
-        "icon": null,
-        "description": null,
-        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
-      }
-    }
-  ],
-  "tags": [],
-  "activeVersion": {
-    "updatedAt": "2026-03-13T17:06:31.271Z",
-    "createdAt": "2026-03-13T17:06:17.531Z",
-    "versionId": "dc292223-b689-444a-8c7d-5e9c5f8b3091",
-    "workflowId": "51HZyk0Bvgyti9mg",
-    "nodes": [
-      {
-        "parameters": {},
-        "type": "n8n-nodes-base.manualTrigger",
-        "typeVersion": 1,
-        "position": [
-          0,
-          0
-        ],
-        "id": "a5c7bfc0-805e-404a-be63-a41c5ab06d66",
-        "name": "When clicking ‘Execute workflow’"
-      },
-      {
-        "parameters": {
-          "operation": "ApiWeb.VehicleController.index",
-          "pathParameters": {
-            "mappingMode": "defineBelow",
-            "value": {},
-            "matchingColumns": [],
-            "schema": [],
-            "attemptToConvertTypes": false,
-            "convertFieldsToString": false
-          },
-          "queryParameters": {
-            "mappingMode": "defineBelow",
-            "value": {},
-            "matchingColumns": [],
-            "schema": [
-              {
-                "id": "page[offset]",
-                "displayName": "Page[offset]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "page[limit]",
-                "displayName": "Page[limit]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "sort",
-                "displayName": "Sort",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "fields[vehicle]",
-                "displayName": "Fields[vehicle]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "include",
-                "displayName": "Include",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[id]",
-                "displayName": "Filter[id]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[trip]",
-                "displayName": "Filter[trip]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[label]",
-                "displayName": "Filter[label]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[route]",
-                "displayName": "Filter[route]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[direction_id]",
-                "displayName": "Filter[direction_id]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[route_type]",
-                "displayName": "Filter[route_type]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              },
-              {
-                "id": "filter[revenue]",
-                "displayName": "Filter[revenue]",
-                "required": false,
-                "defaultMatch": false,
-                "canBeUsedToMatch": false,
-                "display": true,
-                "type": "string"
-              }
-            ],
-            "attemptToConvertTypes": false,
-            "convertFieldsToString": false
-          }
-        },
-        "type": "CUSTOM.openApi",
-        "typeVersion": 1,
-        "position": [
-          208,
-          0
-        ],
-        "id": "b6d725b7-08cc-4031-84f9-d96279febf35",
-        "name": "MBTA OpenAPI",
-        "credentials": {
-          "openApiCredentialsApi": {
-            "id": "QOApkW0HWt0BHyYI",
-            "name": "MBTA"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 3
-            },
-            "conditions": [
-              {
-                "id": "1bbd6665-706a-4616-ac4b-c55353a57c15",
-                "leftValue": "",
-                "rightValue": "",
-                "operator": {
-                  "type": "string",
-                  "operation": "equals",
-                  "name": "filter.operator.equals"
-                }
-              }
-            ],
-            "combinator": "and"
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.3,
-        "position": [
-          864,
-          0
-        ],
-        "id": "9d6802ce-f46d-4d21-b967-235fd6e57db6",
-        "name": "If as another step"
-      },
-      {
-        "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "08333017-1b7b-443d-b6c8-1eb53f074eda",
-                "name": "Title",
-                "value": "={{$('MBTA OpenAPI').item.json.data[0].relationships.trip.data.type}}\n",
-                "type": "string"
-              },
-              {
-                "id": "3f23408d-cfef-4fdf-a971-75032aaa3f08",
-                "name": "Description",
-                "value": "={{ $json.data[1].attributes.occupancy_status }}",
-                "type": "string"
-              },
-              {
-                "id": "a7f6c231-9edb-4065-bbe0-bb0f1eb2622b",
-                "name": "Category.name",
-                "value": "=mystring",
-                "type": "string"
-              },
-              {
-                "id": "9e037bfc-99f1-4cc9-8b59-69d195c51c38",
-                "name": "MajorIncident",
-                "value": false,
-                "type": "boolean"
-              },
-              {
-                "id": "9930d571-dfca-47b3-865d-9791f1256366",
-                "name": "Impact.Name",
-                "value": "Impact.Name",
-                "type": "string"
-              },
-              {
-                "id": "47151247-e0e9-4a97-9dcd-93b849418498",
-                "name": "Urgency.Name",
-                "value": "Urgency.Name",
-                "type": "string"
-              },
-              {
-                "id": "df257d44-47cd-426d-9c37-81655f62d1ac",
-                "name": "Customer.Name",
-                "value": "Customer.Name",
-                "type": "string"
-              },
-              {
-                "id": "35923628-02b8-4a2c-bd30-5725162cd624",
-                "name": "BusinessService.Name",
-                "value": "BusinessService.Name",
-                "type": "string"
-              },
-              {
-                "id": "6befe128-bba9-4039-8d95-6a55bf103b10",
-                "name": "Caller.EmployeeID",
-                "value": "Caller.EmployeeID",
-                "type": "string"
-              },
-              {
-                "id": "60873a77-13a7-4f9b-87c0-e9e068a6aecd",
-                "name": "ReferenceNumber",
-                "value": "ReferenceNumber",
-                "type": "string"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          416,
-          0
-        ],
-        "id": "bae3a2b5-9b91-4a39-bd60-3010db8dcf51",
-        "name": "MapFields"
-      },
-      {
-        "parameters": {
-          "mode": "combine",
-          "advanced": true,
-          "mergeByFields": {
-            "values": [
-              {
-                "field1": "mySecondMappedField",
-                "field2": "={{$('MapFields').params.assignments.values()[0][2].value\n}}"
-              }
-            ]
-          },
-          "joinMode": "keepEverything",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.merge",
-        "typeVersion": 3.2,
-        "position": [
-          864,
-          -144
-        ],
-        "id": "9f78f19b-b227-456d-8586-53da1ae90d04",
-        "name": "Merge"
-      },
-      {
-        "parameters": {
-          "path": "robsimport",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 2.1,
-        "position": [
-          -16,
-          -160
-        ],
-        "id": "4626ec41-015e-4af1-b5c1-ba2d9437c471",
-        "name": "Webhook",
-        "webhookId": "b52eda63-bc41-4d7b-b670-95684ae1c6db"
-      },
-      {
-        "parameters": {
-          "workflowId": {
-            "__rl": true,
-            "value": "2W89dAgSUHdcNYei",
-            "mode": "list",
-            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
-            "cachedResultName": "createNexusIncident"
-          },
-          "workflowInputs": {
-            "mappingMode": "defineBelow",
-            "value": {
-              "MajorIncident": false,
-              "Title": "={{ $json.myFirstMappedField }}",
-              "Description": "={{ $json.mySecondMappedField }}",
-              "Category.name": "={{ $json.myFourhtMappedField }}"
-            },
-            "matchingColumns": [],
-            "schema": [
-              {
-                "id": "Title",
-                "displayName": "Title",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "Description",
-                "displayName": "Description",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "Category.name",
-                "displayName": "Category.name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "SubCategory.name",
-                "displayName": "SubCategory.name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "MajorIncident",
-                "displayName": "MajorIncident",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "boolean",
-                "removed": false
-              },
-              {
-                "id": "Impact.Name",
-                "displayName": "Impact.Name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "Urgency.Name",
-                "displayName": "Urgency.Name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "Customer.Name",
-                "displayName": "Customer.Name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "BusinessService.Name",
-                "displayName": "BusinessService.Name",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              },
-              {
-                "id": "Caller.EmployeeID",
-                "displayName": "Caller.EmployeeID",
-                "required": false,
-                "defaultMatch": false,
-                "display": true,
-                "canBeUsedToMatch": true,
-                "type": "string",
-                "removed": false
-              }
-            ],
-            "attemptToConvertTypes": false,
-            "convertFieldsToString": true
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.executeWorkflow",
-        "typeVersion": 1.3,
-        "position": [
-          624,
-          0
-        ],
-        "id": "76c9913c-63a3-4e1d-9bf2-8040d4cfc932",
-        "name": "Call 'createNexusIncident'",
-        "disabled": true
-      }
-    ],
-    "connections": {
-      "When clicking ‘Execute workflow’": {
-        "main": [
-          [
-            {
-              "node": "MBTA OpenAPI",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "MBTA OpenAPI": {
-        "main": [
-          [
-            {
-              "node": "MapFields",
-              "type": "main",
-              "index": 0
-            },
-            {
-              "node": "Merge",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "MapFields": {
-        "main": [
-          [
-            {
-              "node": "Merge",
-              "type": "main",
-              "index": 1
-            },
-            {
-              "node": "Call 'createNexusIncident'",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "If as another step": {
-        "main": [
-          []
-        ]
-      },
-      "Webhook": {
-        "main": [
-          [
-            {
-              "node": "MapFields",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Call 'createNexusIncident'": {
-        "main": [
-          [
-            {
-              "node": "If as another step",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "authors": "sean keery",
-    "name": "0.0.5",
-    "description": "spelling",
-    "autosaved": true,
-    "workflowPublishHistory": [
-      {
-        "createdAt": "2026-03-13T17:06:31.263Z",
-        "id": 66,
-        "workflowId": "51HZyk0Bvgyti9mg",
-        "versionId": "dc292223-b689-444a-8c7d-5e9c5f8b3091",
-        "event": "activated",
-        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
-      }
-    ]
-  }
+  "id": "51HZyk0Bvgyti9mg",
+  "tags": []
 }
