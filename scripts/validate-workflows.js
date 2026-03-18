@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const MAPPING_PATH = path.join(process.cwd(), 'mapping.yaml');
+const MAPPING_PATH = path.join(process.cwd(), 'mapping.yml');
 const WORKFLOWS_DIR = path.join(process.cwd(), 'workflows');
 
 // Basic n8n workflow schema requirements
@@ -14,7 +14,7 @@ async function validate() {
 
   // 1. Load & parse mapping
   if (!fs.existsSync(MAPPING_PATH)) {
-    console.error('❌ mapping.yaml not found');
+    console.error('❌ mapping.yml not found');
     process.exit(1);
   }
 
@@ -22,12 +22,12 @@ async function validate() {
   try {
     mapping = yaml.load(fs.readFileSync(MAPPING_PATH, 'utf8'));
   } catch (err) {
-    console.error(`❌ Failed to parse mapping.yaml: ${err.message}`);
+    console.error(`❌ Failed to parse mapping.yml: ${err.message}`);
     process.exit(1);
   }
 
   if (!mapping.workflows || !Array.isArray(mapping.workflows)) {
-    console.error('❌ mapping.yaml must contain a "workflows" array');
+    console.error('❌ mapping.yml must contain a "workflows" array');
     process.exit(1);
   }
 

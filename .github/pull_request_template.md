@@ -19,7 +19,7 @@ assignees: ''
 ## ✅ Author Checklist
 _Complete before requesting review_
 - [ ] Workflows tested and validated in `develop` environment
-- [ ] `mapping.yaml` updated and matches `workflows/` directory
+- [ ] `mapping.yml` updated and matches `workflows/` directory
 - [ ] All referenced credentials are pre-provisioned in production
 - [ ] No hardcoded secrets, URLs, or environment-specific values (relies on CI/CD env vars)
 - [ ] CI validation checks (schema, lint, dry-run) are passing
@@ -40,7 +40,7 @@ _Complete before requesting review_
 ## 👀 Reviewer Checklist
 _For approvers before merging_
 - [ ] Workflow logic matches requirements and follows n8n best practices
-- [ ] `mapping.yaml` structure is valid, complete, and free of drift
+- [ ] `mapping.yml` structure is valid, complete, and free of drift
 - [ ] Credential references are approved for production use
 - [ ] Activation policy is appropriate (default: `false` unless justified)
 - [ ] No deprecated nodes, version mismatches, or unhandled error paths

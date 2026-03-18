@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const MAPPING_PATH = path.join(process.cwd(), 'mapping.yaml');
+const MAPPING_PATH = path.join(process.cwd(), 'mapping.yml');
 const WORKFLOWS_DIR = path.join(process.cwd(), 'workflows');
 const N8N_URL = process.env.N8N_PROD_URL?.replace(/\/$/, '');
 const API_KEY = process.env.N8N_PROD_API_KEY;
