@@ -21,11 +21,27 @@
     },
     {
       "parameters": {
+        "operation": "ApiWeb.FacilityController.show",
         "pathParameters": {
           "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [],
+          "value": {
+            "id": "={{data1.georgia_field}}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "Id",
+              "required": true,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         },
@@ -33,7 +49,26 @@
           "mappingMode": "defineBelow",
           "value": {},
           "matchingColumns": [],
-          "schema": [],
+          "schema": [
+            {
+              "id": "fields[facility]",
+              "displayName": "Fields[facility]",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            },
+            {
+              "id": "include",
+              "displayName": "Include",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false,
+              "display": true,
+              "type": "string"
+            }
+          ],
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         }
@@ -48,8 +83,8 @@
       "name": "OpenAPI",
       "credentials": {
         "openApiCredentialsApi": {
-          "id": "wvE4jU4b93QkPgvJ",
-          "name": "Nexus"
+          "id": "QOApkW0HWt0BHyYI",
+          "name": "MBTA"
         }
       }
     },
@@ -63,32 +98,6 @@
       ],
       "id": "fcdbb549-bd8f-4c2f-8381-4603bc3777be",
       "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "dataTableId": {
-          "__rl": true,
-          "value": "NexusAPI",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "autoMapInputData",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.dataTable",
-      "typeVersion": 1.1,
-      "position": [
-        304,
-        128
-      ],
-      "id": "fef11cdc-c267-4274-887f-ffdeac50f457",
-      "name": "Insert row"
     },
     {
       "parameters": {
@@ -112,7 +121,7 @@
             },
             {
               "name": "password",
-              "value": "<replaceMe>"
+              "value": "Nexus@Blazor6202"
             }
           ]
         },
@@ -163,11 +172,6 @@
             "node": "OpenAPI",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Insert row",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -182,9 +186,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "20d83f64-1acc-4329-a049-07a332640a10",
+  "versionId": "f97969b2-314b-41fb-ac58-4b49033fce77",
   "activeVersionId": null,
-  "versionCounter": 2,
+  "versionCounter": 15,
   "triggerCount": 0,
   "shared": [
     {

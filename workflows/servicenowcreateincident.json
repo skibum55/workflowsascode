@@ -75,7 +75,7 @@
     },
     {
       "parameters": {
-        "path": "cb4d11bb-eb51-4466-a13a-97c40deefb03",
+        "path": "something",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -122,6 +122,11 @@
           }
         ]
       ]
+    },
+    "Update an incident": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -133,9 +138,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "29862fdf-aa9f-4246-9c92-caa70dd127dc",
+  "versionId": "815e2526-d3a6-4860-9d0d-d911daeb5e75",
   "activeVersionId": null,
-  "versionCounter": 43,
+  "versionCounter": 53,
   "triggerCount": 0,
   "shared": [
     {

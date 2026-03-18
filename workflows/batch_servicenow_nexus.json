@@ -1,0 +1,806 @@
+{
+  "name": "batch_servicenow_nexus",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "triggerAtMinute": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        0
+      ],
+      "id": "447e3f12-93eb-4438-a936-0a7f3c835fa7",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "subtractFromDate",
+        "magnitude": "={{ $now.toUTC() }}",
+        "timeUnit": "hours",
+        "duration": 1,
+        "outputFieldName": "onehourago",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        128,
+        0
+      ],
+      "id": "830da4eb-22bb-41dc-b054-c437fd728b79",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "getAll",
+        "options": {
+          "sysparm_query": "=sys_created_on>={{ $json.onehourago }}"
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        288,
+        192
+      ],
+      "id": "d3581301-1325-4d3e-ba6d-6ec449a187d2",
+      "name": "Get new incidents",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "TSOplFehrUyCr2i1",
+          "name": "ServiceNow oauth2 cname"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "incident",
+        "operation": "getAll",
+        "returnAll": true,
+        "options": {
+          "sysparm_query": "=sys_updated_on>={{ $json.sixhoursago }}"
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        288,
+        0
+      ],
+      "id": "bec5d958-88d7-43f0-9c0c-492b18175219",
+      "name": "Get updated incidents",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "TSOplFehrUyCr2i1",
+          "name": "ServiceNow oauth2 cname"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2W89dAgSUHdcNYei",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+          "cachedResultName": "createNexusIncident"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "MajorIncident": false,
+            "Title": "={{ $('If incidents exist').item.json.short_description }}",
+            "Description": "={{ $('If incidents exist').item.json.description }}",
+            "Category.name": "={{ $('If incidents exist').item.json.category }}",
+            "SubCategory.name": "={{ $('If incidents exist').item.json.subcategory }}",
+            "Impact.Name": "={{ $('If incidents exist').item.json.impact }}",
+            "Urgency.Name": "={{ $('If incidents exist').item.json.urgency }}",
+            "Customer.Name": "={{ $('If incidents exist').item.json.company }}",
+            "BusinessService.Name": "={{ $('If incidents exist').item.json.service_offering }}",
+            "Caller.EmployeeID": "={{ $('If incidents exist').item.json.sys_created_by }}",
+            "ReferenceNumber": "={{ $('If incidents exist').item.json.number }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Category.name",
+              "displayName": "Category.name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "SubCategory.name",
+              "displayName": "SubCategory.name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "MajorIncident",
+              "displayName": "MajorIncident",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "Impact.Name",
+              "displayName": "Impact.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Urgency.Name",
+              "displayName": "Urgency.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Customer.Name",
+              "displayName": "Customer.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "BusinessService.Name",
+              "displayName": "BusinessService.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Caller.EmployeeID",
+              "displayName": "Caller.EmployeeID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "ReferenceNumber",
+              "displayName": "ReferenceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        176
+      ],
+      "id": "eaf119cb-a6e2-4941-9eb6-b2d41d9f8b16",
+      "name": "Call 'createNexusIncident'",
+      "executeOnce": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        192
+      ],
+      "id": "1f4eae39-9edb-4d3b-8ed0-70a0c50089f8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        656,
+        400
+      ],
+      "id": "58c2bd9a-002f-466b-8ab4-d65ce05e4c74",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6d065b39-f4ac-464b-9d42-f1d88c6ba036",
+              "leftValue": "={{ $json.number }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        464,
+        192
+      ],
+      "id": "ba0d3743-db9c-450b-bb0e-1746beccfce1",
+      "name": "If incidents exist"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Get updated incidents",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get new incidents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated incidents": {
+      "main": [
+        []
+      ]
+    },
+    "Get new incidents": {
+      "main": [
+        [
+          {
+            "node": "If incidents exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If incidents exist": {
+      "main": [
+        [
+          {
+            "node": "Call 'createNexusIncident'",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f548cd85-6332-425d-84e5-d33f169cfdb2",
+  "activeVersionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+  "versionCounter": 246,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-25T16:31:53.862Z",
+      "createdAt": "2026-02-25T16:31:53.862Z",
+      "role": "workflow:owner",
+      "workflowId": "8fgOWTxRxYPHB5R8",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-16T16:53:20.542Z",
+    "createdAt": "2026-03-16T16:53:03.286Z",
+    "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+    "workflowId": "8fgOWTxRxYPHB5R8",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "hours",
+                "triggerAtMinute": 12
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -48,
+          0
+        ],
+        "id": "447e3f12-93eb-4438-a936-0a7f3c835fa7",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "operation": "subtractFromDate",
+          "magnitude": "={{ $now.toUTC() }}",
+          "timeUnit": "hours",
+          "duration": 1,
+          "outputFieldName": "onehourago",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.dateTime",
+        "typeVersion": 2,
+        "position": [
+          128,
+          0
+        ],
+        "id": "830da4eb-22bb-41dc-b054-c437fd728b79",
+        "name": "Date & Time"
+      },
+      {
+        "parameters": {
+          "resource": "incident",
+          "operation": "getAll",
+          "options": {
+            "sysparm_query": "=sys_created_on>={{ $json.onehourago }}"
+          }
+        },
+        "type": "n8n-nodes-base.serviceNow",
+        "typeVersion": 1,
+        "position": [
+          288,
+          192
+        ],
+        "id": "d3581301-1325-4d3e-ba6d-6ec449a187d2",
+        "name": "Get new incidents",
+        "credentials": {
+          "serviceNowOAuth2Api": {
+            "id": "TSOplFehrUyCr2i1",
+            "name": "ServiceNow oauth2 cname"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "incident",
+          "operation": "getAll",
+          "returnAll": true,
+          "options": {
+            "sysparm_query": "=sys_updated_on>={{ $json.sixhoursago }}"
+          }
+        },
+        "type": "n8n-nodes-base.serviceNow",
+        "typeVersion": 1,
+        "position": [
+          288,
+          0
+        ],
+        "id": "bec5d958-88d7-43f0-9c0c-492b18175219",
+        "name": "Get updated incidents",
+        "credentials": {
+          "serviceNowOAuth2Api": {
+            "id": "TSOplFehrUyCr2i1",
+            "name": "ServiceNow oauth2 cname"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "2W89dAgSUHdcNYei",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+            "cachedResultName": "createNexusIncident"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "MajorIncident": false,
+              "Title": "={{ $('If incidents exist').item.json.short_description }}",
+              "Description": "={{ $('If incidents exist').item.json.description }}",
+              "Category.name": "={{ $('If incidents exist').item.json.category }}",
+              "SubCategory.name": "={{ $('If incidents exist').item.json.subcategory }}",
+              "Impact.Name": "={{ $('If incidents exist').item.json.impact }}",
+              "Urgency.Name": "={{ $('If incidents exist').item.json.urgency }}",
+              "Customer.Name": "={{ $('If incidents exist').item.json.company }}",
+              "BusinessService.Name": "={{ $('If incidents exist').item.json.service_offering }}",
+              "Caller.EmployeeID": "={{ $('If incidents exist').item.json.sys_created_by }}",
+              "ReferenceNumber": "={{ $('If incidents exist').item.json.number }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Title",
+                "displayName": "Title",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Description",
+                "displayName": "Description",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Category.name",
+                "displayName": "Category.name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "SubCategory.name",
+                "displayName": "SubCategory.name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "MajorIncident",
+                "displayName": "MajorIncident",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "boolean",
+                "removed": false
+              },
+              {
+                "id": "Impact.Name",
+                "displayName": "Impact.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Urgency.Name",
+                "displayName": "Urgency.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Customer.Name",
+                "displayName": "Customer.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "BusinessService.Name",
+                "displayName": "BusinessService.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Caller.EmployeeID",
+                "displayName": "Caller.EmployeeID",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ReferenceNumber",
+                "displayName": "ReferenceNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          656,
+          176
+        ],
+        "id": "eaf119cb-a6e2-4941-9eb6-b2d41d9f8b16",
+        "name": "Call 'createNexusIncident'",
+        "executeOnce": false
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -64,
+          192
+        ],
+        "id": "1f4eae39-9edb-4d3b-8ed0-70a0c50089f8",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          656,
+          400
+        ],
+        "id": "58c2bd9a-002f-466b-8ab4-d65ce05e4c74",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6d065b39-f4ac-464b-9d42-f1d88c6ba036",
+                "leftValue": "={{ $json.number }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          464,
+          192
+        ],
+        "id": "ba0d3743-db9c-450b-bb0e-1746beccfce1",
+        "name": "If incidents exist"
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Date & Time": {
+        "main": [
+          [
+            {
+              "node": "Get updated incidents",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Get new incidents",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get updated incidents": {
+        "main": [
+          []
+        ]
+      },
+      "Get new incidents": {
+        "main": [
+          [
+            {
+              "node": "If incidents exist",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Date & Time",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If incidents exist": {
+        "main": [
+          [
+            {
+              "node": "Call 'createNexusIncident'",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "0.0.38",
+    "description": "re-re-map",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-16T16:53:20.537Z",
+        "id": 87,
+        "workflowId": "8fgOWTxRxYPHB5R8",
+        "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

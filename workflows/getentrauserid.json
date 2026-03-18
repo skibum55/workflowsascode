@@ -1,0 +1,229 @@
+{
+  "name": "getEntraUserID",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "limit": 5,
+        "filter": "=userPrincipalName eq '{{$json.recipient}}'",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.microsoftEntra",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "cd3bf5b8-213a-4750-a771-111165495a8c",
+      "name": "GetIDfromEmailAddress",
+      "credentials": {
+        "microsoftEntraOAuth2Api": {
+          "id": "chYVmfYYfIYSkFxI",
+          "name": "Microsoft Entra ID (Azure Active Directory) account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        80
+      ],
+      "id": "644c6561-ef0d-4b0e-a5bf-61148f0997e7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\"recipient\": \"greg.cole@rmscorp.com\"}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        -112
+      ],
+      "id": "c3341b6d-6c0b-4f61-aaf3-6442a5448c29",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "connections": {
+    "GetIDfromEmailAddress": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "GetIDfromEmailAddress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "GetIDfromEmailAddress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "recipient": "gcole@rmscorp.com"
+        }
+      }
+    ],
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "recipient": "gcole@rmscorp.com"
+        }
+      }
+    ]
+  },
+  "versionId": "2061f669-eadf-4b57-94c6-ff3de57c5885",
+  "activeVersionId": "ca6545ec-1fe7-44cb-8e00-aa65b3c5ad36",
+  "versionCounter": 62,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-04T23:24:57.523Z",
+      "createdAt": "2026-03-04T23:24:57.523Z",
+      "role": "workflow:owner",
+      "workflowId": "M87sGG1XoOrgZO7m",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-04T23:57:41.203Z",
+    "createdAt": "2026-03-04T23:56:31.868Z",
+    "versionId": "ca6545ec-1fe7-44cb-8e00-aa65b3c5ad36",
+    "workflowId": "M87sGG1XoOrgZO7m",
+    "nodes": [
+      {
+        "parameters": {
+          "limit": 5,
+          "filter": "=userPrincipalName eq '{{$json.recipient}}'",
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftEntra",
+        "typeVersion": 1,
+        "position": [
+          224,
+          0
+        ],
+        "id": "cd3bf5b8-213a-4750-a771-111165495a8c",
+        "name": "GetIDfromEmailAddress",
+        "credentials": {
+          "microsoftEntraOAuth2Api": {
+            "id": "chYVmfYYfIYSkFxI",
+            "name": "Microsoft Entra ID (Azure Active Directory) account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          80
+        ],
+        "id": "644c6561-ef0d-4b0e-a5bf-61148f0997e7",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "{\"recipient\": \"greg.cole@rmscorp.com\"}"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -16,
+          -112
+        ],
+        "id": "c3341b6d-6c0b-4f61-aaf3-6442a5448c29",
+        "name": "When Executed by Another Workflow"
+      }
+    ],
+    "connections": {
+      "GetIDfromEmailAddress": {
+        "main": [
+          []
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "GetIDfromEmailAddress",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "GetIDfromEmailAddress",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "0.0.2",
+    "description": "give it a recipient and expect an array with entra id in result.  filter on userprincipalname",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-04T23:57:41.194Z",
+        "id": 16,
+        "workflowId": "M87sGG1XoOrgZO7m",
+        "versionId": "ca6545ec-1fe7-44cb-8e00-aa65b3c5ad36",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

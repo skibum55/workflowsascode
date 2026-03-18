@@ -1,0 +1,545 @@
+{
+  "name": "PostServiceNowRequest",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "1d3df05d-9e76-4428-b80d-b76c2ba336dc",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cf8780d3-7a5e-41ca-9493-fbb762a4c782",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "content-type",
+                "value": "application/json"
+              },
+              {
+                "name": "status",
+                "value": "s200"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -208,
+        192
+      ],
+      "id": "ccbad663-2fa0-4adb-af14-4287ac028780",
+      "name": "Webhook",
+      "webhookId": "cf8780d3-7a5e-41ca-9493-fbb762a4c782"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"Request\" : {{$('CreateServiceNowRequest').item.json.number\n}}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        96
+      ],
+      "id": "753e164b-e892-4b5d-bd79-568d3a2626fe",
+      "name": "returnData"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        704,
+        96
+      ],
+      "id": "2032f849-16c6-4b85-be59-fbd0ca73b679",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "url": "https://nexuscoreai.azurewebsites.net/utils/servicerequesteventv3",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "serviceRequestId",
+              "value": "=$('Webhook').item.json.serviceRequestId }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('getNexusToken').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        96
+      ],
+      "id": "33b15024-3476-4a2c-bfd1-e73dc12de7c7",
+      "name": "getNexusRequest"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://nexuscoreai.azurewebsites.net/utils/Security/Authorize",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"username\": \"admin\", \"password\": \"!234s678S\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        16,
+        96
+      ],
+      "id": "77207ced-b9bc-47df-b4ad-25c6a35a3fa5",
+      "name": "getNexusToken"
+    },
+    {
+      "parameters": {
+        "resource": "tableRecord",
+        "operation": "create",
+        "tableName": "sc_request",
+        "fieldsToSend": {
+          "field": [
+            {
+              "column": "special_instructions",
+              "value": "=n8n created on {{ $now }}"
+            },
+            {
+              "column": "requested_for",
+              "value": "={{ $('getNexusRequest').item.json.result[0].Customer.value }}"
+            },
+            {
+              "column": "stage",
+              "value": "={{ $('getNexusRequest').item.json.result[0].CurrentStatus.value }}"
+            },
+            {
+              "column": "delivery_address",
+              "value": "={{ $('getNexusRequest').item.json.result[0].Oid }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.serviceNow",
+      "typeVersion": 1,
+      "position": [
+        384,
+        96
+      ],
+      "id": "3c8ed976-5281-4cb9-8e23-41b23187d4ff",
+      "name": "CreateServiceNowRequest",
+      "credentials": {
+        "serviceNowOAuth2Api": {
+          "id": "JXnRDrXZsmZwnJSv",
+          "name": "ServiceNow account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "getNexusToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "getNexusToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "returnData": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getNexusRequest": {
+      "main": [
+        [
+          {
+            "node": "CreateServiceNowRequest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getNexusToken": {
+      "main": [
+        [
+          {
+            "node": "getNexusRequest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateServiceNowRequest": {
+      "main": [
+        [
+          {
+            "node": "returnData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "serviceRequestId": "ebcca597-708f-4612-8275-6ea005fec77f",
+          "notificationId": "f5c19aca-5b9e-4c9f-8f0a-c496e6c3a428"
+        }
+      }
+    ]
+  },
+  "versionId": "ae1eb069-1ae2-4967-a5e3-984bb9875f41",
+  "activeVersionId": "ae1eb069-1ae2-4967-a5e3-984bb9875f41",
+  "versionCounter": 90,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-16T21:25:01.011Z",
+      "createdAt": "2026-03-16T21:25:01.011Z",
+      "role": "workflow:owner",
+      "workflowId": "9ljpRhJV1dObmiqN",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2026-02-20T20:16:26.331Z",
+      "createdAt": "2026-02-20T20:16:26.331Z",
+      "id": "QBbBgMbpHTusrIqK",
+      "name": "serviceNow"
+    },
+    {
+      "updatedAt": "2026-02-20T20:16:47.402Z",
+      "createdAt": "2026-02-20T20:16:47.402Z",
+      "id": "B7zoyb13FXoOYV9H",
+      "name": "nexuscore"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-03-16T23:49:26.052Z",
+    "createdAt": "2026-03-16T23:48:42.236Z",
+    "versionId": "ae1eb069-1ae2-4967-a5e3-984bb9875f41",
+    "workflowId": "9ljpRhJV1dObmiqN",
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -208,
+          0
+        ],
+        "id": "1d3df05d-9e76-4428-b80d-b76c2ba336dc",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "cf8780d3-7a5e-41ca-9493-fbb762a4c782",
+          "responseMode": "responseNode",
+          "options": {
+            "rawBody": false,
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "status",
+                  "value": "s200"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -208,
+          192
+        ],
+        "id": "ccbad663-2fa0-4adb-af14-4287ac028780",
+        "name": "Webhook",
+        "webhookId": "cf8780d3-7a5e-41ca-9493-fbb762a4c782"
+      },
+      {
+        "parameters": {
+          "mode": "raw",
+          "jsonOutput": "={\n  \"Request\" : {{$('CreateServiceNowRequest').item.json.number\n}}\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          544,
+          96
+        ],
+        "id": "753e164b-e892-4b5d-bd79-568d3a2626fe",
+        "name": "returnData"
+      },
+      {
+        "parameters": {
+          "respondWith": "allIncomingItems",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          704,
+          96
+        ],
+        "id": "2032f849-16c6-4b85-be59-fbd0ca73b679",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "url": "https://nexuscoreai.azurewebsites.net/utils/servicerequesteventv3",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "serviceRequestId",
+                "value": "=$('Webhook').item.json.serviceRequestId }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $('getNexusToken').item.json.access_token }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          208,
+          96
+        ],
+        "id": "33b15024-3476-4a2c-bfd1-e73dc12de7c7",
+        "name": "getNexusRequest"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://nexuscoreai.azurewebsites.net/utils/Security/Authorize",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\"username\": \"admin\", \"password\": \"!234s678S\"}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          16,
+          96
+        ],
+        "id": "77207ced-b9bc-47df-b4ad-25c6a35a3fa5",
+        "name": "getNexusToken"
+      },
+      {
+        "parameters": {
+          "resource": "tableRecord",
+          "operation": "create",
+          "tableName": "sc_request",
+          "fieldsToSend": {
+            "field": [
+              {
+                "column": "special_instructions",
+                "value": "=n8n created on {{ $now }}"
+              },
+              {
+                "column": "requested_for",
+                "value": "={{ $('getNexusRequest').item.json.result[0].Customer.value }}"
+              },
+              {
+                "column": "stage",
+                "value": "={{ $('getNexusRequest').item.json.result[0].CurrentStatus.value }}"
+              },
+              {
+                "column": "delivery_address",
+                "value": "={{ $('getNexusRequest').item.json.result[0].Oid }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.serviceNow",
+        "typeVersion": 1,
+        "position": [
+          384,
+          96
+        ],
+        "id": "3c8ed976-5281-4cb9-8e23-41b23187d4ff",
+        "name": "CreateServiceNowRequest",
+        "credentials": {
+          "serviceNowOAuth2Api": {
+            "id": "JXnRDrXZsmZwnJSv",
+            "name": "ServiceNow account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "getNexusToken",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "getNexusToken",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "returnData": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getNexusRequest": {
+        "main": [
+          [
+            {
+              "node": "CreateServiceNowRequest",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getNexusToken": {
+        "main": [
+          [
+            {
+              "node": "getNexusRequest",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateServiceNowRequest": {
+        "main": [
+          [
+            {
+              "node": "returnData",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "Version ae1eb069",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-16T23:49:26.044Z",
+        "id": 148,
+        "workflowId": "9ljpRhJV1dObmiqN",
+        "versionId": "ae1eb069-1ae2-4967-a5e3-984bb9875f41",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}
