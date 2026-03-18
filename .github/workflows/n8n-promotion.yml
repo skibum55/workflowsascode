@@ -3,16 +3,16 @@ name: n8n Workflow Promotion
 on:
   pull_request:
     branches: [main]
-    paths: ['workflows/**', 'mapping.yaml']
+    paths: ['workflows/*.json', 'mapping.yml']
     types: [closed]
   push:
     branches: [main]
-    paths: ['workflows/*.json', 'mapping.yaml']
+    paths: ['workflows/*.json', 'mapping.yml']
   workflow_dispatch:
 
 jobs:
   validate:
-    if: github.event_name == 'pull_request'
+#    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
           N8N_PROD_API_KEY: ${{ secrets.N8N_PROD_API_KEY }}
 
   deploy:
-    if: github.event_name == 'push'
+ #   if: github.event_name == 'push'
     runs-on: ubuntu-latest
 #    environment: production
     needs: validate
