@@ -1,18 +1,18 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const yaml = require('js-yaml');
 
 const MAPPING_PATH = path.join(process.cwd(), 'mapping.yml');
 const WORKFLOWS_DIR = path.join(process.cwd(), 'workflows');
 
-// Basic n8n workflow schema requirements
 const REQUIRED_FIELDS = ['name', 'nodes', 'connections'];
 const INSTANCE_FIELDS = ['id', 'createdAt', 'updatedAt', 'versionId', 'meta', 'sharedWith', 'usedCredentials'];
 
 async function validate() {
   console.log('🔍 Starting workflow validation...');
 
-  // 1. Load & parse mapping
+  // Load mapping first
   if (!fs.existsSync(MAPPING_PATH)) {
     console.error('❌ mapping.yml not found');
     process.exit(1);
@@ -26,16 +26,69 @@ async function validate() {
     process.exit(1);
   }
 
-  if (!mapping.workflows || !Array.isArray(mapping.workflows)) {
-    console.error('❌ mapping.yml must contain a "workflows" array');
-    process.exit(1);
+  const allMappedFiles = new Set(mapping.workflows.map(w => path.join('workflows', w.file)));
+
+  // Get changed files for this PR
+  let changedFiles = [];
+  let validateAll = false;
+
+  if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
+    console.log(`📋 Calculating diff against target branch ${process.env.GITHUB_BASE_SHA}`);
+    
+    try {
+      const diff = execSync(`git diff --name-only ${process.env.GITHUB_BASE_SHA} ${process.env.GITHUB_HEAD_SHA}`, { encoding: 'utf8' });
+      changedFiles = diff.trim().split('\n').filter(f => f.length > 0);
+    } catch (err) {
+      console.log('⚠️  Could not calculate diff, falling back to full validation');
+      validateAll = true;
+    }
+
+    // Safety rule: if mapping.yml changed, validate everything
+    if (changedFiles.includes('mapping.yml')) {
+      console.log('⚠️  mapping.yml changed in this PR, running full validation of all workflows');
+      validateAll = true;
+    }
+
+  } else {
+    // Running locally or on push, run full validation
+    validateAll = true;
   }
+
+
+  // Work out which workflows we need to validate
+  let workflowsToValidate;
+
+  if (validateAll) {
+    workflowsToValidate = [...mapping.workflows];
+  } else {
+    // Filter to only changed workflow files
+    const changedWorkflowFiles = changedFiles.filter(f => f.startsWith('workflows/') && f.endsWith('.json'));
+
+    // Check for deleted workflows
+    const deletedWorkflows = changedWorkflowFiles.filter(f => !allMappedFiles.has(f));
+    for (const deleted of deletedWorkflows) {
+      console.log(`⚠️  ${deleted} was deleted in this PR but is still present in mapping.yml`);
+    }
+
+    workflowsToValidate = mapping.workflows.filter(wf => {
+      const filePath = path.join('workflows', wf.file);
+      return changedWorkflowFiles.includes(filePath);
+    });
+
+    console.log(`📍 Found ${workflowsToValidate.length} changed workflow(s) to validate`);
+  }
+
+  if (workflowsToValidate.length === 0) {
+    console.log('✅ No workflows changed in this PR, validation skipped');
+    process.exit(0);
+  }
+
 
   const errors = [];
   const warnings = [];
 
-  // 2. Validate each workflow entry
-  for (const wf of mapping.workflows) {
+  // Run validation only on selected workflows
+  for (const wf of workflowsToValidate) {
     if (!wf.name || !wf.file) {
       errors.push(`Workflow entry missing "name" or "file": ${JSON.stringify(wf)}`);
       continue;
@@ -43,7 +96,7 @@ async function validate() {
 
     const filePath = path.join(WORKFLOWS_DIR, wf.file);
     if (!fs.existsSync(filePath)) {
-      errors.push(`File not found: ${wf.file}`);
+      errors.push(`File referenced in mapping not found: ${wf.file}`);
       continue;
     }
 
@@ -55,20 +108,20 @@ async function validate() {
       continue;
     }
 
-    // 3. Schema validation
+    // Schema validation
     for (const field of REQUIRED_FIELDS) {
       if (!(field in workflowData)) {
         errors.push(`${wf.file} missing required field: ${field}`);
       }
     }
 
-    // 4. Check for instance-specific fields (should be stripped before promotion)
+    // Check for instance-specific fields
     const foundInstanceFields = INSTANCE_FIELDS.filter(f => f in workflowData);
     if (foundInstanceFields.length > 0) {
       warnings.push(`${wf.file} contains instance-specific fields: ${foundInstanceFields.join(', ')}. These will be stripped during deployment.`);
     }
 
-    // 5. Credential reference check
+    // Credential reference check
     if (workflowData.nodes) {
       const credRefs = workflowData.nodes
         .filter(n => n.credentials)
@@ -80,14 +133,14 @@ async function validate() {
       }
     }
 
-    // 6. Activation policy check
+    // Activation policy check
     const shouldActivate = wf.active === true;
     if (shouldActivate) {
       warnings.push(`${wf.file} is marked for auto-activation in production. Verify this is intentional.`);
     }
   }
 
-  // 7. Report results
+  // Report results
   if (warnings.length > 0) {
     console.log('\n⚠️  Warnings:');
     warnings.forEach(w => console.log(`   - ${w}`));
@@ -99,7 +152,7 @@ async function validate() {
     process.exit(1);
   }
 
-  console.log('\n✅ All workflows validated successfully');
+  console.log('\n✅ All changed workflows validated successfully');
   process.exit(0);
 }
 

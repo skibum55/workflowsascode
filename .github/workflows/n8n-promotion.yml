@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with: {node-version: '22'}
       - run: npm ci
@@ -24,6 +26,8 @@ jobs:
         env:
           N8N_PROD_URL: ${{ secrets.N8N_PROD_URL }}
           N8N_PROD_API_KEY: ${{ secrets.N8N_PROD_API_KEY }}
+          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_HEAD_SHA: ${{ github.sha }}
 
   deploy:
  #   if: github.event_name == 'push'
@@ -39,7 +43,7 @@ jobs:
       - name: Deploy Changed Workflows
         run: node scripts/deploy-workflows.js
         env:
-          N8N_PROD_URL: ${{ vars.N8N_PROD_URL }}
+          N8N_PROD_URL: ${{ secrets.N8N_PROD_URL }}
           N8N_PROD_API_KEY: ${{ secrets.N8N_PROD_API_KEY }}
           GITHUB_SHA: ${{ github.sha }}
           GITHUB_BEFORE: ${{ github.event.before }}
