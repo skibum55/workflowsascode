@@ -128,7 +128,7 @@ async function deploy() {
 
     try {
       if (existing) {
-        console.log(`🔄 Updating: ${config.name}`);
+        console.log(`🔄 Updating: ${config.name} ID# ${existing.id}`);
         result = await fetchJSON(`/workflows/${existing.id}`, {
           method: 'PUT',
           body: JSON.stringify(payload)
