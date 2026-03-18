@@ -30,7 +30,7 @@ jobs:
           GITHUB_HEAD_SHA: ${{ github.sha }}
 
   deploy:
- #   if: github.event_name == 'push'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 #    environment: production
     needs: validate
@@ -46,4 +46,4 @@ jobs:
           N8N_PROD_URL: ${{ secrets.N8N_URL }}
           N8N_PROD_API_KEY: ${{ secrets.N8N_API_KEY }}
           GITHUB_SHA: ${{ github.sha }}
-          GITHUB_BEFORE: ${{ github.event.pull_request.base.sha }}
+          GITHUB_BEFORE: ${{ github.event.push.base.sha }}
