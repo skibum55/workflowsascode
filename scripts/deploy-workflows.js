@@ -101,9 +101,7 @@ async function deploy() {
     console.log('✅ No workflow changes detected. Deployment skipped.');
     process.exit(0);
   }
-*/
 
-  
   // 4. Print pre-deployment summary
   console.log('\n📦 Workflows to be deployed:');
   toDeploy.forEach(wf => console.log(`   - ${wf.name} [active: ${wf.active === true}]`));
