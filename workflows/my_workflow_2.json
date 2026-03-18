@@ -1,8 +1,5 @@
 {
   "name": "My workflow 2",
-  "description": null,
-  "active": false,
-  "isArchived": false,
   "nodes": [
     {
       "parameters": {},
@@ -61,29 +58,14 @@
     "availableInMCP": false
   },
   "staticData": null,
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
-  "pinData": {},
-  "versionId": "7402be7c-3c95-43b2-93f8-50f84dd91c75",
-  "activeVersionId": null,
-  "versionCounter": 1,
-  "triggerCount": 0,
   "shared": [
     {
       "role": "workflow:owner",
       "workflowId": "IW5zQSuF-GqV8skwH9o8I",
       "projectId": "rbmFyQ0fPfUjlaVB",
       "project": {
-        "id": "rbmFyQ0fPfUjlaVB",
-        "name": "sean keery <sean.keery@rmscorp.com>",
-        "type": "personal",
-        "icon": null,
-        "description": null,
-        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+        "name": "sean keery <sean.keery@rmscorp.com>"
       }
     }
-  ],
-  "tags": [],
-  "activeVersion": null
+  ]
 }
