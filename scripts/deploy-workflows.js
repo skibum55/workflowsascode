@@ -143,6 +143,7 @@ async function deploy() {
       console.log(`✅ Success: ${config.name} (ID: ${result.data.id}, Active: ${result.data.active})`);
     } catch (err) {
       console.error(`❌ Failed to deploy ${config.name}: ${err.message}`);
+      console.log(`${payload}`)
       process.exit(1);
     }
   }
@@ -178,6 +179,5 @@ function getChangedWorkflowFiles() {
 
 deploy().catch(err => {
   console.error(`❌ Deployment failed: ${err.message}`);
-  console.log(`${payload}`)
   process.exit(1);
 });
