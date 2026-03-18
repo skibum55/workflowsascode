@@ -1,0 +1,114 @@
+source_instance: https://oauth2test.manageddeployment.com
+last_sync: '2026-03-17T23:19:12.977Z'
+workflows:
+  - name: nexusPostMsgTest
+    source_id: AckYLB8SiERiCmNV
+    file: nexuspostmsgtest.json
+  - name: nexusPostMsgTestAuth
+    source_id: DknlIskkKHT26g5x
+    file: nexuspostmsgtestauth.json
+  - name: prometheusKeepAlive
+    source_id: TqvqTwgbGSOUxBR3
+    file: prometheuskeepalive.json
+  - name: sample
+    source_id: vjQEtiuDjqTLgcMF
+    file: sample.json
+  - name: OpenApi_patent_example
+    source_id: P873Vy3jKF4wogyZ
+    file: openapi_patent_example.json
+  - name: Openapi+graphapi_examples
+    source_id: pQAQHNcbsPx1o32s
+    file: openapi_graphapi_examples.json
+  - name: servicenow_incident
+    source_id: d5vwC7c6EGghUoX2
+    file: servicenow_incident.json
+  - name: ServicenowcreateRITM
+    source_id: jEEJgsly4EcHImdm
+    file: servicenowcreateritm.json
+  - name: webhookResponseExample
+    source_id: HIiXo8fUVLLWDv8g
+    file: webhookresponseexample.json
+  - name: NexusBlazorOpenAPI
+    source_id: DJ7PMfcaEousAlRi2ris9
+    file: nexusblazoropenapi.json
+  - name: My workflow 2
+    source_id: IW5zQSuF-GqV8skwH9o8I
+    file: my_workflow_2.json
+  - name: servicenowCreateIncident
+    source_id: MqHDzVQzNwhnD4CT
+    file: servicenowcreateincident.json
+  - name: teams-message
+    source_id: yKBzjfpk4ajjJA0i
+    file: teams_message.json
+  - name: postTeamsChannelChat
+    source_id: FSDPXG7h8rJ9zFfS
+    file: postteamschannelchat.json
+  - name: getnexusincident
+    source_id: ulYyrr3UXVEo2OWI
+    file: getnexusincident.json
+  - name: createNexusIncident
+    source_id: 2W89dAgSUHdcNYei
+    file: createnexusincident.json
+  - name: My workflow 3
+    source_id: V1dWpocSyIEyvB1Q
+    file: my_workflow_3.json
+  - name: batch_servicenow_nexus
+    source_id: 8fgOWTxRxYPHB5R8
+    file: batch_servicenow_nexus.json
+  - name: My Sub-Workflow 1
+    source_id: PZn10wUYny03OG6U
+    file: my_sub_workflow_1.json
+  - name: alertmanagerwebhooktest
+    source_id: 6F1Bjyb8R32FOcsX
+    file: alertmanagerwebhooktest.json
+  - name: servicenowCreateIncidentmultitenant
+    source_id: 6eQt74c08PLJWMWz
+    file: servicenowcreateincidentmultitenant.json
+  - name: 2ServiceNowWebhookTrigger
+    source_id: PxaooajzTeAM1scS
+    file: 2servicenowwebhooktrigger.json
+  - name: mappingWorkflowExample
+    source_id: 51HZyk0Bvgyti9mg
+    file: mappingworkflowexample.json
+  - name: getEntraUserID
+    source_id: M87sGG1XoOrgZO7m
+    file: getentrauserid.json
+  - name: getOpenAPI
+    source_id: NsXpM2VX76Okkh43
+    file: getopenapi.json
+  - name: OpenAPIGetExample
+    source_id: S6WPiDC2GfFekEHN
+    file: openapigetexample.json
+  - name: subChatMessage
+    source_id: hgOznvKnhtJWUL90
+    file: subchatmessage.json
+  - name: internalEntraUserID
+    source_id: Wzu9lip9cNU2FUWU
+    file: internalentrauserid.json
+  - name: MBTA_OpenAPIexample
+    source_id: FoyOqfrSBFn1dav2
+    file: mbta_openapiexample.json
+  - name: postImportIncidentsCSV
+    source_id: EYdPkwt8yg12pmpd
+    file: postimportincidentscsv.json
+  - name: postSendEmail
+    source_id: FW9zpuofDr8aAENT
+    file: postsendemail.json
+  - name: OpenAPIPostExample
+    source_id: ldeNSC3VgZ79rYGM
+    file: openapipostexample.json
+  - name: OpenAPIPutExample
+    source_id: cMQt9LXxEmLYcEfk
+    file: openapiputexample.json
+  - name: OpenAPIDeleteExample
+    source_id: dsXkpe2grZ3Pn69V
+    file: openapideleteexample.json
+  - name: PostServiceNowRequest
+    source_id: 9ljpRhJV1dObmiqN
+    file: postservicenowrequest.json
+  - name: subPostNexusComment
+    source_id: GD78uRq84byq35zo
+    file: subpostnexuscomment.json
+  - name: subNexusToken
+    source_id: QbnoTYAS03Cs71mw
+    file: subnexustoken.json
