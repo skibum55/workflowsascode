@@ -2,10 +2,10 @@ name: n8n Workflow Promotion
 
 on:
   pull_request:
-    branches: [production]
+    branches: [main]
     paths: ['workflows/**', 'mapping.yaml']
   push:
-    branches: [production]
+    branches: [main]
     paths: ['workflows/**', 'mapping.yaml']
   workflow_dispatch:
 
