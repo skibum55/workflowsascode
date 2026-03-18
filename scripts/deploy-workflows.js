@@ -7,7 +7,7 @@ const MAPPING_PATH = path.join(process.cwd(), 'mapping.yml');
 const WORKFLOWS_DIR = path.join(process.cwd(), 'workflows');
 const N8N_URL = process.env.N8N_PROD_URL?.replace(/\/$/, '');
 const API_KEY = process.env.N8N_PROD_API_KEY;
-const GITHUB_BEFORE = process.env.GITHUB_BEFORE;
+const GITHUB_BEFORE = "1234" // process.env.GITHUB_BEFORE;
 
 const INSTANCE_FIELDS = ['id', 'createdAt', 'updatedAt', 'versionId', 'meta', 'sharedWith', 'usedCredentials', 'pinData'];
 
@@ -50,7 +50,9 @@ async function deploy() {
   let changedFiles = [];
   let deployAll = false;
 
-  if (GITHUB_BEFORE && GITHUB_BEFORE !== '0000000000000000000000000000000000000000') {
+  changedFiles = getChangedWorkflowFiles();
+  
+ /* if (GITHUB_BEFORE && GITHUB_BEFORE !== '0000000000000000000000000000000000000000') {
     console.log(`📋 Calculating diff against previous production commit ${GITHUB_BEFORE}`);
     
     try {
@@ -72,7 +74,7 @@ async function deploy() {
     deployAll = true;
   }
 
-
+*/
   // 3. Determine which workflows to deploy
   let toDeploy;
 
@@ -99,8 +101,9 @@ async function deploy() {
     console.log('✅ No workflow changes detected. Deployment skipped.');
     process.exit(0);
   }
+*/
 
-
+  
   // 4. Print pre-deployment summary
   console.log('\n📦 Workflows to be deployed:');
   toDeploy.forEach(wf => console.log(`   - ${wf.name} [active: ${wf.active === true}]`));
@@ -123,3 +126,27 @@ async function deploy() {
     payload.active = config.active === true; // Default false for safety
 
     const existing = prodByName.get(config.name);
+/**
+ * Get list of changed workflow JSON files in the current PR.
+ * Returns absolute paths relative to repo root.
+ */
+function getChangedWorkflowFiles() {
+  try {
+    // Get list of changed files in the PR (between base and head)
+    const diff = execSync('git diff --name-only HEAD^ HEAD', { encoding: 'utf8' });
+    const changedFiles = diff.trim().split('\n')
+      .filter(f => f.startsWith('workflows/') && f.endsWith('.json'));
+
+    if (changedFiles.length === 0) {
+      console.log('ℹ️  No workflow changes detected in this PR.');
+      return [];
+    }
+
+    console.log(`📦 Detected ${changedFiles.length} changed workflow file(s):`);
+    changedFiles.forEach(f => console.log(`   - ${f}`));
+    return changedFiles;
+  } catch (err) {
+    console.log('ℹ️  Could not compute git diff. Falling back to all mapped workflows.');
+    return [];
+  }
+}
