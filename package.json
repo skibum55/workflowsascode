@@ -8,11 +8,16 @@
     "deploy": "node scripts/deploy-workflows.js"
   },
   "dependencies": {
+<<<<<<< dependabot/npm_and_yarn/axios-1.13.6
+    "axios": "^1.13.6",
+    "js-yaml": "^4.1.1"
+=======
     "axios": "^1.13.5",
     "js-yaml": "^4.1.0"
   },
   "engines": {
     "node": ">=20.0.0"
+>>>>>>> main
   }
 }
 \
