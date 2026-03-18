@@ -7,7 +7,7 @@ on:
     types: [closed]
   push:
     branches: [main]
-    paths: ['workflows/**', 'mapping.yaml']
+    paths: ['workflows/*.json', 'mapping.yaml']
   workflow_dispatch:
 
 jobs:
