@@ -28,7 +28,7 @@ jobs:
   deploy:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-//    environment: production
+#    environment: production
     needs: validate
     steps:
       - uses: actions/checkout@v4
