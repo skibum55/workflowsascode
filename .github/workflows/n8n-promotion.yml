@@ -7,6 +7,7 @@ on:
   push:
     branches: [production]
     paths: ['workflows/**', 'mapping.yaml']
+  workflow_dispatch:
 
 jobs:
   validate:
