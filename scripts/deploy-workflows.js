@@ -121,7 +121,7 @@ async function deploy() {
     
     payload = sanitizeWorkflow(payload);
     payload.name = config.name;
-    payload.active = config.active === true; // Default false for safety
+    // payload.active = config.active === true; // Default false for safety
 
     const existing = prodByName.get(config.name);
     let result;
