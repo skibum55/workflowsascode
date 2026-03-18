@@ -9,7 +9,7 @@ const N8N_URL = process.env.N8N_PROD_URL?.replace(/\/$/, '');
 const API_KEY = process.env.N8N_PROD_API_KEY;
 const GITHUB_BEFORE = "1234" // process.env.GITHUB_BEFORE;
 
-const INSTANCE_FIELDS = ['id', 'createdAt', 'updatedAt', 'versionId', 'meta', 'sharedWith', 'usedCredentials', 'pinData'];
+const INSTANCE_FIELDS = ['createdAt', 'updatedAt', 'versionId', 'meta', 'sharedWith', 'usedCredentials', 'pinData'];
 
 if (!N8N_URL || !API_KEY) {
   console.error('❌ Missing N8N_PROD_URL or N8N_PROD_API_KEY environment variables');
