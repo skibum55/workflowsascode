@@ -10,7 +10,7 @@
           "interval": [
             {
               "field": "hours",
-              "triggerAtMinute": 12
+              "triggerAtMinute": 25
             }
           ]
         }
@@ -386,9 +386,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f548cd85-6332-425d-84e5-d33f169cfdb2",
-  "activeVersionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
-  "versionCounter": 246,
+  "versionId": "72194663-f113-40f9-94a4-0e6cdbe74aed",
+  "activeVersionId": "72194663-f113-40f9-94a4-0e6cdbe74aed",
+  "versionCounter": 250,
   "triggerCount": 1,
   "shared": [
     {
@@ -411,9 +411,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-16T16:53:20.542Z",
-    "createdAt": "2026-03-16T16:53:03.286Z",
-    "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+    "updatedAt": "2026-03-19T19:19:52.316Z",
+    "createdAt": "2026-03-19T19:19:41.615Z",
+    "versionId": "72194663-f113-40f9-94a4-0e6cdbe74aed",
     "workflowId": "8fgOWTxRxYPHB5R8",
     "nodes": [
       {
@@ -422,7 +422,7 @@
             "interval": [
               {
                 "field": "hours",
-                "triggerAtMinute": 12
+                "triggerAtMinute": 25
               }
             ]
           }
@@ -789,15 +789,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "0.0.38",
-    "description": "re-re-map",
+    "name": "Version 72194663",
+    "description": "25 after",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-16T16:53:20.537Z",
-        "id": 87,
+        "createdAt": "2026-03-19T19:19:52.307Z",
+        "id": 168,
         "workflowId": "8fgOWTxRxYPHB5R8",
-        "versionId": "7f507bbf-e58a-467c-9f84-561ab28aa66c",
+        "versionId": "72194663-f113-40f9-94a4-0e6cdbe74aed",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }

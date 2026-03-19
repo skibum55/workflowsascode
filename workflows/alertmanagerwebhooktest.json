@@ -384,9 +384,9 @@
       }
     ]
   },
-  "versionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
-  "activeVersionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
-  "versionCounter": 420,
+  "versionId": "98465420-4c69-4d72-b02c-574e7f53b285",
+  "activeVersionId": "98465420-4c69-4d72-b02c-574e7f53b285",
+  "versionCounter": 426,
   "triggerCount": 1,
   "shared": [
     {
@@ -409,9 +409,9 @@
   ],
   "tags": [],
   "activeVersion": {
-    "updatedAt": "2026-03-17T22:40:22.984Z",
-    "createdAt": "2026-03-17T22:37:39.862Z",
-    "versionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
+    "updatedAt": "2026-03-19T19:15:35.610Z",
+    "createdAt": "2026-03-19T19:15:32.563Z",
+    "versionId": "98465420-4c69-4d72-b02c-574e7f53b285",
     "workflowId": "6F1Bjyb8R32FOcsX",
     "nodes": [
       {
@@ -651,15 +651,15 @@
       }
     },
     "authors": "sean keery",
-    "name": "Version c87a6c5a",
-    "description": "tojson().replaceAll('\"',\"\")",
+    "name": "Version 98465420",
+    "description": "",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-03-17T22:40:22.978Z",
-        "id": 152,
+        "createdAt": "2026-03-19T19:15:35.605Z",
+        "id": 166,
         "workflowId": "6F1Bjyb8R32FOcsX",
-        "versionId": "c87a6c5a-2ec0-41d5-b2cb-496d0f4f3531",
+        "versionId": "98465420-4c69-4d72-b02c-574e7f53b285",
         "event": "activated",
         "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
       }

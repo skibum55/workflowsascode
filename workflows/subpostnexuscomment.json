@@ -97,8 +97,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -240,
-        -144
+        -464,
+        -240
       ],
       "typeVersion": 1,
       "id": "0cff51dd-7726-43bb-b392-c542dbd88fb7",
@@ -137,9 +137,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "6ac04909-4dfd-4d1e-9bae-fc8dc36af027",
+  "versionId": "6006efe1-dfc8-48f0-94e2-296c81923cf2",
   "activeVersionId": null,
-  "versionCounter": 46,
+  "versionCounter": 55,
   "triggerCount": 0,
   "shared": [
     {
