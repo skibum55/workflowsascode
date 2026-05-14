@@ -30,3 +30,11 @@ yarn-error.log*
 # Vite specific
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

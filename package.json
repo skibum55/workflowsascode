@@ -1,17 +1,21 @@
 {
-  "name": "n8n-workflow-promotion",
+  "name": "n8n-workflows-as-code",
   "version": "1.0.0",
-  "private": true,
-  "description": "CI/CD pipeline for PR-driven n8n workflow promotion",
   "scripts": {
-    "validate": "node scripts/validate-workflows.js",
-    "deploy": "node scripts/deploy-workflows.js"
+    "deploy": "node scripts/deploy-n8n.js",
+    "test": "node scripts/test-workflow.js",
+    "rollback": "node scripts/rollback-n8n.js",
+    "backup": "node scripts/pull-workflows.js"
   },
   "dependencies": {
-    "axios": "^1.13.6",
-    "js-yaml": "^4.1.1"
+    "@playwright/cli": "^0.1.13",
+    "axios": "^1.16.0",
+    "fs-extra": "^11.1.1",
+    "js-yaml": "^4.1.1",
+    "simple-git": "^3.20.1"
   },
-  "engines": {
-    "node": ">=20.0.0"
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.7.0"
   }
 }
