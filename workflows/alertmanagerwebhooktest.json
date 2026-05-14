@@ -1,0 +1,668 @@
+{
+  "name": "alertmanagerwebhooktest",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhooktest",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1854a6eb-dc60-4e6c-ab1e-1312fc71c763",
+      "name": "Webhook",
+      "webhookId": "f41ebadc-7c07-4d81-a1c6-6971963e2c03",
+      "notes": "@body book_url string\n@body another_url string\n@query field_name string "
+    },
+    {
+      "parameters": {
+        "resource": "chatMessage",
+        "chatId": {
+          "__rl": true,
+          "value": "19:meeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi@thread.v2",
+          "mode": "list",
+          "cachedResultName": "Nexus MVP Update (meeting)",
+          "cachedResultUrl": "https://teams.microsoft.com/l/chat/19%3Ameeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi%40thread.v2/0?tenantId=6b4efe47-744c-4c5a-8c28-bd33982a4653"
+        },
+        "message": "=Incident {{ $json.OID }} Created",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftTeams",
+      "typeVersion": 2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "ab75051a-ad36-4c74-97d9-ff15897e5b64",
+      "name": "Create chat message",
+      "webhookId": "5c3aea71-0920-4180-95f4-4c4633c7f943",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2W89dAgSUHdcNYei",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+          "cachedResultName": "createNexusIncident"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "MajorIncident": false,
+            "Title": "=AL-{{ $json.body.title }}",
+            "Description": "={{ $json.body.message.toJsonString().replaceAll('\"',\"\") }}",
+            "Category.name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_instance_id }}",
+            "SubCategory.name": "={{ $('Webhook').item.json.body.alerts[0].labels.deployment_environment }}",
+            "Impact.Name": "={{ $('Webhook').item.json.body.alerts[0].status }}",
+            "Urgency.Name": "={{ $('Webhook').item.json.body.alerts[0].annotations.grafana_state_reason }}",
+            "Customer.Name": "=Morton",
+            "BusinessService.Name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_name }}",
+            "Caller.EmployeeID": "=2938063",
+            "ReferenceNumber": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}",
+            "Number": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Category.name",
+              "displayName": "Category.name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "SubCategory.name",
+              "displayName": "SubCategory.name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "MajorIncident",
+              "displayName": "MajorIncident",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "Impact.Name",
+              "displayName": "Impact.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Urgency.Name",
+              "displayName": "Urgency.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Customer.Name",
+              "displayName": "Customer.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "BusinessService.Name",
+              "displayName": "BusinessService.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Caller.EmployeeID",
+              "displayName": "Caller.EmployeeID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "ReferenceNumber",
+              "displayName": "ReferenceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "29b984ee-ec9e-4c3d-8fc6-b5061c4bfadd",
+      "name": "Call 'createNexusIncident'",
+      "executeOnce": false
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Call 'createNexusIncident'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'createNexusIncident'": {
+      "main": [
+        [
+          {
+            "node": "Create chat message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "oauth2test.manageddeployment.com",
+            "user-agent": "Grafana",
+            "content-length": "5600",
+            "content-type": "application/json",
+            "accept-encoding": "gzip",
+            "x-forwarded-for": "20.7.131.60",
+            "x-envoy-external-address": "20.7.131.60",
+            "x-request-id": "ec3229b7-bd5a-4a36-aad4-1dbe2daa5f1f",
+            "x-envoy-expected-rq-timeout-ms": "1800000",
+            "x-k8se-app-name": "n8n-app-test-east2--0000030",
+            "x-k8se-app-namespace": "k8se-apps",
+            "x-k8se-protocol": "http1",
+            "x-k8se-app-kind": "web",
+            "x-ms-containerapp-name": "n8n-app-test-east2",
+            "x-ms-containerapp-revision-name": "n8n-app-test-east2--0000030",
+            "x-arr-ssl": "true",
+            "x-forwarded-proto": "https",
+            "x-forwarded-path": "/webhook/webhooktest"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "receiver": "n8n_sample_webhook_alert",
+            "status": "firing",
+            "alerts": [
+              {
+                "status": "firing",
+                "labels": {
+                  "alertname": "n8n_sample_webhook_alert",
+                  "deployment_environment": "development",
+                  "grafana_folder": "NexusAlerts",
+                  "host_name": "nexuscoresk--0000019-696879d447-kzl75",
+                  "instance": "nexusCoreAzure",
+                  "job": "alpine/NexusCore",
+                  "service_instance_id": "nexusCoreAzure",
+                  "service_name": "NexusCore",
+                  "service_namespace": "alpine",
+                  "service_version": "1.0.0"
+                },
+                "annotations": {
+                  "datasource_uid": "prometheus",
+                  "grafana_state_reason": "NoData",
+                  "ref_id": "A"
+                },
+                "startsAt": "2026-03-17T21:24:00Z",
+                "endsAt": "0001-01-01T00:00:00Z",
+                "generatorURL": "http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1",
+                "fingerprint": "17d7423c3b1644f8",
+                "silenceURL": "http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000019-696879d447-kzl75&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1",
+                "dashboardURL": "",
+                "panelURL": "",
+                "ruleUID": "efgbk3l70mo74f",
+                "values": {
+                  "A": -1,
+                  "C": -1
+                },
+                "valueString": "",
+                "orgId": 1
+              },
+              {
+                "status": "firing",
+                "labels": {
+                  "alertname": "n8n_sample_webhook_alert",
+                  "deployment_environment": "development",
+                  "grafana_folder": "NexusAlerts",
+                  "host_name": "nexuscoresk--0000020-bc5d5cc8-tsqkp",
+                  "instance": "nexusCoreAzure",
+                  "job": "alpine/NexusCore",
+                  "service_instance_id": "nexusCoreAzure",
+                  "service_name": "NexusCore",
+                  "service_namespace": "alpine",
+                  "service_version": "1.0.0"
+                },
+                "annotations": {
+                  "datasource_uid": "prometheus",
+                  "grafana_state_reason": "NoData",
+                  "ref_id": "A"
+                },
+                "startsAt": "2026-03-17T21:24:00Z",
+                "endsAt": "0001-01-01T00:00:00Z",
+                "generatorURL": "http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1",
+                "fingerprint": "d86ba2c3125285b9",
+                "silenceURL": "http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000020-bc5d5cc8-tsqkp&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1",
+                "dashboardURL": "",
+                "panelURL": "",
+                "ruleUID": "efgbk3l70mo74f",
+                "values": {
+                  "A": -1,
+                  "C": -1
+                },
+                "valueString": "",
+                "orgId": 1
+              }
+            ],
+            "groupLabels": {
+              "alertname": "n8n_sample_webhook_alert",
+              "grafana_folder": "NexusAlerts"
+            },
+            "commonLabels": {
+              "alertname": "n8n_sample_webhook_alert",
+              "deployment_environment": "development",
+              "grafana_folder": "NexusAlerts",
+              "instance": "nexusCoreAzure",
+              "job": "alpine/NexusCore",
+              "service_instance_id": "nexusCoreAzure",
+              "service_name": "NexusCore",
+              "service_namespace": "alpine",
+              "service_version": "1.0.0"
+            },
+            "commonAnnotations": {
+              "datasource_uid": "prometheus",
+              "grafana_state_reason": "NoData",
+              "ref_id": "A"
+            },
+            "externalURL": "http://localhost:3000/",
+            "appVersion": "12.4.1",
+            "version": "1",
+            "groupKey": "{}/{__grafana_autogenerated__=\"true\"}/{__grafana_receiver__=\"n8n_sample_webhook_alert\"}:{alertname=\"n8n_sample_webhook_alert\", grafana_folder=\"NexusAlerts\"}",
+            "truncatedAlerts": 0,
+            "orgId": 1,
+            "title": "[FIRING:2] n8n_sample_webhook_alert NexusAlerts (development nexusCoreAzure alpine/NexusCore nexusCoreAzure NexusCore alpine 1.0.0)",
+            "state": "alerting",
+            "message": "**Firing**\n\nValue: A=-1, C=-1\nLabels:\n - alertname = n8n_sample_webhook_alert\n - deployment_environment = development\n - grafana_folder = NexusAlerts\n - host_name = nexuscoresk--0000019-696879d447-kzl75\n - instance = nexusCoreAzure\n - job = alpine/NexusCore\n - service_instance_id = nexusCoreAzure\n - service_name = NexusCore\n - service_namespace = alpine\n - service_version = 1.0.0\nAnnotations:\n - datasource_uid = prometheus\n - grafana_state_reason = NoData\n - ref_id = A\nSource: http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1\nSilence: http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000019-696879d447-kzl75&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1\n\nValue: A=-1, C=-1\nLabels:\n - alertname = n8n_sample_webhook_alert\n - deployment_environment = development\n - grafana_folder = NexusAlerts\n - host_name = nexuscoresk--0000020-bc5d5cc8-tsqkp\n - instance = nexusCoreAzure\n - job = alpine/NexusCore\n - service_instance_id = nexusCoreAzure\n - service_name = NexusCore\n - service_namespace = alpine\n - service_version = 1.0.0\nAnnotations:\n - datasource_uid = prometheus\n - grafana_state_reason = NoData\n - ref_id = A\nSource: http://localhost:3000/alerting/grafana/efgbk3l70mo74f/view?orgId=1\nSilence: http://localhost:3000/alerting/silence/new?alertmanager=grafana&matcher=__alert_rule_uid__%3Defgbk3l70mo74f&matcher=deployment_environment%3Ddevelopment&matcher=host_name%3Dnexuscoresk--0000020-bc5d5cc8-tsqkp&matcher=instance%3DnexusCoreAzure&matcher=job%3Dalpine%2FNexusCore&matcher=service_instance_id%3DnexusCoreAzure&matcher=service_name%3DNexusCore&matcher=service_namespace%3Dalpine&matcher=service_version%3D1.0.0&orgId=1\n"
+          },
+          "webhookUrl": "https://oauth2test.manageddeployment.com/webhook/webhooktest",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "98465420-4c69-4d72-b02c-574e7f53b285",
+  "activeVersionId": "98465420-4c69-4d72-b02c-574e7f53b285",
+  "versionCounter": 426,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-25T18:56:02.257Z",
+      "createdAt": "2026-02-25T18:56:02.257Z",
+      "role": "workflow:owner",
+      "workflowId": "6F1Bjyb8R32FOcsX",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-19T19:15:35.610Z",
+    "createdAt": "2026-03-19T19:15:32.563Z",
+    "versionId": "98465420-4c69-4d72-b02c-574e7f53b285",
+    "workflowId": "6F1Bjyb8R32FOcsX",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "webhooktest",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "1854a6eb-dc60-4e6c-ab1e-1312fc71c763",
+        "name": "Webhook",
+        "webhookId": "f41ebadc-7c07-4d81-a1c6-6971963e2c03",
+        "notes": "@body book_url string\n@body another_url string\n@query field_name string "
+      },
+      {
+        "parameters": {
+          "resource": "chatMessage",
+          "chatId": {
+            "__rl": true,
+            "value": "19:meeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi@thread.v2",
+            "mode": "list",
+            "cachedResultName": "Nexus MVP Update (meeting)",
+            "cachedResultUrl": "https://teams.microsoft.com/l/chat/19%3Ameeting_ZTM1ZDlmMDgtMmQyNS00NjgyLThkNDgtMDBiNDBjY2JmZjZi%40thread.v2/0?tenantId=6b4efe47-744c-4c5a-8c28-bd33982a4653"
+          },
+          "message": "=Incident {{ $json.OID }} Created",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.microsoftTeams",
+        "typeVersion": 2,
+        "position": [
+          400,
+          0
+        ],
+        "id": "ab75051a-ad36-4c74-97d9-ff15897e5b64",
+        "name": "Create chat message",
+        "webhookId": "5c3aea71-0920-4180-95f4-4c4633c7f943",
+        "credentials": {
+          "microsoftTeamsOAuth2Api": {
+            "id": "jV3Fzm5Isy9k4AZd",
+            "name": "Microsoft Teams account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "2W89dAgSUHdcNYei",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+            "cachedResultName": "createNexusIncident"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "MajorIncident": false,
+              "Title": "=AL-{{ $json.body.title }}",
+              "Description": "={{ $json.body.message.toJsonString().replaceAll('\"',\"\") }}",
+              "Category.name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_instance_id }}",
+              "SubCategory.name": "={{ $('Webhook').item.json.body.alerts[0].labels.deployment_environment }}",
+              "Impact.Name": "={{ $('Webhook').item.json.body.alerts[0].status }}",
+              "Urgency.Name": "={{ $('Webhook').item.json.body.alerts[0].annotations.grafana_state_reason }}",
+              "Customer.Name": "=Morton",
+              "BusinessService.Name": "={{ $('Webhook').item.json.body.alerts[0].labels.service_name }}",
+              "Caller.EmployeeID": "=2938063",
+              "ReferenceNumber": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}",
+              "Number": "={{ $('Webhook').item.json.body.alerts[0].fingerprint }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Title",
+                "displayName": "Title",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Description",
+                "displayName": "Description",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Category.name",
+                "displayName": "Category.name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "SubCategory.name",
+                "displayName": "SubCategory.name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "MajorIncident",
+                "displayName": "MajorIncident",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "boolean",
+                "removed": false
+              },
+              {
+                "id": "Impact.Name",
+                "displayName": "Impact.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Urgency.Name",
+                "displayName": "Urgency.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Customer.Name",
+                "displayName": "Customer.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "BusinessService.Name",
+                "displayName": "BusinessService.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Caller.EmployeeID",
+                "displayName": "Caller.EmployeeID",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ReferenceNumber",
+                "displayName": "ReferenceNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Number",
+                "displayName": "Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          208,
+          0
+        ],
+        "id": "29b984ee-ec9e-4c3d-8fc6-b5061c4bfadd",
+        "name": "Call 'createNexusIncident'",
+        "executeOnce": false
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Call 'createNexusIncident'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'createNexusIncident'": {
+        "main": [
+          [
+            {
+              "node": "Create chat message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "Version 98465420",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-19T19:15:35.605Z",
+        "id": 166,
+        "workflowId": "6F1Bjyb8R32FOcsX",
+        "versionId": "98465420-4c69-4d72-b02c-574e7f53b285",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

@@ -18,7 +18,7 @@
     {
       "parameters": {
         "resource": "chatMessage",
-        "chatId": "19:meeting_NmE2MWQ3ZGEtYzM1Ny00NTE3LTkxNWItNTcxM2QxMWIzOGVl@thread.v2",
+        "chatId": "19:1572fb6c-cd6b-47f4-aefe-c1c117592339_318482de-50ef-45b6-829c-29ffe314f3e2@unq.gbl.spaces",
         "message": "test",
         "options": {}
       },
@@ -81,17 +81,6 @@
           "name": "Microsoft Teams account"
         }
       }
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        32,
-        -160
-      ],
-      "typeVersion": 1,
-      "id": "c893cbe8-3102-421b-987f-756018db583e",
-      "name": "Sticky Note"
     }
   ],
   "connections": {
@@ -139,9 +128,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "fb6d53fe-aa69-446a-901a-ec16b06c988d",
+  "versionId": "673d91eb-0237-4670-9411-45a7e7d10908",
   "activeVersionId": null,
-  "versionCounter": 13,
+  "versionCounter": 22,
   "triggerCount": 0,
   "shared": [
     {

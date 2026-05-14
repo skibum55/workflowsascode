@@ -1,0 +1,654 @@
+{
+  "name": "postImportIncidentsCSV",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "02f660ec-acdc-4451-9035-a9a494f08978",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f8efc68e-a59b-4f6c-8525-5c1228f14032",
+      "name": "Webhook",
+      "webhookId": "02f660ec-acdc-4451-9035-a9a494f08978"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2W89dAgSUHdcNYei",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+          "cachedResultName": "createNexusIncident"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "MajorIncident": false,
+            "Title": "={{ $json.ReferenceNumber }} - {{ $json.Title }}",
+            "Description": "={{ $json.Description }}",
+            "Category.name": "={{ $json.Category }}",
+            "SubCategory.name": "={{ $json.SubCategory }}",
+            "Impact.Name": "={{ $json.Impact }}",
+            "Urgency.Name": "={{ $json.Urgency }}",
+            "Customer.Name": "={{ $json.Customer }}",
+            "Caller.EmployeeID": "={{ $json.Caller }}",
+            "BusinessService.Name": "={{ $json.ServiceRequestType }}",
+            "ReferenceNumber": "={{ $json.ReferenceNumber }}",
+            "Number": "={{ $json.ReferenceNumber }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Category.name",
+              "displayName": "Category.name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "SubCategory.name",
+              "displayName": "SubCategory.name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "MajorIncident",
+              "displayName": "MajorIncident",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean"
+            },
+            {
+              "id": "Impact.Name",
+              "displayName": "Impact.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Urgency.Name",
+              "displayName": "Urgency.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Customer.Name",
+              "displayName": "Customer.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "BusinessService.Name",
+              "displayName": "BusinessService.Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Caller.EmployeeID",
+              "displayName": "Caller.EmployeeID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ReferenceNumber",
+              "displayName": "ReferenceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "8c6a013b-2d9d-4889-be78-7227980c8512",
+      "name": "Call 'createNexusIncident'"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "={{ $('Webhook').item.binary.data }}",
+        "options": {
+          "headerRow": true,
+          "fromLine": 1
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "2ad1b69f-adca-4bfd-877a-c309d59883ad",
+      "name": "ImportIncidentsCSV"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5e561136-4428-4505-925a-f628fdd33e46",
+              "leftValue": "={{ $json.Solution }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "43cad9a1-44c0-4569-bd80-0357a2a8202d",
+      "name": "If",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "GD78uRq84byq35zo",
+          "cachedResultName": "subPostNexusComment"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        -160
+      ],
+      "id": "ef309617-5a3f-4c80-8a92-a695f181eb4c",
+      "name": "Call 'subPostNexusComment'",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "ImportIncidentsCSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ImportIncidentsCSV": {
+      "main": [
+        [
+          {
+            "node": "Call 'createNexusIncident'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'createNexusIncident'": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Call 'subPostNexusComment'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "92f3d5b3-273d-4129-9374-01dac8a1ffed",
+  "activeVersionId": "92f3d5b3-273d-4129-9374-01dac8a1ffed",
+  "versionCounter": 158,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-10T21:38:13.690Z",
+      "createdAt": "2026-03-10T21:38:13.690Z",
+      "role": "workflow:owner",
+      "workflowId": "EYdPkwt8yg12pmpd",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-19T21:22:27.930Z",
+    "createdAt": "2026-03-19T21:22:25.653Z",
+    "versionId": "92f3d5b3-273d-4129-9374-01dac8a1ffed",
+    "workflowId": "EYdPkwt8yg12pmpd",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "02f660ec-acdc-4451-9035-a9a494f08978",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "f8efc68e-a59b-4f6c-8525-5c1228f14032",
+        "name": "Webhook",
+        "webhookId": "02f660ec-acdc-4451-9035-a9a494f08978"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "2W89dAgSUHdcNYei",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/2W89dAgSUHdcNYei",
+            "cachedResultName": "createNexusIncident"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "MajorIncident": false,
+              "Title": "={{ $json.ReferenceNumber }} - {{ $json.Title }}",
+              "Description": "={{ $json.Description }}",
+              "Category.name": "={{ $json.Category }}",
+              "SubCategory.name": "={{ $json.SubCategory }}",
+              "Impact.Name": "={{ $json.Impact }}",
+              "Urgency.Name": "={{ $json.Urgency }}",
+              "Customer.Name": "={{ $json.Customer }}",
+              "Caller.EmployeeID": "={{ $json.Caller }}",
+              "BusinessService.Name": "={{ $json.ServiceRequestType }}",
+              "ReferenceNumber": "={{ $json.ReferenceNumber }}",
+              "Number": "={{ $json.ReferenceNumber }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Title",
+                "displayName": "Title",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "Description",
+                "displayName": "Description",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "Category.name",
+                "displayName": "Category.name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "SubCategory.name",
+                "displayName": "SubCategory.name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "MajorIncident",
+                "displayName": "MajorIncident",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "boolean"
+              },
+              {
+                "id": "Impact.Name",
+                "displayName": "Impact.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "Urgency.Name",
+                "displayName": "Urgency.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "Customer.Name",
+                "displayName": "Customer.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "BusinessService.Name",
+                "displayName": "BusinessService.Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "Caller.EmployeeID",
+                "displayName": "Caller.EmployeeID",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "ReferenceNumber",
+                "displayName": "ReferenceNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Number",
+                "displayName": "Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          416,
+          0
+        ],
+        "id": "8c6a013b-2d9d-4889-be78-7227980c8512",
+        "name": "Call 'createNexusIncident'"
+      },
+      {
+        "parameters": {
+          "binaryPropertyName": "={{ $('Webhook').item.binary.data }}",
+          "options": {
+            "headerRow": true,
+            "fromLine": 1
+          }
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          208,
+          0
+        ],
+        "id": "2ad1b69f-adca-4bfd-877a-c309d59883ad",
+        "name": "ImportIncidentsCSV"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "5e561136-4428-4505-925a-f628fdd33e46",
+                "leftValue": "={{ $json.Solution }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          624,
+          0
+        ],
+        "id": "43cad9a1-44c0-4569-bd80-0357a2a8202d",
+        "name": "If",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "GD78uRq84byq35zo",
+            "cachedResultName": "subPostNexusComment"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          784,
+          -160
+        ],
+        "id": "ef309617-5a3f-4c80-8a92-a695f181eb4c",
+        "name": "Call 'subPostNexusComment'",
+        "disabled": true
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "ImportIncidentsCSV",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ImportIncidentsCSV": {
+        "main": [
+          [
+            {
+              "node": "Call 'createNexusIncident'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'createNexusIncident'": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Call 'subPostNexusComment'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "Version 92f3d5b3",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-19T21:22:27.925Z",
+        "id": 176,
+        "workflowId": "EYdPkwt8yg12pmpd",
+        "versionId": "92f3d5b3-273d-4129-9374-01dac8a1ffed",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

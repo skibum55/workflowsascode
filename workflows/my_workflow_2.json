@@ -23,7 +23,7 @@
           "value": "54321",
           "mode": "id"
         },
-        "message": "testing123",
+        "message": "testing012934056987Siena",
         "options": {}
       },
       "type": "n8n-nodes-base.microsoftTeams",
@@ -58,16 +58,17 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "7402be7c-3c95-43b2-93f8-50f84dd91c75",
+  "versionId": "cee19046-90f0-481d-9d03-8d1396658240",
   "activeVersionId": null,
-  "versionCounter": 1,
+  "versionCounter": 12,
   "triggerCount": 0,
   "shared": [
     {

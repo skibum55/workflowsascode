@@ -1,0 +1,299 @@
+{
+  "name": "getOpenAPI",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "filters": {
+          "activeWorkflows": true
+        },
+        "requestOptions": {}
+      },
+      "id": "1f397969-aa2e-435b-b0e9-9ef66face5fc",
+      "name": "n8n",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        592,
+        512
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "Hmm3fIMtxCqRshgA",
+          "name": "Azure n8n dev account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function safe(x = \"\") {\n  return String(x).replaceAll(\":\", \"\").replaceAll(\"/\", \"|\");\n}\n\n/**\n * YAML SERIALIZER (safe)\n */\nfunction toYAML(obj, indent = 0) {\n  const spaces = \"  \".repeat(indent);\n\n  if (obj === null || obj === undefined) return \"\";\n  if (typeof obj === \"string\") {\n    if (obj.includes(\":\") || obj.includes(\"#\") || obj.includes(\"\\n\")) {\n      return `\"${obj.replace(/\"/g, '\\\\\"')}\"`;\n    }\n    return obj;\n  }\n  if (typeof obj === \"number\" || typeof obj === \"boolean\") {\n    return String(obj);\n  }\n\n  if (Array.isArray(obj)) {\n    if (!obj.length) return \"[]\";\n    return obj\n      .map(item => `${spaces}- ${isPrimitive(item) ? toYAML(item, indent + 1) : \"\\n\" + toYAML(item, indent + 1)}`)\n      .join(\"\\n\");\n  }\n\n  if (typeof obj === \"object\") {\n    const entries = Object.entries(obj).filter(([_, v]) => v !== undefined);\n    if (!entries.length) return \"{}\";\n\n    return entries\n      .map(([key, value]) => {\n        if (isPrimitive(value)) {\n          return `${spaces}${key}: ${toYAML(value, indent + 1)}`;\n        }\n        return `${spaces}${key}:\\n${toYAML(value, indent + 1)}`;\n      })\n      .join(\"\\n\");\n  }\n\n  return \"\";\n}\n\nfunction isPrimitive(val) {\n  return (\n    val === null ||\n    typeof val === \"string\" ||\n    typeof val === \"number\" ||\n    typeof val === \"boolean\"\n  );\n}\n\n/**\n * DFS — Safe traversal\n */\nfunction findValidTargets(connections = {}, sourceNode, potentialTargets = []) {\n  if (!sourceNode) return [];\n\n  const visited = new Set();\n  const foundTargets = new Set();\n\n  function dfs(node) {\n    if (!node || visited.has(node)) return;\n    visited.add(node);\n\n    if (potentialTargets.includes(node)) {\n      foundTargets.add(node);\n    }\n\n    const nodeConnections = connections[node]?.main || [];\n    for (const path of nodeConnections) {\n      for (const next of path || []) {\n        dfs(next?.node);\n      }\n    }\n  }\n\n  dfs(sourceNode);\n  return Array.from(foundTargets);\n}\n\n/**\n * Robust Annotation Parser\n */\nfunction parseAnnotations(notes) {\n  if (!notes || typeof notes !== \"string\") {\n    return emptyParseResult();\n  }\n\n  const lines = notes\n    .split(\"\\n\")\n    .map(l => l.trim())\n    .filter(l => l.startsWith(\"@\"));\n\n  const parameters = [];\n  const responses = {};\n  const requestBodySchema = {\n    type: \"object\",\n    properties: {},\n    required: []\n  };\n\n  let hasExplicitResponse = false;\n\n  function setNestedProperty(schema, pathParts, type, required) {\n    if (!pathParts.length) return;\n\n    let current = schema;\n\n    for (let i = 0; i < pathParts.length; i++) {\n      const part = pathParts[i];\n      if (!part) return;\n\n      if (!current.properties[part]) {\n        current.properties[part] = { type: \"object\", properties: {}, required: [] };\n      }\n\n      if (i === pathParts.length - 1) {\n        current.properties[part] = { type: type || \"string\" };\n        if (required && !current.required.includes(part)) {\n          current.required.push(part);\n        }\n      } else {\n        current = current.properties[part];\n      }\n    }\n  }\n\n  for (const line of lines) {\n    try {\n      const parts = line.split(/\\s+/);\n      const directive = parts[0];\n\n      if (!directive) continue;\n\n      /**\n       * PARAMETERS\n       */\n      if ([\"@query\", \"@path\", \"@header\"].includes(directive)) {\n        if (parts.length < 2) continue;\n\n        const name = parts[1];\n        const type = parts[2] || \"string\";\n        const maybeRequired = parts[3];\n        const description =\n          parts.length > 3\n            ? parts.slice(\n                maybeRequired === \"required\" || maybeRequired === \"optional\" ? 4 : 3\n              ).join(\" \")\n            : \"No description\";\n\n        let required = true; // legacy default\n\n        if (maybeRequired === \"required\" || maybeRequired === \"optional\") {\n          required = maybeRequired === \"required\";\n        }\n\n        if (directive === \"@path\") required = true;\n\n        parameters.push({\n          name,\n          in: directive.replace(\"@\", \"\"),\n          required,\n          description: description || \"No description\",\n          schema: { type }\n        });\n      }\n\n      /**\n       * BODY\n       */\n      if (directive === \"@body\") {\n        if (parts.length < 2) continue;\n\n        const name = parts[1];\n        const type = parts[2] || \"string\";\n        const maybeRequired = parts[3];\n\n        const required = maybeRequired === \"optional\" ? false : true;\n\n        const pathParts = name.split(\".\");\n        setNestedProperty(requestBodySchema, pathParts, type, required);\n      }\n\n      /**\n       * RESPONSE\n       */\n      if (directive === \"@response\") {\n        if (parts.length < 2) continue;\n\n        hasExplicitResponse = true;\n\n        const code = parts[1] || \"200\";\n        const contentType = parts[2] || \"application/json\";\n        const description = parts.slice(3).join(\" \") || \"Response\";\n\n        responses[code] = {\n          description,\n          content: contentType === \"redirect\"\n            ? undefined\n            : {\n                [contentType]: {\n                  schema: { type: \"object\" }\n                }\n              }\n        };\n      }\n\n    } catch (err) {\n      // Ignore malformed lines silently\n      continue;\n    }\n  }\n\n  const hasBodyProps = Object.keys(requestBodySchema.properties).length > 0;\n\n  return {\n    parameters,\n    requestBody: hasBodyProps\n      ? {\n          content: {\n            \"application/json\": {\n              schema: cleanSchema(requestBodySchema)\n            }\n          }\n        }\n      : undefined,\n    responses,\n    hasExplicitResponse\n  };\n}\n\nfunction cleanSchema(schema) {\n  if (!schema.required || !schema.required.length) {\n    delete schema.required;\n  }\n  return schema;\n}\n\nfunction emptyParseResult() {\n  return {\n    parameters: [],\n    requestBody: undefined,\n    responses: {},\n    hasExplicitResponse: false\n  };\n}\n\n/**\n * Infer legacy response safely\n */\nfunction inferResponsesFromNodes(webhook) {\n  let produces = \"application/json\";\n  let code = \"200\";\n\n  if (Array.isArray(webhook?.responses)) {\n    for (const r of webhook.responses) {\n      switch (r?.parameters?.respondWith) {\n        case \"text\":\n          produces = \"text/plain\";\n          break;\n        case \"redirect\":\n          produces = \"text/plain\";\n          code = \"301\";\n          break;\n        case \"json\":\n          produces = \"application/json\";\n          break;\n      }\n    }\n  }\n\n  return {\n    [code]: {\n      description: \"Successful response\",\n      content: {\n        [produces]: {\n          schema: { type: \"object\" }\n        }\n      }\n    }\n  };\n}\n\n/**\n * BUILD OPENAPI DOCUMENT\n */\nconst openapi = {\n  openapi: \"3.0.3\",\n  info: {\n    title: \"N8N Instance API\",\n    version: \"1.0.0\",\n    description: \"Auto-generated OpenAPI spec from n8n workflows\"\n  },\n  servers: [\n    {\n      url: `https://${$('Get Swagger').first().json?.headers?.host || \"n8n.instance.com\"}/webhook`\n    }\n  ],\n  paths: {}\n};\n\nfor (const item of $input.all()) {\n  const nodes = item.json?.nodes || [];\n  const connections = item.json?.connections || {};\n\n  const webhooks = nodes.filter(n => n?.type === \"n8n-nodes-base.webhook\");\n  const responseNodes = nodes.filter(n => n?.type === \"n8n-nodes-base.respondToWebhook\");\n  const targets = responseNodes.map(r => r.name);\n\n  for (const w of webhooks) {\n    try {\n      if (w?.parameters?.responseMode === \"responseNode\") {\n        const valid = findValidTargets(connections, w.name, targets);\n        w.responses = responseNodes.filter(r => valid.includes(r.name));\n      }\n\n      const path = `/${w?.parameters?.path || \"\"}`;\n      const method = (w?.parameters?.httpMethod || \"get\").toLowerCase();\n\n      if (!openapi.paths[path]) openapi.paths[path] = {};\n\n      const { parameters, requestBody, responses, hasExplicitResponse } =\n        parseAnnotations(w?.notes);\n\n      const finalResponses = hasExplicitResponse\n        ? responses\n        : inferResponsesFromNodes(w);\n\n      openapi.paths[path][method] = {\n        summary: safe(w?.name || \"Webhook\"),\n        description: `Related to workflow [${item.json?.id || \"unknown\"}]`,\n        tags: [safe(item.json?.name || \"Workflow\")],\n        parameters: parameters.length ? parameters : undefined,\n        requestBody,\n        responses: Object.keys(finalResponses).length\n          ? finalResponses\n          : inferResponsesFromNodes(w)\n      };\n    } catch (err) {\n      // Skip malformed webhook safely\n      continue;\n    }\n  }\n}\n\nconst yamlOutput = toYAML(openapi);\n\nreturn {\n  json: {\n    yamlOutput\n  }\n};"
+      },
+      "id": "37b03898-8b7b-4511-8a54-b6777118ea76",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        816,
+        512
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html>\n<head>\n  <title>Swagger UI from YAML Text</title>\n  <link rel=\"stylesheet\" href=\"https://unpkg.com/swagger-ui-dist/swagger-ui.css\">\n</head>\n<body>\n  <div id=\"swagger-ui\"></div>\n\n  <script src=\"https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js\"></script>\n  <script src=\"https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js\"></script>\n  <script>\n    // Your YAML as a string (replace this with your actual variable)\n    const yamlText = `{{ $json.yamlOutput }}`;\n\n    // Parse the YAML into a JavaScript object\n    const spec = jsyaml.load(yamlText);\n\n    // Initialize Swagger UI with the parsed spec\n    const ui = SwaggerUIBundle({\n      spec: spec,\n      dom_id: \"#swagger-ui\"\n    });\n  </script>\n</body>\n</html>\n",
+        "options": {}
+      },
+      "id": "872dbe8f-a4e2-4828-98d5-73f06ae116ad",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        1040,
+        512
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "path": "swagger",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "7868c867-85c4-422d-a9f3-7424af49fd14",
+      "name": "Get Swagger",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        368,
+        512
+      ],
+      "webhookId": "b6873bae-3e61-4a93-9dc2-0100b497390e",
+      "typeVersion": 2,
+      "notes": "//@body field_name string description"
+    },
+    {
+      "parameters": {
+        "content": "## Configure webhooks\n\n### WebhookDocs: generate swagger preview of your active workflows\n\nIn order to support parameter labels you have to open the note sections of every webhook and add the following text\n\n//@body field_name string description\n//@query field_name string description\n\nAdapted from https://n8n.io/workflows/4270-webhookdocs-generate-swagger-preview-of-your-active-workflows/\n",
+        "height": 244,
+        "width": 480
+      },
+      "id": "30aa0403-c828-48eb-862b-4b258249c1e1",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        592,
+        208
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Swagger": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "4270",
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "01ce8d13-8949-4854-b8e8-7b8e0340d47b",
+  "activeVersionId": "01ce8d13-8949-4854-b8e8-7b8e0340d47b",
+  "versionCounter": 112,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-06T22:19:19.113Z",
+      "createdAt": "2026-03-06T22:19:19.113Z",
+      "role": "workflow:owner",
+      "workflowId": "NsXpM2VX76Okkh43",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-16T19:02:54.326Z",
+    "createdAt": "2026-03-16T19:02:42.909Z",
+    "versionId": "01ce8d13-8949-4854-b8e8-7b8e0340d47b",
+    "workflowId": "NsXpM2VX76Okkh43",
+    "nodes": [
+      {
+        "parameters": {
+          "filters": {
+            "activeWorkflows": true
+          },
+          "requestOptions": {}
+        },
+        "id": "1f397969-aa2e-435b-b0e9-9ef66face5fc",
+        "name": "n8n",
+        "type": "n8n-nodes-base.n8n",
+        "position": [
+          592,
+          512
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "n8nApi": {
+            "id": "Hmm3fIMtxCqRshgA",
+            "name": "Azure n8n dev account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "function safe(x = \"\") {\n  return String(x).replaceAll(\":\", \"\").replaceAll(\"/\", \"|\");\n}\n\n/**\n * YAML SERIALIZER (safe)\n */\nfunction toYAML(obj, indent = 0) {\n  const spaces = \"  \".repeat(indent);\n\n  if (obj === null || obj === undefined) return \"\";\n  if (typeof obj === \"string\") {\n    if (obj.includes(\":\") || obj.includes(\"#\") || obj.includes(\"\\n\")) {\n      return `\"${obj.replace(/\"/g, '\\\\\"')}\"`;\n    }\n    return obj;\n  }\n  if (typeof obj === \"number\" || typeof obj === \"boolean\") {\n    return String(obj);\n  }\n\n  if (Array.isArray(obj)) {\n    if (!obj.length) return \"[]\";\n    return obj\n      .map(item => `${spaces}- ${isPrimitive(item) ? toYAML(item, indent + 1) : \"\\n\" + toYAML(item, indent + 1)}`)\n      .join(\"\\n\");\n  }\n\n  if (typeof obj === \"object\") {\n    const entries = Object.entries(obj).filter(([_, v]) => v !== undefined);\n    if (!entries.length) return \"{}\";\n\n    return entries\n      .map(([key, value]) => {\n        if (isPrimitive(value)) {\n          return `${spaces}${key}: ${toYAML(value, indent + 1)}`;\n        }\n        return `${spaces}${key}:\\n${toYAML(value, indent + 1)}`;\n      })\n      .join(\"\\n\");\n  }\n\n  return \"\";\n}\n\nfunction isPrimitive(val) {\n  return (\n    val === null ||\n    typeof val === \"string\" ||\n    typeof val === \"number\" ||\n    typeof val === \"boolean\"\n  );\n}\n\n/**\n * DFS — Safe traversal\n */\nfunction findValidTargets(connections = {}, sourceNode, potentialTargets = []) {\n  if (!sourceNode) return [];\n\n  const visited = new Set();\n  const foundTargets = new Set();\n\n  function dfs(node) {\n    if (!node || visited.has(node)) return;\n    visited.add(node);\n\n    if (potentialTargets.includes(node)) {\n      foundTargets.add(node);\n    }\n\n    const nodeConnections = connections[node]?.main || [];\n    for (const path of nodeConnections) {\n      for (const next of path || []) {\n        dfs(next?.node);\n      }\n    }\n  }\n\n  dfs(sourceNode);\n  return Array.from(foundTargets);\n}\n\n/**\n * Robust Annotation Parser\n */\nfunction parseAnnotations(notes) {\n  if (!notes || typeof notes !== \"string\") {\n    return emptyParseResult();\n  }\n\n  const lines = notes\n    .split(\"\\n\")\n    .map(l => l.trim())\n    .filter(l => l.startsWith(\"@\"));\n\n  const parameters = [];\n  const responses = {};\n  const requestBodySchema = {\n    type: \"object\",\n    properties: {},\n    required: []\n  };\n\n  let hasExplicitResponse = false;\n\n  function setNestedProperty(schema, pathParts, type, required) {\n    if (!pathParts.length) return;\n\n    let current = schema;\n\n    for (let i = 0; i < pathParts.length; i++) {\n      const part = pathParts[i];\n      if (!part) return;\n\n      if (!current.properties[part]) {\n        current.properties[part] = { type: \"object\", properties: {}, required: [] };\n      }\n\n      if (i === pathParts.length - 1) {\n        current.properties[part] = { type: type || \"string\" };\n        if (required && !current.required.includes(part)) {\n          current.required.push(part);\n        }\n      } else {\n        current = current.properties[part];\n      }\n    }\n  }\n\n  for (const line of lines) {\n    try {\n      const parts = line.split(/\\s+/);\n      const directive = parts[0];\n\n      if (!directive) continue;\n\n      /**\n       * PARAMETERS\n       */\n      if ([\"@query\", \"@path\", \"@header\"].includes(directive)) {\n        if (parts.length < 2) continue;\n\n        const name = parts[1];\n        const type = parts[2] || \"string\";\n        const maybeRequired = parts[3];\n        const description =\n          parts.length > 3\n            ? parts.slice(\n                maybeRequired === \"required\" || maybeRequired === \"optional\" ? 4 : 3\n              ).join(\" \")\n            : \"No description\";\n\n        let required = true; // legacy default\n\n        if (maybeRequired === \"required\" || maybeRequired === \"optional\") {\n          required = maybeRequired === \"required\";\n        }\n\n        if (directive === \"@path\") required = true;\n\n        parameters.push({\n          name,\n          in: directive.replace(\"@\", \"\"),\n          required,\n          description: description || \"No description\",\n          schema: { type }\n        });\n      }\n\n      /**\n       * BODY\n       */\n      if (directive === \"@body\") {\n        if (parts.length < 2) continue;\n\n        const name = parts[1];\n        const type = parts[2] || \"string\";\n        const maybeRequired = parts[3];\n\n        const required = maybeRequired === \"optional\" ? false : true;\n\n        const pathParts = name.split(\".\");\n        setNestedProperty(requestBodySchema, pathParts, type, required);\n      }\n\n      /**\n       * RESPONSE\n       */\n      if (directive === \"@response\") {\n        if (parts.length < 2) continue;\n\n        hasExplicitResponse = true;\n\n        const code = parts[1] || \"200\";\n        const contentType = parts[2] || \"application/json\";\n        const description = parts.slice(3).join(\" \") || \"Response\";\n\n        responses[code] = {\n          description,\n          content: contentType === \"redirect\"\n            ? undefined\n            : {\n                [contentType]: {\n                  schema: { type: \"object\" }\n                }\n              }\n        };\n      }\n\n    } catch (err) {\n      // Ignore malformed lines silently\n      continue;\n    }\n  }\n\n  const hasBodyProps = Object.keys(requestBodySchema.properties).length > 0;\n\n  return {\n    parameters,\n    requestBody: hasBodyProps\n      ? {\n          content: {\n            \"application/json\": {\n              schema: cleanSchema(requestBodySchema)\n            }\n          }\n        }\n      : undefined,\n    responses,\n    hasExplicitResponse\n  };\n}\n\nfunction cleanSchema(schema) {\n  if (!schema.required || !schema.required.length) {\n    delete schema.required;\n  }\n  return schema;\n}\n\nfunction emptyParseResult() {\n  return {\n    parameters: [],\n    requestBody: undefined,\n    responses: {},\n    hasExplicitResponse: false\n  };\n}\n\n/**\n * Infer legacy response safely\n */\nfunction inferResponsesFromNodes(webhook) {\n  let produces = \"application/json\";\n  let code = \"200\";\n\n  if (Array.isArray(webhook?.responses)) {\n    for (const r of webhook.responses) {\n      switch (r?.parameters?.respondWith) {\n        case \"text\":\n          produces = \"text/plain\";\n          break;\n        case \"redirect\":\n          produces = \"text/plain\";\n          code = \"301\";\n          break;\n        case \"json\":\n          produces = \"application/json\";\n          break;\n      }\n    }\n  }\n\n  return {\n    [code]: {\n      description: \"Successful response\",\n      content: {\n        [produces]: {\n          schema: { type: \"object\" }\n        }\n      }\n    }\n  };\n}\n\n/**\n * BUILD OPENAPI DOCUMENT\n */\nconst openapi = {\n  openapi: \"3.0.3\",\n  info: {\n    title: \"N8N Instance API\",\n    version: \"1.0.0\",\n    description: \"Auto-generated OpenAPI spec from n8n workflows\"\n  },\n  servers: [\n    {\n      url: `https://${$('Get Swagger').first().json?.headers?.host || \"n8n.instance.com\"}/webhook`\n    }\n  ],\n  paths: {}\n};\n\nfor (const item of $input.all()) {\n  const nodes = item.json?.nodes || [];\n  const connections = item.json?.connections || {};\n\n  const webhooks = nodes.filter(n => n?.type === \"n8n-nodes-base.webhook\");\n  const responseNodes = nodes.filter(n => n?.type === \"n8n-nodes-base.respondToWebhook\");\n  const targets = responseNodes.map(r => r.name);\n\n  for (const w of webhooks) {\n    try {\n      if (w?.parameters?.responseMode === \"responseNode\") {\n        const valid = findValidTargets(connections, w.name, targets);\n        w.responses = responseNodes.filter(r => valid.includes(r.name));\n      }\n\n      const path = `/${w?.parameters?.path || \"\"}`;\n      const method = (w?.parameters?.httpMethod || \"get\").toLowerCase();\n\n      if (!openapi.paths[path]) openapi.paths[path] = {};\n\n      const { parameters, requestBody, responses, hasExplicitResponse } =\n        parseAnnotations(w?.notes);\n\n      const finalResponses = hasExplicitResponse\n        ? responses\n        : inferResponsesFromNodes(w);\n\n      openapi.paths[path][method] = {\n        summary: safe(w?.name || \"Webhook\"),\n        description: `Related to workflow [${item.json?.id || \"unknown\"}]`,\n        tags: [safe(item.json?.name || \"Workflow\")],\n        parameters: parameters.length ? parameters : undefined,\n        requestBody,\n        responses: Object.keys(finalResponses).length\n          ? finalResponses\n          : inferResponsesFromNodes(w)\n      };\n    } catch (err) {\n      // Skip malformed webhook safely\n      continue;\n    }\n  }\n}\n\nconst yamlOutput = toYAML(openapi);\n\nreturn {\n  json: {\n    yamlOutput\n  }\n};"
+        },
+        "id": "37b03898-8b7b-4511-8a54-b6777118ea76",
+        "name": "Code",
+        "type": "n8n-nodes-base.code",
+        "position": [
+          816,
+          512
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "=<!DOCTYPE html>\n<html>\n<head>\n  <title>Swagger UI from YAML Text</title>\n  <link rel=\"stylesheet\" href=\"https://unpkg.com/swagger-ui-dist/swagger-ui.css\">\n</head>\n<body>\n  <div id=\"swagger-ui\"></div>\n\n  <script src=\"https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js\"></script>\n  <script src=\"https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js\"></script>\n  <script>\n    // Your YAML as a string (replace this with your actual variable)\n    const yamlText = `{{ $json.yamlOutput }}`;\n\n    // Parse the YAML into a JavaScript object\n    const spec = jsyaml.load(yamlText);\n\n    // Initialize Swagger UI with the parsed spec\n    const ui = SwaggerUIBundle({\n      spec: spec,\n      dom_id: \"#swagger-ui\"\n    });\n  </script>\n</body>\n</html>\n",
+          "options": {}
+        },
+        "id": "872dbe8f-a4e2-4828-98d5-73f06ae116ad",
+        "name": "Respond to Webhook",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "position": [
+          1040,
+          512
+        ],
+        "typeVersion": 1.2
+      },
+      {
+        "parameters": {
+          "path": "swagger",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "7868c867-85c4-422d-a9f3-7424af49fd14",
+        "name": "Get Swagger",
+        "type": "n8n-nodes-base.webhook",
+        "position": [
+          368,
+          512
+        ],
+        "webhookId": "b6873bae-3e61-4a93-9dc2-0100b497390e",
+        "typeVersion": 2,
+        "notes": "//@body field_name string description"
+      },
+      {
+        "parameters": {
+          "content": "## Configure webhooks\n\n### WebhookDocs: generate swagger preview of your active workflows\n\nIn order to support parameter labels you have to open the note sections of every webhook and add the following text\n\n//@body field_name string description\n//@query field_name string description\n\nAdapted from https://n8n.io/workflows/4270-webhookdocs-generate-swagger-preview-of-your-active-workflows/\n",
+          "height": 244,
+          "width": 480
+        },
+        "id": "30aa0403-c828-48eb-862b-4b258249c1e1",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          592,
+          208
+        ],
+        "typeVersion": 1
+      }
+    ],
+    "connections": {
+      "n8n": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Swagger": {
+        "main": [
+          [
+            {
+              "node": "n8n",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "Version 01ce8d13",
+    "description": "",
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-16T19:02:54.320Z",
+        "id": 142,
+        "workflowId": "NsXpM2VX76Okkh43",
+        "versionId": "01ce8d13-8949-4854-b8e8-7b8e0340d47b",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}

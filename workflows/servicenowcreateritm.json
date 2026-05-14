@@ -1,7 +1,7 @@
 {
   "name": "ServicenowcreateRITM",
   "description": null,
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -244,9 +244,9 @@
   },
   "pinData": {},
   "versionId": "4c5fca9b-1aae-4b6a-85ea-3b6a26b45128",
-  "activeVersionId": null,
-  "versionCounter": 14,
-  "triggerCount": 0,
+  "activeVersionId": "4c5fca9b-1aae-4b6a-85ea-3b6a26b45128",
+  "versionCounter": 16,
+  "triggerCount": 1,
   "shared": [
     {
       "updatedAt": "2026-01-16T22:18:39.437Z",
@@ -267,5 +267,256 @@
     }
   ],
   "tags": [],
-  "activeVersion": null
+  "activeVersion": {
+    "updatedAt": "2026-03-16T21:26:50.809Z",
+    "createdAt": "2026-01-30T18:18:57.948Z",
+    "versionId": "4c5fca9b-1aae-4b6a-85ea-3b6a26b45128",
+    "workflowId": "jEEJgsly4EcHImdm",
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          16,
+          0
+        ],
+        "id": "a4c961dd-a667-4e47-89dd-00604371835b",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "resource": "tableRecord",
+          "operation": "create",
+          "tableName": "sc_request",
+          "fieldsToSend": {
+            "field": [
+              {
+                "column": "special_instructions",
+                "value": "=n8n created on {{ $now }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.serviceNow",
+        "typeVersion": 1,
+        "position": [
+          208,
+          0
+        ],
+        "id": "0517716e-3fdb-4b47-b316-cb6d216705f9",
+        "name": "Create a  request",
+        "credentials": {
+          "serviceNowOAuth2Api": {
+            "id": "JXnRDrXZsmZwnJSv",
+            "name": "ServiceNow account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "tableRecord",
+          "operation": "update",
+          "tableName": "sc_req_item",
+          "id": "={{ $json.sys_id }}",
+          "fieldsToSend": {
+            "field": [
+              {
+                "column": "price",
+                "value": "1000000000"
+              },
+              {
+                "column": "=state",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.serviceNow",
+        "typeVersion": 1,
+        "position": [
+          528,
+          0
+        ],
+        "id": "9a98f8fa-4bd6-4ee2-b2bb-2d5ccdad5d14",
+        "name": "Update the RITM",
+        "credentials": {
+          "serviceNowOAuth2Api": {
+            "id": "JXnRDrXZsmZwnJSv",
+            "name": "ServiceNow account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "tableRecord",
+          "operation": "create",
+          "tableName": "sc_req_item",
+          "fieldsToSend": {
+            "field": [
+              {
+                "column": "request",
+                "value": "={{ $json.sys_id }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.serviceNow",
+        "typeVersion": 1,
+        "position": [
+          368,
+          0
+        ],
+        "id": "a6c79d7e-490b-4901-86c5-12503276e197",
+        "name": "Create a RITM",
+        "credentials": {
+          "serviceNowOAuth2Api": {
+            "id": "JXnRDrXZsmZwnJSv",
+            "name": "ServiceNow account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "path": "createRITM",
+          "responseMode": "responseNode",
+          "options": {
+            "rawBody": false,
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "status",
+                  "value": "s200"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          176
+        ],
+        "id": "203d5dcb-1202-4729-9613-208fff2c2154",
+        "name": "Webhook",
+        "webhookId": "9addc82b-05ba-463f-8f1e-7b646e5f24e3"
+      },
+      {
+        "parameters": {
+          "mode": "raw",
+          "jsonOutput": "={{\n{\n  \"Request\" : $('Create a  request').item.json.number,\n  \"RITM\": $('Create a RITM').item.json.number\n}\n}}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          0
+        ],
+        "id": "67326d6e-ff0b-4911-9448-35ce238b0333",
+        "name": "returnData"
+      },
+      {
+        "parameters": {
+          "respondWith": "allIncomingItems",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          848,
+          0
+        ],
+        "id": "2af86b28-f1e3-4623-ac4a-0a46050f698d",
+        "name": "Respond to Webhook"
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Create a  request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a  request": {
+        "main": [
+          [
+            {
+              "node": "Create a RITM",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a RITM": {
+        "main": [
+          [
+            {
+              "node": "Update the RITM",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Create a  request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update the RITM": {
+        "main": [
+          [
+            {
+              "node": "returnData",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "returnData": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "Version 4c5fca9b",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-16T21:26:50.804Z",
+        "id": 143,
+        "workflowId": "jEEJgsly4EcHImdm",
+        "versionId": "4c5fca9b-1aae-4b6a-85ea-3b6a26b45128",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
 }

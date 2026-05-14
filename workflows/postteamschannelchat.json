@@ -1,0 +1,463 @@
+{
+  "name": "postTeamsChannelChat",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "8c2cfb8e-92bc-430c-8fd4-24e17a83af05"
+    },
+    {
+      "parameters": {
+        "resource": "channelMessage",
+        "teamId": "b41df03c-362f-46b1-b020-7c7b730fb8ce",
+        "channelId": "19:83696d248c8f4bdcbfbed5daf1a5cc79@thread.tacv2",
+        "message": "={{ $json.body.message || $json.message }} on {{ $now }}",
+        "options": {}
+      },
+      "name": "Microsoft Teams",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        192,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "cd3de3b8-238c-47d7-a43d-a0d360630b04",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "updateFields": {
+          "name": "n8n-documentation-demo"
+        }
+      },
+      "name": "Microsoft Teams1",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        400,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "3a45e772-d947-41b4-ae28-800e4164fe6c",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "channelMessage",
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "message": "n8n rocks!",
+        "options": {}
+      },
+      "name": "Microsoft Teams2",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        592,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "03bf0f65-84db-45ac-8d6f-c18a7167f353",
+      "credentials": {
+        "microsoftTeamsOAuth2Api": {
+          "id": "jV3Fzm5Isy9k4AZd",
+          "name": "Microsoft Teams account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "53d106c9-c090-4708-a471-6f5ffb0b6d83",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -144
+      ],
+      "id": "4a269ee7-f708-485e-b69f-dbeee56a8a05",
+      "name": "Webhook",
+      "webhookId": "53d106c9-c090-4708-a471-6f5ffb0b6d83",
+      "notes": "@body message string Message"
+    },
+    {
+      "parameters": {
+        "content": "## Example\n**Curl** \n curl -X POST 'https://oauth2test.manageddeployment.com/webhook/53d106c9-c090-4708-a471-6f5ffb0b6d83' --json '{\"message\":\"curl test\"}'\n [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 144,
+        "width": 656
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "161e95f7-4c64-45d1-ad66-b4b5ec9546aa",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        0
+      ],
+      "id": "93016f20-3869-4e65-b684-42167674206b",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Microsoft Teams": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Teams1": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Teams2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On clicking 'execute'": [
+      {
+        "json": {
+          "message": "This is a test mesage from N8N"
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "oauth2test.manageddeployment.com",
+            "content-length": "52",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "accept": "application/json",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "origin": "null",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-US,en;q=0.9,sv;q=0.8",
+            "priority": "u=1, i",
+            "x-forwarded-for": "67.162.155.218",
+            "x-envoy-external-address": "67.162.155.218",
+            "x-request-id": "b8cad8f2-d929-4c66-a9d2-b47b99cc0639",
+            "x-envoy-expected-rq-timeout-ms": "1800000",
+            "x-k8se-app-name": "n8n-app-test-east2--0000030",
+            "x-k8se-app-namespace": "k8se-apps",
+            "x-k8se-protocol": "http1",
+            "x-k8se-app-kind": "web",
+            "x-ms-containerapp-name": "n8n-app-test-east2",
+            "x-ms-containerapp-revision-name": "n8n-app-test-east2--0000030",
+            "x-arr-ssl": "true",
+            "x-forwarded-proto": "https",
+            "x-forwarded-path": "/webhook/53d106c9-c090-4708-a471-6f5ffb0b6d83"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": "Sending message from swagger page"
+          },
+          "webhookUrl": "https://oauth2test.manageddeployment.com/webhook/53d106c9-c090-4708-a471-6f5ffb0b6d83",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "511d32ea-7a38-4b72-9510-c755d4a1bf58",
+  "activeVersionId": "80d5e038-eb52-42bd-82d1-86206098d094",
+  "versionCounter": 77,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-18T19:13:47.056Z",
+      "createdAt": "2026-02-18T19:13:47.056Z",
+      "role": "workflow:owner",
+      "workflowId": "FSDPXG7h8rJ9zFfS",
+      "projectId": "rbmFyQ0fPfUjlaVB",
+      "project": {
+        "updatedAt": "2025-10-28T16:01:24.976Z",
+        "createdAt": "2025-10-28T15:59:42.193Z",
+        "id": "rbmFyQ0fPfUjlaVB",
+        "name": "sean keery <sean.keery@rmscorp.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-03-13T22:37:01.682Z",
+    "createdAt": "2026-03-13T22:36:29.310Z",
+    "versionId": "80d5e038-eb52-42bd-82d1-86206098d094",
+    "workflowId": "FSDPXG7h8rJ9zFfS",
+    "nodes": [
+      {
+        "parameters": {},
+        "name": "On clicking 'execute'",
+        "type": "n8n-nodes-base.manualTrigger",
+        "position": [
+          0,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "8c2cfb8e-92bc-430c-8fd4-24e17a83af05"
+      },
+      {
+        "parameters": {
+          "resource": "channelMessage",
+          "teamId": "b41df03c-362f-46b1-b020-7c7b730fb8ce",
+          "channelId": "19:83696d248c8f4bdcbfbed5daf1a5cc79@thread.tacv2",
+          "message": "={{ $json.body.message || $json.message }} on {{ $now }}",
+          "options": {}
+        },
+        "name": "Microsoft Teams",
+        "type": "n8n-nodes-base.microsoftTeams",
+        "position": [
+          192,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "cd3de3b8-238c-47d7-a43d-a0d360630b04",
+        "credentials": {
+          "microsoftTeamsOAuth2Api": {
+            "id": "jV3Fzm5Isy9k4AZd",
+            "name": "Microsoft Teams account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+          "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+          "updateFields": {
+            "name": "n8n-documentation-demo"
+          }
+        },
+        "name": "Microsoft Teams1",
+        "type": "n8n-nodes-base.microsoftTeams",
+        "position": [
+          400,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "3a45e772-d947-41b4-ae28-800e4164fe6c",
+        "credentials": {
+          "microsoftTeamsOAuth2Api": {
+            "id": "jV3Fzm5Isy9k4AZd",
+            "name": "Microsoft Teams account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "resource": "channelMessage",
+          "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+          "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+          "message": "n8n rocks!",
+          "options": {}
+        },
+        "name": "Microsoft Teams2",
+        "type": "n8n-nodes-base.microsoftTeams",
+        "position": [
+          592,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "03bf0f65-84db-45ac-8d6f-c18a7167f353",
+        "credentials": {
+          "microsoftTeamsOAuth2Api": {
+            "id": "jV3Fzm5Isy9k4AZd",
+            "name": "Microsoft Teams account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "53d106c9-c090-4708-a471-6f5ffb0b6d83",
+          "responseMode": "lastNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          -144
+        ],
+        "id": "4a269ee7-f708-485e-b69f-dbeee56a8a05",
+        "name": "Webhook",
+        "webhookId": "53d106c9-c090-4708-a471-6f5ffb0b6d83",
+        "notes": "@body message string Message"
+      },
+      {
+        "parameters": {
+          "content": "## Example\n**Curl** \n curl -X POST 'https://oauth2test.manageddeployment.com/webhook/53d106c9-c090-4708-a471-6f5ffb0b6d83' --json '{\"message\":\"curl test\"}'\n [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+          "height": 144,
+          "width": 656
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          192,
+          -208
+        ],
+        "typeVersion": 1,
+        "id": "161e95f7-4c64-45d1-ad66-b4b5ec9546aa",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {
+      "Microsoft Teams": {
+        "main": [
+          [
+            {
+              "node": "Microsoft Teams1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Microsoft Teams1": {
+        "main": [
+          [
+            {
+              "node": "Microsoft Teams2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "On clicking 'execute'": {
+        "main": [
+          [
+            {
+              "node": "Microsoft Teams",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Microsoft Teams",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "sean keery",
+    "name": "0.0.5",
+    "description": "example added",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-13T22:37:01.627Z",
+        "id": 71,
+        "workflowId": "FSDPXG7h8rJ9zFfS",
+        "versionId": "80d5e038-eb52-42bd-82d1-86206098d094",
+        "event": "activated",
+        "userId": "0bf0b226-8ea5-4163-8cc1-8ca9663cae74"
+      }
+    ]
+  }
+}
