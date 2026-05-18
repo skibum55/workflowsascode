@@ -23,7 +23,7 @@
       "label": "desktop"
     	}
   	},
-	"postCreateCommand": "../scripts/playwright-install.sh"
+	"postCreateCommand": "/workspaces/workflowsascode/scripts/playwright-install.sh"
 
 	// "postStartCommand": "./.devcontainer/startup.sh"	
 }
