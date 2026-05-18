@@ -23,11 +23,7 @@
       "label": "desktop"
     	}
   	},
-	"postCreateCommand": [
-		"npm init playwright@latest",
-		"npm install @playwright/cli",
-		"npx playwright install --with-deps chromium",
-		"npx @playwright/mcp@latest"
-	]
+	"postCreateCommand": "../scripts/playwright-install.sh"
+
 	// "postStartCommand": "./.devcontainer/startup.sh"	
 }
