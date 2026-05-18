@@ -1,6 +1,5 @@
-npm init playwright@latest
-npm install @playwright/cli
-npx playwright install --with-deps chromium
-npx @playwright/mcp@latest
-playwright-cli install --skills
- 
+npm init playwright@latest --yes -- . --quiet --browser=chromium --install-deps
+npm install @playwright/cli --yes
+npx --yes playwright install --with-deps chromium 
+npx --yes @playwright/mcp@latest 
+npx --yes playwright-cli install --skills
