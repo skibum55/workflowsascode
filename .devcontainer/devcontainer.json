@@ -24,6 +24,6 @@
     	}
   	},
 	"postCreateCommand": "/workspaces/workflowsascode/scripts/playwright-install.sh"
-
+ 
 	// "postStartCommand": "./.devcontainer/startup.sh"	
-}
+} 
