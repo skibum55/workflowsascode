@@ -1,5 +1,10 @@
+#!/usr/bin/env bash
+set -e
 cd ..
-npm init playwright@latest -- --quiet --browser=chromium --install-deps
+printf 'y\n' | npm init playwright@latest . -- \
+  --quiet \
+  --browser=chromium \
+  --install-deps
 npm install @playwright/cli --yes
 npx --yes playwright install --with-deps chromium 
 npx --yes @playwright/mcp@latest 
