@@ -6,7 +6,7 @@
         },
         "playwright": {
             "command": "npx",
-            "args": ["-y", "@microsoft/mcp-server-playwright"]
+            "args": ["@playwright/mcp"]
         }
     }
 }
