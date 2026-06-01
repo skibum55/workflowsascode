@@ -15,6 +15,7 @@
     "simple-git": "^3.20.1"
   },
   "devDependencies": {
+    "@playwright/mcp": "^0.0.75",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.7.0"
   }

@@ -7,10 +7,10 @@
 
 	"customizations": {
 		"vscode": {
-		"extensions": [
-			"ms-vscode.vscode-typescript-next",
-			"ms-playwright.playwright"
-		]
+			"extensions": [
+				"ms-vscode.vscode-typescript-next",
+				"ms-playwright.playwright"
+			]
 		}
 	},
 
@@ -23,11 +23,7 @@
       "label": "desktop"
     	}
   	},
-	"postCreateCommand": [
-		"npm init playwright@latest",
-		"npm install @playwright/cli",
-		"npx playwright install --with-deps chromium",
-		"npx @playwright/mcp@latest"
-	]
+	"postCreateCommand": "/workspaces/workflowsascode/scripts/playwright-install.sh"
+ 
 	// "postStartCommand": "./.devcontainer/startup.sh"	
-}
+} 
