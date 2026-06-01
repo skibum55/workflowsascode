@@ -1,0 +1,49 @@
+name: Phase 4 - Fleet Deployment
+on:
+  push:
+    branches: [main]
+  create:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy-fleet:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    # Phase 2 Step 2: Version tagging trigger
+    - name: Get version
+      id: version
+      run: |
+        if [[ $GITHUB_REF == refs/tags/v* ]]; then
+          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        else 
+          echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with: { node-version: 18 }
+      
+    - name: Install dependencies
+      run: npm ci
+    
+    # Phase 4 Step 3: Deploy to entire fleet
+    - name: Deploy to fleet
+      env:
+        # This should point to your "Master" or "Non-Prod" instance
+        N8N_URL: ${{ secrets.N8N_URL }}
+        N8N_API_KEY: ${{ secrets.N8N_API_KEY }}
+      run: |
+        npm run deploy -- --env=fleet
+        
+    # Phase 4 Step 4: Audit trail
+    - name: Create deployment summary
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const summary = `# Fleet Deployment Complete\n\n✅ **Version ${{ steps.version.outputs.tag }}**\n\n`;
+          core.summary.addRaw(summary);
+          core.summary.write();

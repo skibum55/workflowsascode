@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "environments": {
+    "non-prod": {
+      "baseUrl": "https://nonprod.yourcompany.n8n.cloud",
+      "apiKey": "${{ secrets.NONPROD_API_KEY }}",
+      "instanceId": "abc123",
+      "workflows": {
+        "customerA-postgres-sync": "wf_001",
+        "shared-webhook-processor": "wf_002",
+        "customerB-salesforce-sync": "wf_003"
+      }
+    },
+    "customers": [
+      {
+        "name": "Customer A",
+        "baseUrl": "https://customerA.n8n.cloud",
+        "apiKey": "${{ secrets.CUSTOMER_A_API_KEY }}",
+        "instanceId": "def456",
+        "workflows": {
+          "customerA-postgres-sync": "wf_001"
+        }
+      },
+      {
+        "name": "Customer B", 
+        "baseUrl": "https://customerB.n8n.cloud",
+        "apiKey": "${{ secrets.CUSTOMER_B_API_KEY }}",
+        "instanceId": "ghi789",
+        "workflows": {
+          "customerB-salesforce-sync": "wf_003",
+          "shared-webhook-processor": "wf_002"
+        }
+      }
+    ]
+  }
+}

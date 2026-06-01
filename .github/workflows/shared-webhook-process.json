@@ -1,0 +1,34 @@
+{
+  "name": "Shared Webhook Processor",
+  "nodes": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhook-{{ $env.CLIENT_SUBDOMAIN }}"
+      }
+    },
+    {
+      "name": "VersionStickyNote",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [1200, 100],
+      "parameters": {
+        "content": "Version will be injected here\ndeployment timestamp"
+      }
+    },
+    {
+      "name": "Postgres_DB",
+      "type": "n8n-nodes-base.postgres",
+      "position": [460, 300],
+      "credentials": {
+        "postgres": "Postgres_DB"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [["Postgres_DB"]] }
+  },
+  "tags": ["shared", "v1.0.0"]
+}

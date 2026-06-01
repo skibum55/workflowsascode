@@ -1,0 +1,8 @@
+{
+  "clientSubdomain": "test-client",
+  "data": {
+    "orderId": "TEST-123",
+    "amount": 99.99,
+    "customerId": "cust_test_001"
+  }
+}

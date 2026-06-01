@@ -25,9 +25,11 @@
   	},
 	"postCreateCommand": [
 		"npm init playwright@latest",
-		"npm install @playwright/cli",
+		"npm i playwright",
+		"npm i @playwright/cli",
 		"npx playwright install --with-deps chromium",
-		"npx @playwright/mcp@latest"
+		"npx @playwright/mcp@latest",
+		"npx playwright-cli install --skills"
 	]
 	// "postStartCommand": "./.devcontainer/startup.sh"	
 }
