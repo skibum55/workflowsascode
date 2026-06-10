@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('finding a knowledge article', async ({ page }) => {
+test('finding a knowledge article', {tag: ['@PRP123', '@KMS', '@positive']}, async ({ page }) => {
   await page.goto('https://nexuscoreai.azurewebsites.net');
   await page.getByRole('textbox', { name: 'User Name' }).fill('Amy Jackson');
   await page.getByRole('textbox', { name: 'Password' }).fill('AmyJackson');
