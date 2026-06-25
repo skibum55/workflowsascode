@@ -17,6 +17,6 @@
   "devDependencies": {
     "@playwright/mcp": "^0.0.76",
     "@playwright/test": "^1.61.1",
-    "@types/node": "^25.9.2"
+    "@types/node": "^26.0.1"
   }
 }
