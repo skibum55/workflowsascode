@@ -55,19 +55,66 @@ jobs:
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
 
-            # echo "=== Pre-fill staging info"
-            # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.WelcomeActivity --es "serverurl" "://example.com" --es "groupid" "YourGroupID"
+            echo "=== Pre-fill staging info"
+            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.WelcomeActivity \
+              --es "serverurl" "${{secrets.UEM_URL}}" \
+              --es "groupid" "${{secrets.UEM_GROUPID}}" \
+              --es "username" "${{secrets.UEM_USER}}" \
+              --es "password" "${{secrets.UEM_PASSWORD}}" \
+              --ez "auto_enroll" true \
+              --ez "skip_welcome" true
 
-            echo "=== Sideloading credentials"
-            adb push credentials.bin /sdcard/credentials.bin
+            echo "=== Verification Check ==="
+            sleep 60
+            # adb shell dumpsys activity top | grep WelcomeActivity || echo "Activity successfully advanced or hidden."
+            # Define configuration variables
+            TIMEOUT_SECONDS=60
+            SLEEP_INTERVAL=5
+            ELAPSED=0
+            SUCCESS=false
             
-            echo "=== Launching UI Component Silently inside Virtual Memory ==="
-            # -e hideui true forces the Omnissa Hub app to process in headless mode
-            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity -e hideui true
-            sleep 5
+            # Expected Workspace ONE admin component string
+            EXPECTED_ADMIN="com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver"
             
-            echo "=== Injecting Credentials File ==="
-            adb shell am broadcast -a com.airwatch.agent.action.IMPORT_CREDENTIAL_XML -e file /sdcard/credentials.bin --user 0
+            echo "=== Starting Workspace ONE enrollment verification loop ==="
+            echo "Waiting for device to report active administrator status (Timeout: ${TIMEOUT_SECONDS}s)..."
+            
+            while [ $ELAPSED -lt $TIMEOUT_SECONDS ]; do
+                # Query ADB for active admins and check for the WS1 receiver string
+                CURRENT_ADMINS=$(adb shell dpm list-active-admins)
+                
+                if echo "$CURRENT_ADMINS" | grep -q "$EXPECTED_ADMIN"; then
+                    echo "=== [SUCCESS] Device successfully enrolled in Workspace ONE! ==="
+                    SUCCESS=true
+                    break
+                fi
+            
+                echo "Enrollment pending... (${ELAPSED}s elapsed). Retrying in ${SLEEP_INTERVAL}s..."
+                sleep $SLEEP_INTERVAL
+                ELAPSED=$((ELAPSED + SLEEP_INTERVAL))
+            done
+            
+            if [ "$SUCCESS" = false ]; then
+                echo "=== [ERROR] Enrollment timed out after ${TIMEOUT_SECONDS} seconds! ==="
+                echo "Dumping active administrators for debugging:"
+                adb shell dpm list-active-admins
+                
+                echo "Dumping recent Hub app system logs:"
+                adb logcat -d | grep -i -E "AirWatch|Enrollment" | tail -n 20
+                
+                exit 1
+            fi
+            
+            # echo "=== Sideloading credentials"
+            # adb push credentials.bin /sdcard/credentials.bin
+            
+            # echo "=== Launching UI Component Silently inside Virtual Memory ==="
+            # # -e hideui true forces the Omnissa Hub app to process in headless mode
+            # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity -e hideui true
+            # sleep 30
+            
+            # echo "=== Injecting Credentials File ==="
+            # adb shell am broadcast -a com.airwatch.agent.action.IMPORT_CREDENTIAL_XML -e file /sdcard/credentials.bin --user 0
             
             echo "=== Verifying Enrollment status ==="
             # Allow background tasks 15 seconds to run the process
