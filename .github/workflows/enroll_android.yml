@@ -52,15 +52,15 @@ jobs:
             adb wait-for-device
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
-            adb install omnissa-hub.apk
+            adb install --bypass-low-target-sdk-block omnissa-hub.apk
             
-            echo "=== Pushing Sideload Credentials file ==="
-            # Omnissa Hub scans the root directory of the sdcard for credentials.bin on launch
-            adb push credentials.bin /sdcard/credentials.bin
+            echo "=== Launching UI Component Silently inside Virtual Memory ==="
+            # -e hideui true forces the Omnissa Hub app to process in headless mode
+            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity -e hideui true
+            sleep 5
             
-            echo "=== Starting Enrollment Service ==="
-            # Force launch the background airwatch service to ingest credentials and self-enroll
-            adb shell am start -a com.airwatch.START_AIRWATCH_SERVICE
+            echo "=== Injecting Credentials File ==="
+            adb shell am broadcast -a com.airwatch.agent.action.IMPORT_CREDENTIAL_XML -e file /sdcard/credentials.bin --user 0
             
             echo "=== Verifying Enrollment status ==="
             # Allow background tasks 15 seconds to run the process
