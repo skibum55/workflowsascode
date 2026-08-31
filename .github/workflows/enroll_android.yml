@@ -52,7 +52,7 @@ jobs:
             adb wait-for-device
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
-            adb install --bypass-low-target-sdk-block omnissa-hub.apk
+            adb install omnissa-hub.apk
             
             echo "=== Launching UI Component Silently inside Virtual Memory ==="
             # -e hideui true forces the Omnissa Hub app to process in headless mode
