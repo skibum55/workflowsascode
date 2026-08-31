@@ -58,7 +58,7 @@ jobs:
             # echo "=== Pre-fill staging info"
             # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.WelcomeActivity --es "serverurl" "://example.com" --es "groupid" "YourGroupID"
 
-            echo "=== Sideloading credentials
+            echo "=== Sideloading credentials"
             adb push credentials.bin /sdcard/credentials.bin
             
             echo "=== Launching UI Component Silently inside Virtual Memory ==="
