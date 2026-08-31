@@ -31,6 +31,7 @@ jobs:
       - name: Prepare Omnissa Enrollment Files
         env:
           OMNISSA_CREDENTIALS_BASE64: ${{ secrets.OMNISSA_CREDENTIALS_BASE64 }}
+          OMNISSA_URL : ${{secrets.OMNISSA_URL}}
         run: |
           # Download your Hub APK (replace with your preferred download link or local file)
           curl -L -o omnissa-hub.apk "https://getwsone.com/mobileenrollment/airwatchagent.apk"
@@ -53,6 +54,12 @@ jobs:
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
+
+            # echo "=== Pre-fill staging info"
+            # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.WelcomeActivity --es "serverurl" "://example.com" --es "groupid" "YourGroupID"
+
+            echo "=== Sideloading credentials
+            adb push credentials.bin /sdcard/credentials.bin
             
             echo "=== Launching UI Component Silently inside Virtual Memory ==="
             # -e hideui true forces the Omnissa Hub app to process in headless mode
