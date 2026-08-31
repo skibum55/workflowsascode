@@ -56,7 +56,7 @@ jobs:
             adb install omnissa-hub.apk
 
             echo "=== Pre-fill staging info"
-            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.WelcomeActivity \
+            adb shell am start -n com.airwatch.agent.ui.activity.WelcomeActivity \
               --es "serverurl" "${{secrets.UEM_URL}}" \
               --es "groupid" "${{secrets.UEM_GROUPID}}" \
               --es "username" "${{secrets.UEM_USER}}" \
@@ -74,7 +74,7 @@ jobs:
             SUCCESS=false
             
             # Expected Workspace ONE admin component string
-            EXPECTED_ADMIN="com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver"
+            EXPECTED_ADMIN="com.airwatch.agent.DeviceAdministratorReceiver"
             
             echo "=== Starting Workspace ONE enrollment verification loop ==="
             echo "Waiting for device to report active administrator status (Timeout: ${TIMEOUT_SECONDS}s)..."
@@ -110,7 +110,7 @@ jobs:
             
             # echo "=== Launching UI Component Silently inside Virtual Memory ==="
             # # -e hideui true forces the Omnissa Hub app to process in headless mode
-            # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity -e hideui true
+            # adb shell am start -n com.airwatch.agent.ui.activity.SplashActivity -e hideui true
             # sleep 30
             
             # echo "=== Injecting Credentials File ==="
