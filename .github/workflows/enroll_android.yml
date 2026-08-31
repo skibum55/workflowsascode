@@ -57,7 +57,7 @@ jobs:
 
             echo "=== Pre-fill staging info"
             adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity \
-              -e hideui true
+              # -e hideui true \
               --es "serverurl" "${{secrets.UEM_URL}}" \
               --es "groupid" "${{secrets.UEM_GROUPID}}" \
               --es "username" "${{secrets.UEM_USER}}" \
