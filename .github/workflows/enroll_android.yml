@@ -56,7 +56,7 @@ jobs:
             adb install omnissa-hub.apk
 
             echo "=== Pre-fill staging info"
-            adb shell am start -n com.airwatch.agent.ui.activity.SplashActivity \
+            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity \
               -e hideui true
               --es "serverurl" "${{secrets.UEM_URL}}" \
               --es "groupid" "${{secrets.UEM_GROUPID}}" \
