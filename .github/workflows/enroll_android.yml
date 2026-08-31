@@ -1,0 +1,58 @@
+name: Register AVD with Workspace ONE
+on: [push]
+
+jobs:
+  enroll-mdm:
+    runs-on: macos-latest # macOS provides hardware acceleration for fast booting
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Run Emulator, Install Hub, and Enroll
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu off -no-audio -no-boot-anim -camera-back none
+          script: |
+            echo "=== Emulator Booted ==="
+            adb devices
+
+            echo "=== 1. Downloading Omnissa Intelligent Hub APK ==="
+            # Fetch the latest production Hub APK from the official public source
+            curl -L -o hub.apk "https://googleapis.com"
+
+            echo "=== 2. Installing Hub App ==="
+            # Install the APK with all runtime permissions granted automatically
+            adb install -g hub.apk
+
+            echo "=== 3. Elevating Hub to Device Owner ==="
+            # Forces Android to assign Omnissa Hub full administrative EMM control over the device
+            adb shell dpm set-device-owner com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
+
+            echo "=== 4. Seeding Enrollment Credentials via Intent ==="
+            # Broadcasts your staging server info straight into the Hub database to skip user text entry
+            adb shell am broadcast -a com.airwatch.agent.action.EXTERNAL_ENROLLMENT \
+              --es server_url "https://yourdomain.com" \
+              --es group_id "YourGroupID" \
+              --es username "your_staging_user" \
+              --es password "your_staging_password" \
+              com.airwatch.androidagent
+
+            echo "=== 5. Launching the App to Kick off Enrollment ==="
+            # Opens the app to process the background registration
+            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity
+
+            # Allow 15 seconds for the background check-in handshake to finalize with your UEM server
+            sleep 15
+            echo "Enrollment broadcast sent. Checking package visibility..."
+            adb shell pm list packages | grep airwatch
