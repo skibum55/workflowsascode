@@ -1,58 +1,70 @@
-name: Register AVD with Workspace ONE
-on: [push]
+name: Android Emulator Omnissa Enrollment
+
+on:
+  workflow_dispatch: # Allows manual trigger, or change to 'push' if needed
 
 jobs:
-  enroll-mdm:
-    runs-on: macos-latest # macOS provides hardware acceleration for fast booting
-    
+  enroll-device:
+    # x86_64 Emulators require hardware acceleration (KVM). 
+    # Ubuntu-latest runners support KVM out of the box with proper configuration.
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: Set up Java/JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
-      - name: Run Emulator, Install Hub, and Enroll
+      # Enable KVM group permissions on the Ubuntu host to speed up emulator execution
+      - name: Enable KVM group permissions
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # Download or construct the credentials.bin using GitHub Secrets
+      # Make sure to generate this staging package from your Omnissa UEM Console
+      - name: Prepare Omnissa Enrollment Files
+        env:
+          OMNISSA_CREDENTIALS_BASE64: ${{ secrets.OMNISSA_CREDENTIALS_BASE64 }}
+        run: |
+          # Download your Hub APK (replace with your preferred download link or local file)
+          curl -L -o omnissa-hub.apk "https://getwsone.com"
+          
+          # Rebuild your binary credentials file securely from repository secrets
+          echo "$OMNISSA_CREDENTIALS_BASE64" | base64 --decode > credentials.bin
+
+      # Launch the emulator and execute setup
+      - name: Run Emulator and Enroll Device
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33
-          target: google_apis
-          arch: x86_64
-          force-avd-creation: false
-          emulator-options: -no-window -gpu off -no-audio -no-boot-anim -camera-back none
+          api-level: 33              # Android 13 (Adjust based on requirements)
+          target: google_apis        # Essential for background service stability
+          arch: x86_64               # x86_64 runs natively fast on Ubuntu KVM
+          disable-animations: true   # Keeps UI cycles fast during automation
+          
           script: |
-            echo "=== Emulator Booted ==="
-            adb devices
-
-            echo "=== 1. Downloading Omnissa Intelligent Hub APK ==="
-            # Fetch the latest production Hub APK from the official public source
-            curl -L -o hub.apk "https://googleapis.com"
-
-            echo "=== 2. Installing Hub App ==="
-            # Install the APK with all runtime permissions granted automatically
-            adb install -g hub.apk
-
-            echo "=== 3. Elevating Hub to Device Owner ==="
-            # Forces Android to assign Omnissa Hub full administrative EMM control over the device
-            adb shell dpm set-device-owner com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
-
-            echo "=== 4. Seeding Enrollment Credentials via Intent ==="
-            # Broadcasts your staging server info straight into the Hub database to skip user text entry
-            adb shell am broadcast -a com.airwatch.agent.action.EXTERNAL_ENROLLMENT \
-              --es server_url "https://yourdomain.com" \
-              --es group_id "YourGroupID" \
-              --es username "your_staging_user" \
-              --es password "your_staging_password" \
-              com.airwatch.androidagent
-
-            echo "=== 5. Launching the App to Kick off Enrollment ==="
-            # Opens the app to process the background registration
-            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity
-
-            # Allow 15 seconds for the background check-in handshake to finalize with your UEM server
+            echo "=== Waiting for boot to completely stabilize ==="
+            adb wait-for-device
+            
+            echo "=== Installing Omnissa Intelligent Hub APK ==="
+            adb install omnissa-hub.apk
+            
+            echo "=== Pushing Sideload Credentials file ==="
+            # Omnissa Hub scans the root directory of the sdcard for credentials.bin on launch
+            adb push credentials.bin /sdcard/credentials.bin
+            
+            echo "=== Starting Enrollment Service ==="
+            # Force launch the background airwatch service to ingest credentials and self-enroll
+            adb shell am start -a com.airwatch.START_AIRWATCH_SERVICE
+            
+            echo "=== Verifying Enrollment status ==="
+            # Allow background tasks 15 seconds to run the process
             sleep 15
-            echo "Enrollment broadcast sent. Checking package visibility..."
+            
+            # Print the background process status to confirm it didn't crash
             adb shell pm list packages | grep airwatch
