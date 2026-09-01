@@ -51,29 +51,11 @@ jobs:
           script: |
             echo "=== Waiting for boot to completely stabilize ==="
             adb wait-for-device
-            echo "=== Spoofing Secure Bootloader State ==="
-            
-            # 1. Elevate ADB to root access to allow property modifications
-            adb root
-            adb wait-for-device
-            
-            # 2. Force the bootloader state to report "verified" (locked)
-            adb shell setprop ro.boot.verifiedbootstate verified
-            
-            # 3. Secure accompanying properties often checked by MDM apps
+                        
+            echo "=== Installing Omnissa Intelligent Hub APK ==="
+            adb shell setprop ro.boot.verifiedbootstate verified    
             adb shell setprop ro.boot.flash.locked 1
             adb shell setprop ro.secure 1
-            
-            # 4. Restart the Android shell runtime to commit the changes safely
-            adb shell stop
-            adb wait-for-device            
-            adb shell start
-            
-            # 5. Wait a few seconds for the UI system to restart before launching the Hub
-            sleep 10
-
-            
-            echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
 
             # echo "=== Pre-fill staging info"
@@ -87,7 +69,6 @@ jobs:
   
             echo "=== 2. Starting Enrollment Verification Loop ==="
             TIMEOUT_SECONDS=600 && SLEEP_INTERVAL=10 && ELAPSED=0 && SUCCESS=false && EXPECTED_ADMIN="com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver" && echo "Waiting for device..." && while [ "$ELAPSED" -lt "$TIMEOUT_SECONDS" ]; do CURRENT_ADMINS=$(adb shell dpm list-owners); case "$CURRENT_ADMINS" in *"$EXPECTED_ADMIN"*) echo "=== [SUCCESS] Enrolled! ==="; SUCCESS=true; break ;; esac; echo "Pending... (${ELAPSED}s elapsed). Retrying in ${SLEEP_INTERVAL}s..."; sleep "$SLEEP_INTERVAL"; ELAPSED=$((ELAPSED + SLEEP_INTERVAL)); done && if [ "$SUCCESS" = "false" ]; then echo "=== [ERROR] Enrollment timed out after ${TIMEOUT_SECONDS} seconds! ==="; adb shell dpm list-owners; adb logcat -d | grep -i "AirWatch\|Enrollment" | tail -n 20; exit 1; fi
-
 
             # echo "=== Sideloading credentials"
             # adb push credentials.bin /sdcard/credentials.bin
