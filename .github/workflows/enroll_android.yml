@@ -72,7 +72,8 @@ jobs:
   
             echo "Waiting for device to report active administrator status (Timeout: ${TIMEOUT_SECONDS}s)..."
   
-            while [ $ELAPSED -lt $TIMEOUT_SECONDS ]; do
+            while [ $ELAPSED -lt $TIMEOUT_SECONDS ] 
+            do
                 # Query ADB for active admins and check for the WS1 receiver string
                 CURRENT_ADMINS=$(adb shell dpm list-active-admins)
                 
