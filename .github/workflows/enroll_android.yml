@@ -47,15 +47,18 @@ jobs:
           target: google_apis        # Essential for background service stability
           arch: x86_64               # x86_64 runs natively fast on Ubuntu KVM
           disable-animations: true   # Keeps UI cycles fast during automation
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 8.8.8.8 -netfast -no-metrics
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 8.8.8.8 -netfast -no-metrics -writable-system
           
           script: |
             echo "=== Waiting for boot to completely stabilize ==="
             adb wait-for-device
 
             # 1. Restart ADB with root privileges
-            adb root && adb remount && adb shell "echo 'ro.boot.verifiedbootstate=green' >> /system/build.prop" && adb shell "echo 'ro.boot.flash.locked=1' >> /system/build.prop" && adb reboot
+            adb root && adb remount && adb shell "echo 'ro.boot.verifiedbootstate=green' >> /system/build.prop" && adb shell "echo 'ro.boot.flash.locked=1' >> /system/build.prop" && adb shell "stop" && adb shell "start"
 
+            echo "=== Waiting for boot to completely stabilize ==="
+            adb wait-for-device
+            
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
        
