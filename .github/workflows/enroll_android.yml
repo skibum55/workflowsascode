@@ -51,6 +51,25 @@ jobs:
           script: |
             echo "=== Waiting for boot to completely stabilize ==="
             adb wait-for-device
+            echo "=== Spoofing Secure Bootloader State ==="
+            
+            # 1. Elevate ADB to root access to allow property modifications
+            adb root
+            
+            # 2. Force the bootloader state to report "verified" (locked)
+            adb shell setprop ro.boot.verifiedbootstate verified
+            
+            # 3. Secure accompanying properties often checked by MDM apps
+            adb shell setprop ro.boot.flash.locked 1
+            adb shell setprop ro.secure 1
+            
+            # 4. Restart the Android shell runtime to commit the changes safely
+            adb shell stop
+            adb shell start
+            
+            # 5. Wait a few seconds for the UI system to restart before launching the Hub
+            sleep 10
+
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
