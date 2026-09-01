@@ -55,7 +55,14 @@ jobs:
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
-            # adb shell setprop ro.boot.verifiedbootstate verified
+
+            # 2. Force the bootloader state to report "verified" (locked)
+            adb shell setprop ro.boot.verifiedbootstate verified
+            
+            # 3. Secure accompanying properties often checked by MDM apps
+            adb shell setprop ro.boot.flash.locked 1
+            adb shell setprop ro.secure 1
+            
             adb shell dpm set-device-owner com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
             # adb shell dpm set-active-admin com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
             
