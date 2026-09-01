@@ -55,6 +55,7 @@ jobs:
             
             # 1. Elevate ADB to root access to allow property modifications
             adb root
+            adb wait-for-device
             
             # 2. Force the bootloader state to report "verified" (locked)
             adb shell setprop ro.boot.verifiedbootstate verified
@@ -65,6 +66,7 @@ jobs:
             
             # 4. Restart the Android shell runtime to commit the changes safely
             adb shell stop
+            adb wait-for-device            
             adb shell start
             
             # 5. Wait a few seconds for the UI system to restart before launching the Hub
