@@ -47,6 +47,7 @@ jobs:
           target: google_apis        # Essential for background service stability
           arch: x86_64               # x86_64 runs natively fast on Ubuntu KVM
           disable-animations: true   # Keeps UI cycles fast during automation
+          emulator-options: -no-window -gpu swiftshader_indirect -no-audio -no-boot-anim -prop androidboot.verifiedbootstate=green
           
           script: |
             echo "=== Waiting for boot to completely stabilize ==="
