@@ -55,7 +55,7 @@ jobs:
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
-            adb shell setprop ro.boot.verifiedbootstate verified            
+            # adb shell setprop ro.boot.verifiedbootstate verified            
 
             # echo "=== Pre-fill staging info"
             # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity --es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true
