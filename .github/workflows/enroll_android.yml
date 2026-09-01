@@ -58,6 +58,10 @@ jobs:
             # echo "=== Pre-fill staging info"
             # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity --es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true
 
+           adb shell dpm set-device-owner \
+        com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
+
+
             echo "=== 1. Starting Workspace ONE Intelligent Hub ==="
             # Single continuous string to completely avoid shell parser line-break bugs
             adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity --es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true 
