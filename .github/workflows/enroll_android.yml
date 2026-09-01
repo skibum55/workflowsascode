@@ -43,8 +43,8 @@ jobs:
       - name: Run Emulator and install Airwatch
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33              # Android 13 (Adjust based on requirements)
-          target: google_apis_playstore        # Essential for background service stability
+          api-level: 34              # Android 13 (Adjust based on requirements)
+          target: google_apis        # Essential for background service stability
           arch: x86_64               # x86_64 runs natively fast on Ubuntu KVM
           disable-animations: true   # Keeps UI cycles fast during automation
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 8.8.8.8 -netfast -no-metrics
@@ -55,14 +55,7 @@ jobs:
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
-
-            # 2. Force the bootloader state to report "verified" (locked)
-            adb shell setprop ro.boot.verifiedbootstate verified
-            
-            # 3. Secure accompanying properties often checked by MDM apps
-            adb shell setprop ro.boot.flash.locked 1
-            adb shell setprop ro.secure 1
-            
+       
             adb shell dpm set-device-owner com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
             # adb shell dpm set-active-admin com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
             
