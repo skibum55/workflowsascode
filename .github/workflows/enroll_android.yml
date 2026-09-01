@@ -54,14 +54,13 @@ jobs:
             adb wait-for-device
             
             echo "=== Installing Omnissa Intelligent Hub APK ==="
-            adb shell dpm set-active-admin com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
             adb install omnissa-hub.apk
             # adb shell setprop ro.boot.verifiedbootstate verified
+            adb shell dpm set-device-owner com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
+            # adb shell dpm set-active-admin com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
             
             # echo "=== Pre-fill staging info"
             # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity --es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true
-
-            # adb shell dpm set-device-owner com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver
 
             echo "=== 1. Starting Workspace ONE Intelligent Hub ==="
             # Single continuous string to completely avoid shell parser line-break bugs
