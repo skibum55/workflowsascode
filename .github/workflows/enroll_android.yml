@@ -83,6 +83,7 @@ jobs:
             
             echo "=== Verifying Enrollment status ==="
             # Allow background tasks 15 seconds to run the process
+            adb logcat -d | grep -i "Hub enrollment status:" | tail -n 100
             sleep 15
             
             # Print the background process status to confirm it didn't crash
