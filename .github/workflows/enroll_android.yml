@@ -40,7 +40,7 @@ jobs:
           echo "$OMNISSA_CREDENTIALS_BASE64" | base64 --decode > credentials.bin
 
       # Launch the emulator and execute setup
-      - name: Run Emulator and Enroll Device
+      - name: Run Emulator and install Airwatch
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 33              # Android 13 (Adjust based on requirements)
@@ -55,49 +55,50 @@ jobs:
             echo "=== Installing Omnissa Intelligent Hub APK ==="
             adb install omnissa-hub.apk
 
-            echo "=== Pre-fill staging info"
-            adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity --es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true
+            # echo "=== Pre-fill staging info"
+            # adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity --es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true
 
-            echo "=== Verification Check ==="
-            sleep 60
-            # adb shell dumpsys activity top | grep WelcomeActivity || echo "Activity successfully advanced or hidden."
-            # Define configuration variables
-            TIMEOUT_SECONDS=60
-            SLEEP_INTERVAL=5
-            ELAPSED=0
-            SUCCESS=false
-            
-            # Expected Workspace ONE admin component string
-            EXPECTED_ADMIN="com.airwatch.agent.DeviceAdministratorReceiver"
-            
-            echo "=== Starting Workspace ONE enrollment verification loop ==="
-            echo "Waiting for device to report active administrator status (Timeout: ${TIMEOUT_SECONDS}s)..."
-            
-            while [ $ELAPSED -lt $TIMEOUT_SECONDS ]; do
-                # Query ADB for active admins and check for the WS1 receiver string
-                CURRENT_ADMINS=$(adb shell dpm list-active-admins)
-                
-                if echo "$CURRENT_ADMINS" | grep -q "$EXPECTED_ADMIN"; then
-                    echo "=== [SUCCESS] Device successfully enrolled in Workspace ONE! ==="
-                    SUCCESS=true
-                    break
-                fi
-            
-                echo "Enrollment pending... (${ELAPSED}s elapsed). Retrying in ${SLEEP_INTERVAL}s..."
-                sleep $SLEEP_INTERVAL
-                ELAPSED=$((ELAPSED + SLEEP_INTERVAL))
-            done
-            
-            if [ "$SUCCESS" = false ]; then
-                echo "=== [ERROR] Enrollment timed out after ${TIMEOUT_SECONDS} seconds! ==="
-                echo "Dumping active administrators for debugging:"
-                adb shell dpm list-active-admins
-                
-                echo "Dumping recent Hub app system logs:"
-                adb logcat -d | grep -i -E "AirWatch|Enrollment" | tail -n 20
-                
-                exit 1
-            fi
+      - name: Launch and Verify Workspace ONE Enrollment
+        run: |
+          echo "=== 1. Starting Workspace ONE Intelligent Hub ==="
+          # Single continuous string to completely avoid shell parser line-break bugs
+          adb shell am start -n com.airwatch.androidagent/com.airwatch.agent.ui.activity.SplashActivity ---es "serverurl" "${{ secrets.UEM_URL }}" --es "groupid" "${{ secrets.UEM_GROUPID }}" --es "username" "${{ secrets.UEM_USER }}" --es "password" "${{ secrets.UEM_PASSWORD }}" --ez "auto_enroll" true --ez "skip_welcome" true --ez "auto_enroll" true --ez "skip_welcome" true
+
+          echo "=== 2. Starting Enrollment Verification Loop ==="
+          # Configuration for the wait loop
+          TIMEOUT_SECONDS=60
+          SLEEP_INTERVAL=5
+          ELAPSED=0
+          SUCCESS=false
+          EXPECTED_ADMIN="com.airwatch.androidagent/com.airwatch.agent.DeviceAdministratorReceiver"
+
+          echo "Waiting for device to report active administrator status (Timeout: ${TIMEOUT_SECONDS}s)..."
+
+          while [ $ELAPSED -lt $TIMEOUT_SECONDS ]; do
+              # Query ADB for active admins and check for the WS1 receiver string
+              CURRENT_ADMINS=$(adb shell dpm list-active-admins)
+              
+              if echo "$CURRENT_ADMINS" | grep -q "$EXPECTED_ADMIN"; then
+                  echo "=== [SUCCESS] Device successfully enrolled in Workspace ONE! ==="
+                  SUCCESS=true
+                  break
+              fi
+
+              echo "Enrollment pending... (${ELAPSED}s elapsed). Retrying in ${SLEEP_INTERVAL}s..."
+              sleep $SLEEP_INTERVAL
+              ELAPSED=$((ELAPSED + SLEEP_INTERVAL))
+          done
+
+          if [ "$SUCCESS" = false ]; then
+              echo "=== [ERROR] Enrollment timed out after ${TIMEOUT_SECONDS} seconds! ==="
+              echo "Dumping active administrators for debugging:"
+              adb shell dpm list-active-admins
+              
+              echo "Dumping recent Hub app system logs:"
+              adb logcat -d | grep -i -E "AirWatch|Enrollment" | tail -n 20
+              
+              exit 1
+          fi
             
             # echo "=== Sideloading credentials"
             # adb push credentials.bin /sdcard/credentials.bin
