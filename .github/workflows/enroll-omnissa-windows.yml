@@ -39,6 +39,7 @@ jobs:
         shell: pwsh
         run: |
           $msiPath = "$env:TEMP\WorkspaceONEIntelligentHub.msi"
+          $logPath = "$env:TEMP\ws1_install.log"          
           
           # Variables from GitHub Secrets
           $server = "${{ secrets.UEM_URL }}"
@@ -51,10 +52,12 @@ jobs:
           # replace the TOKEN parameter with: "USERNAME="`"${{ secrets.UEM_USER }}`"", "PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
           #  or vice versa "TOKEN=`"$stagingToken`""      
           # https://kb.omnissa.com/s/article/78733
+          #  "/L*v", "`"$logPath`"",  <--- THIS ENABLES VERBOSE LOGGING
           Write-Host "Starting silent installation and enrollment..."
           
           $msiArgs = @(
               "/i", "`"$msiPath`"",
+             "/L*v", "`"$logPath`"",           
               "/qn", "/norestart",
               "ENROLL=Y",
               "SERVER=`"$server`"",
