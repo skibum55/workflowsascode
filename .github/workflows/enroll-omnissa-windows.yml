@@ -38,6 +38,8 @@ jobs:
       - name: Install and Enroll Workspace ONE Intelligent Hub
         shell: pwsh
         run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
           $msiPath = "$env:TEMP\WorkspaceONEIntelligentHub.msi"
           $logPath = "$env:TEMP\ws1_install.log"          
           
@@ -93,6 +95,8 @@ jobs:
       - name: Trigger Workspace ONE Enrollment via CLI
         shell: pwsh
         run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
           $awCmd = "C:\Program Files (x86)\Airwatch\AgentUI\AWProcessCommands.exe"
           
           # Variables from GitHub Secrets
