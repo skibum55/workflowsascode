@@ -119,11 +119,10 @@ jobs:
           # Construct CLI arguments exactly as documented by Omnissa
           $cliArgs = @(
               "enroll",
-              "--SERVER", $server,
-              "--OG", $groupId,
-              "--USERNAME", $stagingUser,
-              "--PASSWORD", $stagingPass,
-              "--ASSIGNTOLOGGEDINUSER" # Reassigns to the first interactive domain user
+              "--server", $server,
+              "--og", $groupId,
+              "--username", $stagingUser,
+              "--password", $stagingPass
           )
           
           # Execute the command. -NoNewWindow keeps the output tied to the GitHub runner console.
