@@ -73,11 +73,11 @@ jobs:
       - name: Verify Enrollment and Service Status
         shell: pwsh
         run: |
-          Write-Host "Waiting 45 seconds for Workspace ONE services to initialize..."
-          Start-Sleep -Seconds 45
+          Write-Host "Waiting 90 seconds for Workspace ONE services to initialize..."
+          Start-Sleep -Seconds 90
           
           # The underlying Windows service name for the Intelligent Hub
-          $serviceName = "AirwatchAgent" 
+          $serviceName = "AirwatchService" 
           
           $service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
           
@@ -87,7 +87,7 @@ jobs:
               Write-Warning "⚠️ Warning: Workspace ONE Intelligent Hub service is not running or failed to start."
               
               Write-Host "`n--- Dumping last 50 lines of DeviceService log for debugging ---"
-              $logPath = "$env:ProgramData\AirWatch\UnifiedAgent\Logs"
+              $logPath = "C:\ProgramData\AirWatch\UnifiedAgent\Logs"
               if (Test-Path $logPath) {
                   $latestLog = Get-ChildItem -Path $logPath -Filter "DeviceService-*.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   if ($latestLog) {
