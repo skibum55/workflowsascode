@@ -89,7 +89,53 @@ jobs:
           Write-Host "Installation completed successfully (Exit code: $($process.ExitCode))."
           Get-Content $logPath -Tail 150
           Write-Host "=========================================="
-
+          
+      - name: Trigger Workspace ONE Enrollment via CLI
+        shell: pwsh
+        run: |
+          $awCmd = "C:\Program Files (x86)\Airwatch\AgentUI\AWProcessCommands.exe"
+          
+          # Pull variables from GitHub Secrets
+          $server = "${{ secrets.WS1_SERVER_URL }}"
+          $groupId = "${{ secrets.WS1_GROUP_ID }}"
+          $stagingUser = "${{ secrets.WS1_STAGING_USER }}"
+          $stagingPass = "${{ secrets.WS1_STAGING_PASSWORD }}"
+          
+          # --- VALIDATION ---
+          if (-not (Test-Path $awCmd)) {
+              Write-Error "❌ FATAL: AWProcessCommands.exe not found at $awCmd."
+              Write-Host "Did you install the Hub with PROVISIONHUB=Y in a previous step?"
+              exit 1
+          }
+          
+          # The CLI tool requires the full URL (https://) for the --SERVER parameter, 
+          # unlike the MSI parameter which sometimes omits it.
+          if (-not $server.StartsWith("http")) {
+              $server = "https://$server"
+          }
+          
+          Write-Host "Triggering Workspace ONE enrollment..."
+          
+          # Construct CLI arguments exactly as documented by Omnissa
+          $cliArgs = @(
+              "enroll",
+              "--SERVER", $server,
+              "--OG", $groupId,
+              "--USERNAME", $stagingUser,
+              "--PASSWORD", $stagingPass,
+              "--ASSIGNTOLOGGEDINUSER" # Reassigns to the first interactive domain user
+          )
+          
+          # Execute the command. -NoNewWindow keeps the output tied to the GitHub runner console.
+          $process = Start-Process -FilePath $awCmd -ArgumentList $cliArgs -Wait -PassThru -NoNewWindow
+          
+          if ($process.ExitCode -eq 0) {
+              Write-Host "✅ Enrollment command executed successfully."
+          } else {
+              Write-Error "❌ Enrollment command failed with exit code $($process.ExitCode)."
+              exit 1
+          }        
+          
       - name: Verify Enrollment and Service Status
         shell: pwsh
         run: |
@@ -107,7 +153,7 @@ jobs:
               Write-Warning "⚠️ Warning: Workspace ONE Intelligent Hub service is not running or failed to start."
               
               Write-Host "`n--- Dumping last 50 lines of DeviceService log for debugging ---"
-              $logPath = "C:\ProgramData\AirWatch\UnifiedAgent\Logs"
+              $logPath = "$env:ProgramData\AirWatch\UnifiedAgent\Logs"
               if (Test-Path $logPath) {
                   $latestLog = Get-ChildItem -Path $logPath -Filter "DeviceService-*.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   if ($latestLog) {
