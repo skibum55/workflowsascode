@@ -95,11 +95,12 @@ jobs:
         run: |
           $awCmd = "C:\Program Files (x86)\Airwatch\AgentUI\AWProcessCommands.exe"
           
-          # Pull variables from GitHub Secrets
-          $server = "${{ secrets.WS1_SERVER_URL }}"
-          $groupId = "${{ secrets.WS1_GROUP_ID }}"
-          $stagingUser = "${{ secrets.WS1_STAGING_USER }}"
-          $stagingPass = "${{ secrets.WS1_STAGING_PASSWORD }}"
+          # Variables from GitHub Secrets
+          $server = "${{ secrets.UEM_URL }}"
+          $groupId = "${{ secrets.UEM_GROUPID }}"
+          $stagingToken = "${{ secrets.UEM_STAGING_TOKEN }}"
+          $stagingUser = "${{ secrets.UEM_USER }}"
+          $stagingPass = "${{ secrets.UEM_PASSWORD }}"
           
           # --- VALIDATION ---
           if (-not (Test-Path $awCmd)) {
