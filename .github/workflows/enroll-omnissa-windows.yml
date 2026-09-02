@@ -103,7 +103,7 @@ jobs:
           stagingToken: ${{ secrets.UEM_STAGING_TOKEN }}
           stagingUser: ${{ secrets.UEM_USER }}
           stagingPass: ${{ secrets.UEM_PASSWORD }}
-        run: '"C:\Program Files (x86)\Airwatch\AgentUI\AWProcessCommands.exe" enroll --server "$server" --og "$groupid" --username "$stagingUser" --password "$stagingPass"'
+        run: '"/C:/Program Files (x86)/Airwatch/AgentUI/AWProcessCommands.exe" enroll --server "$server" --og "$groupid" --username "$stagingUser" --password "$stagingPass"'
           
       - name: Trigger Workspace ONE Enrollment via CLI
         shell: bash
