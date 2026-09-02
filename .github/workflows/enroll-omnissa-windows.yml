@@ -1,0 +1,100 @@
+name: Enroll Windows Device in Omnissa Workspace ONE
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      msi_url:
+        description: 'Direct URL to the Workspace ONE Intelligent Hub MSI'
+        required: true
+        default: 'https://packages.omnissa.com/wsone/AirwatchAgent.msi'
+
+jobs:
+  enroll-windows-device:
+    # Use 'windows-latest' for testing. 
+    # Change to your self-hosted runner label (e.g., 'self-hosted', 'windows') for persistent enrollment.
+    runs-on: windows-latest 
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download Workspace ONE Intelligent Hub MSI
+        shell: pwsh
+        run: |
+          $msiUrl = "${{ github.event.inputs.msi_url }}"
+          $msiPath = "$env:TEMP\WorkspaceONEIntelligentHub.msi"
+          
+          Write-Host "Downloading Intelligent Hub MSI from $msiUrl..."
+          try {
+              # Use -UseBasicParsing to avoid IE engine issues in headless environments
+              Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath -UseBasicParsing
+              Write-Host "Download complete. File size: $((Get-Item $msiPath).Length) bytes."
+          } catch {
+              Write-Error "Failed to download MSI: $_"
+              exit 1
+          }
+
+      - name: Install and Enroll Workspace ONE Intelligent Hub
+        shell: pwsh
+        run: |
+          $msiPath = "$env:TEMP\WorkspaceONEIntelligentHub.msi"
+          
+          # Variables from GitHub Secrets
+          $server = "${{ secrets.UEM_URL }}"
+          $groupId = "${{ secrets.UEM_GROUPID }}"
+          $stagingToken = "${{ secrets.UEM_STAGING_TOKEN }}"
+          
+          # Note: If you prefer using a service account instead of a staging token, 
+          # replace the TOKEN parameter with: USERNAME="`"${{ secrets.UEM_USER }}`"" PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
+          #  or vice versa "TOKEN=`"$stagingToken`""          
+          Write-Host "Starting silent installation and enrollment..."
+          
+          $msiArgs = @(
+              "/i", "`"$msiPath`"",
+              "/qn", "/norestart",
+              "SERVER=`"$server`"",
+              "GROUPID=`"$groupId`"",
+              USERNAME="`"${{ secrets.UEM_USER }}`"",
+              PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
+          )
+          
+          $process = Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -PassThru
+          
+          if ($process.ExitCode -ne 0 -and $process.ExitCode -ne 3010) {
+              Write-Error "MSI installation failed with exit code $($process.ExitCode)."
+              exit 1
+          }
+          
+          Write-Host "Installation completed successfully (Exit code: $($process.ExitCode))."
+
+      - name: Verify Enrollment and Service Status
+        shell: pwsh
+        run: |
+          Write-Host "Waiting 45 seconds for Workspace ONE services to initialize..."
+          Start-Sleep -Seconds 45
+          
+          # The underlying Windows service name for the Intelligent Hub
+          $serviceName = "AirwatchAgent" 
+          
+          $service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
+          
+          if ($service -and $service.Status -eq 'Running') {
+              Write-Host "✅ Success: Workspace ONE Intelligent Hub service is running."
+          } else {
+              Write-Warning "⚠️ Warning: Workspace ONE Intelligent Hub service is not running or failed to start."
+              
+              Write-Host "`n--- Dumping last 50 lines of DeviceService log for debugging ---"
+              $logPath = "$env:ProgramData\AirWatch\UnifiedAgent\Logs"
+              if (Test-Path $logPath) {
+                  $latestLog = Get-ChildItem -Path $logPath -Filter "DeviceService-*.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                  if ($latestLog) {
+                      Get-Content $latestLog.FullName -Tail 50
+                  } else {
+                      Write-Host "No DeviceService logs found yet."
+                  }
+              } else {
+                  Write-Host "Log directory not found at $logPath"
+              }
+              exit 1
+          }
