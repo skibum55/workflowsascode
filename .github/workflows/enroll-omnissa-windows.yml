@@ -56,7 +56,7 @@ jobs:
           $msiArgs = @(
               "/i", "`"$msiPath`"",
               "/qn", "/norestart",
-              "ENROLL="Y",
+              "ENROLL=Y",
               "SERVER=`"$server`"",
               "GROUPID=`"$groupId`"",
               "USERNAME=`"$username`"",
