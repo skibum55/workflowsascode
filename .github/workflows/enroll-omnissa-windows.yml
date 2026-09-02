@@ -45,8 +45,16 @@ jobs:
           $server = "${{ secrets.UEM_URL }}"
           $groupId = "${{ secrets.UEM_GROUPID }}"
           $stagingToken = "${{ secrets.UEM_STAGING_TOKEN }}"
-          $username = "${{ secrets.UEM_USER }}"
-          $password = "${{ secrets.UEM_PASSWORD }}"
+          $stagingUser = "${{ secrets.UEM_USER }}"
+          $stagingPass = "${{ secrets.UEM_PASSWORD }}"
+          
+          # --- FAIL-FAST VALIDATION ---
+          Write-Host "Validating GitHub Secrets..."
+          if ([string]::IsNullOrWhiteSpace($server)) { Write-Error "❌ FATAL: WS1_SERVER_URL is empty!"; exit 1 }
+          if ([string]::IsNullOrWhiteSpace($groupId)) { Write-Error "❌ FATAL: WS1_GROUP_ID is empty!"; exit 1 }
+          if ([string]::IsNullOrWhiteSpace($stagingUser)) { Write-Error "❌ FATAL: WS1_STAGING_USER is empty! Check your repo secret names."; exit 1 }
+          if ([string]::IsNullOrWhiteSpace($stagingPass)) { Write-Error "❌ FATAL: WS1_STAGING_PASSWORD is empty! Check your repo secret names."; exit 1 }
+                
           
           # Note: If you prefer using a service account instead of a staging token, 
           # replace the TOKEN parameter with: "USERNAME="`"${{ secrets.UEM_USER }}`"", "PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
@@ -61,9 +69,9 @@ jobs:
               "/qn", "/norestart",
               "ENROLL=Y",
               "SERVER=`"$server`"",
-              "GROUPID=`"$groupId`"",
-              "USERNAME=`"$username`"",
-              "PASSWORD=`"$password`"",
+              "LGName=`"$groupId`"",
+              "USERNAME=`"$stagingUser`"",
+              "PASSWORD=`"$stagingPass`"",
               "ASSIGNTOLOGGEDINUSER=Y"
           )
           
