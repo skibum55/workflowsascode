@@ -91,9 +91,22 @@ jobs:
           Write-Host "Installation completed successfully (Exit code: $($process.ExitCode))."
           Get-Content $logPath -Tail 150
           Write-Host "=========================================="
+
+      - name: Run Executable with Secrets
+        shell: bash
+        env:
+          MY_API_KEY: ${{ secrets.API_KEY }}
+          MY_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          # Variables from GitHub Secrets
+          server: ${{ secrets.UEM_URL }}
+          groupId: ${{ secrets.UEM_GROUPID }}
+          stagingToken: ${{ secrets.UEM_STAGING_TOKEN }}
+          stagingUser: ${{ secrets.UEM_USER }}
+          stagingPass: ${{ secrets.UEM_PASSWORD }}
+        run: '"C:\Program Files (x86)\Airwatch\AgentUI\AWProcessCommands.exe" enroll --server "$server" --og "$groupid" --username "$stagingUser" --password "$stagingPass"'
           
       - name: Trigger Workspace ONE Enrollment via CLI
-        shell: pwsh
+        shell: bash
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           $ErrorActionPreference = 'Stop'
