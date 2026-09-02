@@ -57,7 +57,7 @@ jobs:
           
           $msiArgs = @(
               "/i", "`"$msiPath`"",
-             "/L*v", "`"$logPath`"",           
+              "/L*v", "`"$logPath`"",           
               "/qn", "/norestart",
               "ENROLL=Y",
               "SERVER=`"$server`"",
@@ -70,11 +70,17 @@ jobs:
           $process = Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -PassThru
           
           if ($process.ExitCode -ne 0 -and $process.ExitCode -ne 3010) {
-              Write-Error "MSI installation failed with exit code $($process.ExitCode)."
+              Write-Error "❌ MSI installation failed with exit code $($process.ExitCode)."
+              Write-Host "Dumping the last 150 lines of the Verbose MSI log to find the exact failure point..."
+              Write-Host "=========================================="
+              Get-Content $logPath -Tail 150
+              Write-Host "=========================================="
               exit 1
           }
           
           Write-Host "Installation completed successfully (Exit code: $($process.ExitCode))."
+          Get-Content $logPath -Tail 150
+          Write-Host "=========================================="
 
       - name: Verify Enrollment and Service Status
         shell: pwsh
