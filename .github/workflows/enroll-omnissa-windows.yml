@@ -49,16 +49,19 @@ jobs:
           
           # Note: If you prefer using a service account instead of a staging token, 
           # replace the TOKEN parameter with: "USERNAME="`"${{ secrets.UEM_USER }}`"", "PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
-          #  or vice versa "TOKEN=`"$stagingToken`""          
+          #  or vice versa "TOKEN=`"$stagingToken`""      
+          # https://kb.omnissa.com/s/article/78733
           Write-Host "Starting silent installation and enrollment..."
           
           $msiArgs = @(
               "/i", "`"$msiPath`"",
               "/qn", "/norestart",
+              "ENROLL="Y",
               "SERVER=`"$server`"",
               "GROUPID=`"$groupId`"",
               "USERNAME=`"$username`"",
-              "PASSWORD=`"$password`""
+              "PASSWORD=`"$password`"",
+              "ASSIGNTOLOGGEDINUSER=Y"
           )
           
           $process = Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -PassThru
