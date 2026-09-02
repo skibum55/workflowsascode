@@ -44,6 +44,8 @@ jobs:
           $server = "${{ secrets.UEM_URL }}"
           $groupId = "${{ secrets.UEM_GROUPID }}"
           $stagingToken = "${{ secrets.UEM_STAGING_TOKEN }}"
+          $username = "${{ secrets.UEM_USER }}"
+          $password = "${{ secrets.UEM_PASSWORD }}"
           
           # Note: If you prefer using a service account instead of a staging token, 
           # replace the TOKEN parameter with: "USERNAME="`"${{ secrets.UEM_USER }}`"", "PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
@@ -55,8 +57,8 @@ jobs:
               "/qn", "/norestart",
               "SERVER=`"$server`"",
               "GROUPID=`"$groupId`"",
-              "USERNAME="`"${{ secrets.UEM_USER }}`"",
-              "PASSWORD="`"${{ secrets.UEM_PASSWORD }}`""
+              "USERNAME=`"$username`"",
+              "PASSWORD=`"$password`""
           )
           
           $process = Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -PassThru
