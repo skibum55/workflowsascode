@@ -1,0 +1,1323 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-17T19:17:50.799Z",
+  "provenance": "MCP-read-sanitized-manual-dry-run",
+  "workflow": {
+    "id": "p05Qkl8zYlkbgn1h",
+    "active": false,
+    "versionId": "69207ebf-cda6-4dfb-bbb5-955b5e29ca79",
+    "settings": {
+      "dryRun": true,
+      "testMode": true,
+      "testApplyApproved": false,
+      "maxTestDevices": 3,
+      "testSourceOids": [
+        "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "3ee1050f-0306-43c5-8a54-4430d459e63d"
+      ],
+      "ownershipMap": {
+        "Supplier Owned": "S"
+      },
+      "udidSourceField": "UDID",
+      "imeiSourceField": "IMEI"
+    }
+  },
+  "execution": {
+    "id": "35909",
+    "workflowId": "p05Qkl8zYlkbgn1h",
+    "mode": "manual",
+    "status": "success",
+    "startedAt": "2026-11-17T19:12:41.948Z",
+    "stoppedAt": "2026-11-17T19:13:50.768Z"
+  },
+  "runSettings": {
+    "dryRun": true,
+    "testMode": true,
+    "testApplyApproved": false,
+    "maxTestDevices": 3,
+    "testSourceOids": [
+      "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+      "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+      "3ee1050f-0306-43c5-8a54-4430d459e63d"
+    ],
+    "ownershipMap": {
+      "Supplier Owned": "S"
+    },
+    "udidSourceField": "UDID",
+    "imeiSourceField": "IMEI"
+  },
+  "inspectedNodeNames": [
+    "Sync settings",
+    "Review run summary",
+    "Assess final device status",
+    "Read final device snapshot",
+    "Review refreshed attribute catalog",
+    "Read selected Verto equipment",
+    "Read registered devices",
+    "Read enrolled devices",
+    "Execute journaled Omnissa operation",
+    "Save pending operation",
+    "Save final sync state"
+  ],
+  "executedNodes": [
+    "Sync settings",
+    "Review run summary",
+    "Assess final device status",
+    "Read final device snapshot",
+    "Review refreshed attribute catalog",
+    "Read selected Verto equipment",
+    "Read registered devices",
+    "Read enrolled devices"
+  ],
+  "inventory": {
+    "registeredResponsePresent": true,
+    "registeredCount": 4003,
+    "registeredCompleteness": "unverified",
+    "enrolledResponsePresent": true,
+    "enrolledCount": 11,
+    "enrolledTotal": 11
+  },
+  "catalog": {
+    "refreshedAt": "2026-11-17T19:12:45.970Z",
+    "complete": true,
+    "groupNumericId": 7870,
+    "totalDefinitions": 14,
+    "matchingDefinitions": [
+      {
+        "attributeId": 5281,
+        "name": "CustomAttribute1",
+        "applicationGroup": "ApplicationGroup1",
+        "managedByOrganizationGroupId": "7870"
+      }
+    ]
+  },
+  "summary": {
+    "executionId": "35909",
+    "dryRun": true,
+    "scope": "preview",
+    "totalDevices": 3,
+    "syncStatus": "unchanged",
+    "verificationStatus": "needs_attention",
+    "hasIssues": true,
+    "issues": [
+      {
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "name": "Device Model",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "J3600",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "name": "Device Oem",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "Motion Computing",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "name": "attribute_namespace",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "ApplicationGroup1",
+        "actual": null,
+        "message": "Registered-device read-back exposes attribute name/value but not its application group."
+      },
+      {
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "name": "source_warning",
+        "result": "warning",
+        "severity": "warning",
+        "expected": null,
+        "actual": "Unmapped ownership: Purchase; preserve existing ownership.",
+        "message": "Unmapped ownership: Purchase; preserve existing ownership."
+      },
+      {
+        "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "name": "Device Model",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "7520",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "name": "Device Oem",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "Dell Computer Corp",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "name": "attribute_namespace",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "ApplicationGroup1",
+        "actual": null,
+        "message": "Registered-device read-back exposes attribute name/value but not its application group."
+      },
+      {
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "name": "Device Model",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "E6420XFR",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "name": "Device Oem",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "Dell Computer Corp",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "name": "Device Ownership(C/E/S/None)",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "S",
+        "actual": null,
+        "message": "Destination API does not expose this mapped field."
+      },
+      {
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "name": "attribute_namespace",
+        "result": "unverified",
+        "severity": "warning",
+        "expected": "ApplicationGroup1",
+        "actual": null,
+        "message": "Registered-device read-back exposes attribute name/value but not its application group."
+      }
+    ],
+    "missing": [],
+    "unexpected": [],
+    "duplicated": [],
+    "requiresFailure": false
+  },
+  "sources": [
+    {
+      "oid": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+      "serial": "00430535-J3600",
+      "asset": "A5519865",
+      "imei": "",
+      "udid": "",
+      "model": "J3600",
+      "oem": "Motion Computing",
+      "ownership": "Purchase"
+    },
+    {
+      "oid": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+      "serial": "06281961",
+      "asset": "A06281961",
+      "imei": "",
+      "udid": "",
+      "model": "7520",
+      "oem": "Dell Computer Corp",
+      "ownership": ""
+    },
+    {
+      "oid": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+      "serial": "J36XKZ1",
+      "asset": "A4834182",
+      "imei": "",
+      "udid": "",
+      "model": "E6420XFR",
+      "oem": "Dell Computer Corp",
+      "ownership": "Supplier Owned"
+    }
+  ],
+  "devices": [
+    {
+      "oid": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+      "serial": "00430535-J3600",
+      "dryRun": true,
+      "syncStatus": "unchanged",
+      "verificationStatus": "needs_attention",
+      "mapped": {
+        "Device GroupID": "dwpg8def338f33a82e7",
+        "Device Serial Number": "00430535-J3600",
+        "Device Asset Number": "A5519865",
+        "Device Model": "J3600",
+        "Device Oem": "Motion Computing"
+      },
+      "validation": {
+        "version": "1.1",
+        "scope": "preview",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "outcome": "needs_attention",
+        "hasIssues": true,
+        "checks": [
+          {
+            "name": "attribute_catalog_complete",
+            "result": "passed",
+            "severity": "error",
+            "expected": true,
+            "actual": true,
+            "message": "Read the current scoped attribute catalog completely."
+          },
+          {
+            "name": "attribute_catalog_definition",
+            "result": "passed",
+            "severity": "error",
+            "expected": {
+              "name": "CustomAttribute1",
+              "applicationGroup": "ApplicationGroup1"
+            },
+            "actual": [
+              {
+                "attributeId": 5281,
+                "name": "CustomAttribute1",
+                "applicationGroup": "ApplicationGroup1",
+                "managedByOrganizationGroupId": "7870"
+              }
+            ],
+            "message": "Validate the definition only; this does not prove the application group of a device assignment."
+          },
+          {
+            "name": "journal_identity",
+            "result": "passed",
+            "severity": "error",
+            "expected": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+            "actual": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+            "message": "Journal must belong to this execution and device."
+          },
+          {
+            "name": "journal_outcome",
+            "result": "passed",
+            "severity": "error",
+            "expected": "No journal conflict or unresolved outcome",
+            "actual": "preview",
+            "message": "Stored journal is authoritative even if the helper returned the original job."
+          },
+          {
+            "name": "operation_intents",
+            "result": "passed",
+            "severity": "error",
+            "expected": 0,
+            "actual": 0,
+            "message": "No mutation may have an unresolved outcome."
+          },
+          {
+            "name": "final_snapshot",
+            "result": "passed",
+            "severity": "error",
+            "expected": "Same as finalized journal",
+            "actual": true,
+            "message": "Fresh snapshot must still match the finalized journal."
+          },
+          {
+            "name": "preview_no_mutations",
+            "result": "passed",
+            "severity": "error",
+            "expected": "No mutations and unchanged baseline",
+            "actual": 0,
+            "message": "Dry-run validates preview behavior, not a completed device write."
+          },
+          {
+            "name": "unique_destination",
+            "result": "passed",
+            "severity": "error",
+            "expected": 1,
+            "actual": 1,
+            "message": "One logical device in the scoped snapshot; registered/enrolled representations are reconciled."
+          },
+          {
+            "name": "organization_scope",
+            "result": "passed",
+            "severity": "error",
+            "expected": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+            "actual": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+            "message": "Scope is VertoSM; no tenant-wide uniqueness claim is made."
+          },
+          {
+            "name": "oid_attribute",
+            "result": "passed",
+            "severity": "error",
+            "expected": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+            "actual": [
+              "71ae57ab-fc5e-463a-ae35-52a33bba726b"
+            ],
+            "message": "Exactly one OID attribute must match the Verto OID."
+          },
+          {
+            "name": "Device Serial Number",
+            "result": "passed",
+            "severity": "error",
+            "expected": "00430535-J3600",
+            "actual": "00430535-J3600",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "Device Asset Number",
+            "result": "passed",
+            "severity": "error",
+            "expected": "A5519865",
+            "actual": "A5519865",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "Device Model",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "J3600",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Oem",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "Motion Computing",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "registration_user",
+            "result": "passed",
+            "severity": "error",
+            "expected": "Verto-User-ACME",
+            "actual": "Verto-User-ACME",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "registration_group",
+            "result": "passed",
+            "severity": "error",
+            "expected": "VertoSM",
+            "actual": "VertoSM",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "attribute_namespace",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "ApplicationGroup1",
+            "actual": null,
+            "message": "Registered-device read-back exposes attribute name/value but not its application group."
+          },
+          {
+            "name": "source_warning",
+            "result": "warning",
+            "severity": "warning",
+            "expected": null,
+            "actual": "Unmapped ownership: Purchase; preserve existing ownership.",
+            "message": "Unmapped ownership: Purchase; preserve existing ownership."
+          }
+        ],
+        "issues": [
+          {
+            "name": "Device Model",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "J3600",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Oem",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "Motion Computing",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "attribute_namespace",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "ApplicationGroup1",
+            "actual": null,
+            "message": "Registered-device read-back exposes attribute name/value but not its application group."
+          },
+          {
+            "name": "source_warning",
+            "result": "warning",
+            "severity": "warning",
+            "expected": null,
+            "actual": "Unmapped ownership: Purchase; preserve existing ownership.",
+            "message": "Unmapped ownership: Purchase; preserve existing ownership."
+          }
+        ],
+        "journalStatus": "preview",
+        "catalog": {
+          "refreshedAt": "2026-11-17T19:12:45.970Z",
+          "totalDefinitions": 14,
+          "matchingDefinitions": [
+            {
+              "attributeId": 5281,
+              "name": "CustomAttribute1",
+              "applicationGroup": "ApplicationGroup1",
+              "managedByOrganizationGroupId": "7870"
+            }
+          ]
+        }
+      },
+      "journal": {
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "syncExecutionId": "35909",
+        "status": "preview",
+        "dryRun": true,
+        "createdByRun": false,
+        "operations": [],
+        "before": {
+          "kind": "registered",
+          "deviceId": null,
+          "fields": {
+            "FriendlyName": "Verto-User-ACME   3600",
+            "AssetNumber": "A5519865",
+            "SerialNumber": "00430535-J3600",
+            "UDID": "",
+            "Platform": "",
+            "Username": "Verto-User-ACME",
+            "OrganizationGroup": "VertoSM",
+            "RegistrationDate": "11/09/2026 20:38:57"
+          },
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "namespace": "",
+              "value": "71ae57ab-fc5e-463a-ae35-52a33bba726b"
+            }
+          ],
+          "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+          "registrationDeleteSafe": true,
+          "attributeCoverageVerified": true,
+          "globalRegistrationCount": 1
+        },
+        "after": {
+          "kind": "registered",
+          "deviceId": null,
+          "fields": {
+            "FriendlyName": "Verto-User-ACME   3600",
+            "AssetNumber": "A5519865",
+            "SerialNumber": "00430535-J3600",
+            "UDID": "",
+            "Platform": "",
+            "Username": "Verto-User-ACME",
+            "OrganizationGroup": "VertoSM",
+            "RegistrationDate": "11/09/2026 20:38:57"
+          },
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "namespace": "",
+              "value": "71ae57ab-fc5e-463a-ae35-52a33bba726b"
+            }
+          ],
+          "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+          "registrationDeleteSafe": true,
+          "attributeCoverageVerified": true,
+          "globalRegistrationCount": 1
+        },
+        "beforeState": {
+          "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+          "lastSuccessfulProjection_object": "{\"mapped\":{\"Device GroupID\":\"dwpg8def338f33a82e7\",\"Device Serial Number\":\"00430535-J3600\",\"Device Asset Number\":\"A5519865\",\"Device Model\":\"J3600\",\"Device Oem\":\"Motion Computing\"},\"attributes\":[{\"Name\":\"CustomAttribute1\",\"Value\":\"71ae57ab-fc5e-463a-ae35-52a33bba726b\"}]}",
+          "pendingJob_object": "",
+          "status": "synced",
+          "lastExecutionId": "35251"
+        },
+        "afterState": {
+          "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+          "lastSuccessfulProjection_object": "{\"mapped\":{\"Device GroupID\":\"dwpg8def338f33a82e7\",\"Device Serial Number\":\"00430535-J3600\",\"Device Asset Number\":\"A5519865\",\"Device Model\":\"J3600\",\"Device Oem\":\"Motion Computing\"},\"attributes\":[{\"Name\":\"CustomAttribute1\",\"Value\":\"71ae57ab-fc5e-463a-ae35-52a33bba726b\"}]}",
+          "pendingJob_object": "",
+          "status": "synced",
+          "lastExecutionId": "35251"
+        },
+        "finalized": true,
+        "pendingBatch": false,
+        "blocked": []
+      },
+      "snapshot": {
+        "kind": "registered",
+        "deviceId": null,
+        "fields": {
+          "FriendlyName": "Verto-User-ACME   3600",
+          "AssetNumber": "A5519865",
+          "SerialNumber": "00430535-J3600",
+          "UDID": "",
+          "Platform": "",
+          "Username": "Verto-User-ACME",
+          "OrganizationGroup": "VertoSM",
+          "RegistrationDate": "11/09/2026 20:38:57"
+        },
+        "attributes": [
+          {
+            "name": "CustomAttribute1",
+            "namespace": "",
+            "value": "71ae57ab-fc5e-463a-ae35-52a33bba726b"
+          }
+        ],
+        "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+        "registrationDeleteSafe": true,
+        "attributeCoverageVerified": true,
+        "globalRegistrationCount": 1
+      },
+      "registeredCandidates": [
+        {
+          "serial": "00430535-J3600",
+          "asset": "A5519865",
+          "imei": "",
+          "udid": "",
+          "group": "VertoSM",
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "value": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+              "namespace": ""
+            }
+          ]
+        }
+      ],
+      "enrolledCandidates": [],
+      "statusRow": {
+        "executionId": "35909",
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "outcome": "needs_attention",
+        "hasIssues": true,
+        "dryRun": true,
+        "scope": "preview"
+      }
+    },
+    {
+      "oid": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+      "serial": "06281961",
+      "dryRun": true,
+      "syncStatus": "unchanged",
+      "verificationStatus": "needs_attention",
+      "mapped": {
+        "Device GroupID": "dwpg8def338f33a82e7",
+        "Device Serial Number": "06281961",
+        "Device Asset Number": "A06281961",
+        "Device Model": "7520",
+        "Device Oem": "Dell Computer Corp"
+      },
+      "validation": {
+        "version": "1.1",
+        "scope": "preview",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "outcome": "needs_attention",
+        "hasIssues": true,
+        "checks": [
+          {
+            "name": "attribute_catalog_complete",
+            "result": "passed",
+            "severity": "error",
+            "expected": true,
+            "actual": true,
+            "message": "Read the current scoped attribute catalog completely."
+          },
+          {
+            "name": "attribute_catalog_definition",
+            "result": "passed",
+            "severity": "error",
+            "expected": {
+              "name": "CustomAttribute1",
+              "applicationGroup": "ApplicationGroup1"
+            },
+            "actual": [
+              {
+                "attributeId": 5281,
+                "name": "CustomAttribute1",
+                "applicationGroup": "ApplicationGroup1",
+                "managedByOrganizationGroupId": "7870"
+              }
+            ],
+            "message": "Validate the definition only; this does not prove the application group of a device assignment."
+          },
+          {
+            "name": "journal_identity",
+            "result": "passed",
+            "severity": "error",
+            "expected": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+            "actual": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+            "message": "Journal must belong to this execution and device."
+          },
+          {
+            "name": "journal_outcome",
+            "result": "passed",
+            "severity": "error",
+            "expected": "No journal conflict or unresolved outcome",
+            "actual": "preview",
+            "message": "Stored journal is authoritative even if the helper returned the original job."
+          },
+          {
+            "name": "operation_intents",
+            "result": "passed",
+            "severity": "error",
+            "expected": 0,
+            "actual": 0,
+            "message": "No mutation may have an unresolved outcome."
+          },
+          {
+            "name": "final_snapshot",
+            "result": "passed",
+            "severity": "error",
+            "expected": "Same as finalized journal",
+            "actual": true,
+            "message": "Fresh snapshot must still match the finalized journal."
+          },
+          {
+            "name": "preview_no_mutations",
+            "result": "passed",
+            "severity": "error",
+            "expected": "No mutations and unchanged baseline",
+            "actual": 0,
+            "message": "Dry-run validates preview behavior, not a completed device write."
+          },
+          {
+            "name": "unique_destination",
+            "result": "passed",
+            "severity": "error",
+            "expected": 1,
+            "actual": 1,
+            "message": "One logical device in the scoped snapshot; registered/enrolled representations are reconciled."
+          },
+          {
+            "name": "organization_scope",
+            "result": "passed",
+            "severity": "error",
+            "expected": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+            "actual": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+            "message": "Scope is VertoSM; no tenant-wide uniqueness claim is made."
+          },
+          {
+            "name": "oid_attribute",
+            "result": "passed",
+            "severity": "error",
+            "expected": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+            "actual": [
+              "60bdef86-02c0-4967-9291-df36fd3c4c4f"
+            ],
+            "message": "Exactly one OID attribute must match the Verto OID."
+          },
+          {
+            "name": "Device Serial Number",
+            "result": "passed",
+            "severity": "error",
+            "expected": "06281961",
+            "actual": "06281961",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "Device Asset Number",
+            "result": "passed",
+            "severity": "error",
+            "expected": "A06281961",
+            "actual": "A06281961",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "Device Model",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "7520",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Oem",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "Dell Computer Corp",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "registration_user",
+            "result": "passed",
+            "severity": "error",
+            "expected": "Verto-User-ACME",
+            "actual": "Verto-User-ACME",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "registration_group",
+            "result": "passed",
+            "severity": "error",
+            "expected": "VertoSM",
+            "actual": "VertoSM",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "attribute_namespace",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "ApplicationGroup1",
+            "actual": null,
+            "message": "Registered-device read-back exposes attribute name/value but not its application group."
+          }
+        ],
+        "issues": [
+          {
+            "name": "Device Model",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "7520",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Oem",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "Dell Computer Corp",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "attribute_namespace",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "ApplicationGroup1",
+            "actual": null,
+            "message": "Registered-device read-back exposes attribute name/value but not its application group."
+          }
+        ],
+        "journalStatus": "preview",
+        "catalog": {
+          "refreshedAt": "2026-11-17T19:12:45.970Z",
+          "totalDefinitions": 14,
+          "matchingDefinitions": [
+            {
+              "attributeId": 5281,
+              "name": "CustomAttribute1",
+              "applicationGroup": "ApplicationGroup1",
+              "managedByOrganizationGroupId": "7870"
+            }
+          ]
+        }
+      },
+      "journal": {
+        "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "syncExecutionId": "35909",
+        "status": "preview",
+        "dryRun": true,
+        "createdByRun": false,
+        "operations": [],
+        "before": {
+          "kind": "registered",
+          "deviceId": null,
+          "fields": {
+            "FriendlyName": "Verto-User-ACME   1961",
+            "AssetNumber": "A06281961",
+            "SerialNumber": "06281961",
+            "UDID": "",
+            "Platform": "",
+            "Username": "Verto-User-ACME",
+            "OrganizationGroup": "VertoSM",
+            "RegistrationDate": "11/09/2026 20:40:19"
+          },
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "namespace": "",
+              "value": "60bdef86-02c0-4967-9291-df36fd3c4c4f"
+            }
+          ],
+          "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+          "registrationDeleteSafe": true,
+          "attributeCoverageVerified": true,
+          "globalRegistrationCount": 1
+        },
+        "after": {
+          "kind": "registered",
+          "deviceId": null,
+          "fields": {
+            "FriendlyName": "Verto-User-ACME   1961",
+            "AssetNumber": "A06281961",
+            "SerialNumber": "06281961",
+            "UDID": "",
+            "Platform": "",
+            "Username": "Verto-User-ACME",
+            "OrganizationGroup": "VertoSM",
+            "RegistrationDate": "11/09/2026 20:40:19"
+          },
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "namespace": "",
+              "value": "60bdef86-02c0-4967-9291-df36fd3c4c4f"
+            }
+          ],
+          "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+          "registrationDeleteSafe": true,
+          "attributeCoverageVerified": true,
+          "globalRegistrationCount": 1
+        },
+        "beforeState": {
+          "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+          "lastSuccessfulProjection_object": "{\"mapped\":{\"Device GroupID\":\"dwpg8def338f33a82e7\",\"Device Serial Number\":\"06281961\",\"Device Asset Number\":\"A06281961\",\"Device Model\":\"7520\",\"Device Oem\":\"Dell Computer Corp\"},\"attributes\":[{\"Name\":\"CustomAttribute1\",\"Value\":\"60bdef86-02c0-4967-9291-df36fd3c4c4f\"}]}",
+          "pendingJob_object": "",
+          "status": "synced",
+          "lastExecutionId": "35251"
+        },
+        "afterState": {
+          "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+          "lastSuccessfulProjection_object": "{\"mapped\":{\"Device GroupID\":\"dwpg8def338f33a82e7\",\"Device Serial Number\":\"06281961\",\"Device Asset Number\":\"A06281961\",\"Device Model\":\"7520\",\"Device Oem\":\"Dell Computer Corp\"},\"attributes\":[{\"Name\":\"CustomAttribute1\",\"Value\":\"60bdef86-02c0-4967-9291-df36fd3c4c4f\"}]}",
+          "pendingJob_object": "",
+          "status": "synced",
+          "lastExecutionId": "35251"
+        },
+        "finalized": true,
+        "pendingBatch": false,
+        "blocked": []
+      },
+      "snapshot": {
+        "kind": "registered",
+        "deviceId": null,
+        "fields": {
+          "FriendlyName": "Verto-User-ACME   1961",
+          "AssetNumber": "A06281961",
+          "SerialNumber": "06281961",
+          "UDID": "",
+          "Platform": "",
+          "Username": "Verto-User-ACME",
+          "OrganizationGroup": "VertoSM",
+          "RegistrationDate": "11/09/2026 20:40:19"
+        },
+        "attributes": [
+          {
+            "name": "CustomAttribute1",
+            "namespace": "",
+            "value": "60bdef86-02c0-4967-9291-df36fd3c4c4f"
+          }
+        ],
+        "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+        "registrationDeleteSafe": true,
+        "attributeCoverageVerified": true,
+        "globalRegistrationCount": 1
+      },
+      "registeredCandidates": [
+        {
+          "serial": "06281961",
+          "asset": "A06281961",
+          "imei": "",
+          "udid": "",
+          "group": "VertoSM",
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "value": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+              "namespace": ""
+            }
+          ]
+        }
+      ],
+      "enrolledCandidates": [],
+      "statusRow": {
+        "executionId": "35909",
+        "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "outcome": "needs_attention",
+        "hasIssues": true,
+        "dryRun": true,
+        "scope": "preview"
+      }
+    },
+    {
+      "oid": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+      "serial": "J36XKZ1",
+      "dryRun": true,
+      "syncStatus": "unchanged",
+      "verificationStatus": "needs_attention",
+      "mapped": {
+        "Device GroupID": "dwpg8def338f33a82e7",
+        "Device Serial Number": "J36XKZ1",
+        "Device Asset Number": "A4834182",
+        "Device Model": "E6420XFR",
+        "Device Oem": "Dell Computer Corp",
+        "Device Ownership(C/E/S/None)": "S"
+      },
+      "validation": {
+        "version": "1.1",
+        "scope": "preview",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "outcome": "needs_attention",
+        "hasIssues": true,
+        "checks": [
+          {
+            "name": "attribute_catalog_complete",
+            "result": "passed",
+            "severity": "error",
+            "expected": true,
+            "actual": true,
+            "message": "Read the current scoped attribute catalog completely."
+          },
+          {
+            "name": "attribute_catalog_definition",
+            "result": "passed",
+            "severity": "error",
+            "expected": {
+              "name": "CustomAttribute1",
+              "applicationGroup": "ApplicationGroup1"
+            },
+            "actual": [
+              {
+                "attributeId": 5281,
+                "name": "CustomAttribute1",
+                "applicationGroup": "ApplicationGroup1",
+                "managedByOrganizationGroupId": "7870"
+              }
+            ],
+            "message": "Validate the definition only; this does not prove the application group of a device assignment."
+          },
+          {
+            "name": "journal_identity",
+            "result": "passed",
+            "severity": "error",
+            "expected": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+            "actual": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+            "message": "Journal must belong to this execution and device."
+          },
+          {
+            "name": "journal_outcome",
+            "result": "passed",
+            "severity": "error",
+            "expected": "No journal conflict or unresolved outcome",
+            "actual": "preview",
+            "message": "Stored journal is authoritative even if the helper returned the original job."
+          },
+          {
+            "name": "operation_intents",
+            "result": "passed",
+            "severity": "error",
+            "expected": 0,
+            "actual": 0,
+            "message": "No mutation may have an unresolved outcome."
+          },
+          {
+            "name": "final_snapshot",
+            "result": "passed",
+            "severity": "error",
+            "expected": "Same as finalized journal",
+            "actual": true,
+            "message": "Fresh snapshot must still match the finalized journal."
+          },
+          {
+            "name": "preview_no_mutations",
+            "result": "passed",
+            "severity": "error",
+            "expected": "No mutations and unchanged baseline",
+            "actual": 0,
+            "message": "Dry-run validates preview behavior, not a completed device write."
+          },
+          {
+            "name": "unique_destination",
+            "result": "passed",
+            "severity": "error",
+            "expected": 1,
+            "actual": 1,
+            "message": "One logical device in the scoped snapshot; registered/enrolled representations are reconciled."
+          },
+          {
+            "name": "organization_scope",
+            "result": "passed",
+            "severity": "error",
+            "expected": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+            "actual": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+            "message": "Scope is VertoSM; no tenant-wide uniqueness claim is made."
+          },
+          {
+            "name": "oid_attribute",
+            "result": "passed",
+            "severity": "error",
+            "expected": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+            "actual": [
+              "3ee1050f-0306-43c5-8a54-4430d459e63d"
+            ],
+            "message": "Exactly one OID attribute must match the Verto OID."
+          },
+          {
+            "name": "Device Serial Number",
+            "result": "passed",
+            "severity": "error",
+            "expected": "J36XKZ1",
+            "actual": "J36XKZ1",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "Device Asset Number",
+            "result": "passed",
+            "severity": "error",
+            "expected": "A4834182",
+            "actual": "A4834182",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "Device Model",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "E6420XFR",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Oem",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "Dell Computer Corp",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Ownership(C/E/S/None)",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "S",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "registration_user",
+            "result": "passed",
+            "severity": "error",
+            "expected": "Verto-User-ACME",
+            "actual": "Verto-User-ACME",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "registration_group",
+            "result": "passed",
+            "severity": "error",
+            "expected": "VertoSM",
+            "actual": "VertoSM",
+            "message": "Compare mapped source value with fresh destination read-back."
+          },
+          {
+            "name": "attribute_namespace",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "ApplicationGroup1",
+            "actual": null,
+            "message": "Registered-device read-back exposes attribute name/value but not its application group."
+          }
+        ],
+        "issues": [
+          {
+            "name": "Device Model",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "E6420XFR",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Oem",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "Dell Computer Corp",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "Device Ownership(C/E/S/None)",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "S",
+            "actual": null,
+            "message": "Destination API does not expose this mapped field."
+          },
+          {
+            "name": "attribute_namespace",
+            "result": "unverified",
+            "severity": "warning",
+            "expected": "ApplicationGroup1",
+            "actual": null,
+            "message": "Registered-device read-back exposes attribute name/value but not its application group."
+          }
+        ],
+        "journalStatus": "preview",
+        "catalog": {
+          "refreshedAt": "2026-11-17T19:12:45.970Z",
+          "totalDefinitions": 14,
+          "matchingDefinitions": [
+            {
+              "attributeId": 5281,
+              "name": "CustomAttribute1",
+              "applicationGroup": "ApplicationGroup1",
+              "managedByOrganizationGroupId": "7870"
+            }
+          ]
+        }
+      },
+      "journal": {
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "syncExecutionId": "35909",
+        "status": "preview",
+        "dryRun": true,
+        "createdByRun": false,
+        "operations": [],
+        "before": {
+          "kind": "registered",
+          "deviceId": null,
+          "fields": {
+            "FriendlyName": "Verto-User-ACME   XKZ1",
+            "AssetNumber": "A4834182",
+            "SerialNumber": "J36XKZ1",
+            "UDID": "",
+            "Platform": "",
+            "Username": "Verto-User-ACME",
+            "OrganizationGroup": "VertoSM",
+            "RegistrationDate": "11/09/2026 20:41:06"
+          },
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "namespace": "",
+              "value": "3ee1050f-0306-43c5-8a54-4430d459e63d"
+            }
+          ],
+          "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+          "registrationDeleteSafe": true,
+          "attributeCoverageVerified": true,
+          "globalRegistrationCount": 1
+        },
+        "after": {
+          "kind": "registered",
+          "deviceId": null,
+          "fields": {
+            "FriendlyName": "Verto-User-ACME   XKZ1",
+            "AssetNumber": "A4834182",
+            "SerialNumber": "J36XKZ1",
+            "UDID": "",
+            "Platform": "",
+            "Username": "Verto-User-ACME",
+            "OrganizationGroup": "VertoSM",
+            "RegistrationDate": "11/09/2026 20:41:06"
+          },
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "namespace": "",
+              "value": "3ee1050f-0306-43c5-8a54-4430d459e63d"
+            }
+          ],
+          "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+          "registrationDeleteSafe": true,
+          "attributeCoverageVerified": true,
+          "globalRegistrationCount": 1
+        },
+        "beforeState": {
+          "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+          "lastSuccessfulProjection_object": "{\"mapped\":{\"Device GroupID\":\"dwpg8def338f33a82e7\",\"Device Serial Number\":\"J36XKZ1\",\"Device Asset Number\":\"A4834182\",\"Device Model\":\"E6420XFR\",\"Device Oem\":\"Dell Computer Corp\",\"Device Ownership(C/E/S/None)\":\"S\"},\"attributes\":[{\"Name\":\"CustomAttribute1\",\"Value\":\"3ee1050f-0306-43c5-8a54-4430d459e63d\"}]}",
+          "pendingJob_object": "",
+          "status": "synced",
+          "lastExecutionId": "35490"
+        },
+        "afterState": {
+          "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+          "lastSuccessfulProjection_object": "{\"mapped\":{\"Device GroupID\":\"dwpg8def338f33a82e7\",\"Device Serial Number\":\"J36XKZ1\",\"Device Asset Number\":\"A4834182\",\"Device Model\":\"E6420XFR\",\"Device Oem\":\"Dell Computer Corp\",\"Device Ownership(C/E/S/None)\":\"S\"},\"attributes\":[{\"Name\":\"CustomAttribute1\",\"Value\":\"3ee1050f-0306-43c5-8a54-4430d459e63d\"}]}",
+          "pendingJob_object": "",
+          "status": "synced",
+          "lastExecutionId": "35490"
+        },
+        "finalized": true,
+        "pendingBatch": false,
+        "blocked": []
+      },
+      "snapshot": {
+        "kind": "registered",
+        "deviceId": null,
+        "fields": {
+          "FriendlyName": "Verto-User-ACME   XKZ1",
+          "AssetNumber": "A4834182",
+          "SerialNumber": "J36XKZ1",
+          "UDID": "",
+          "Platform": "",
+          "Username": "Verto-User-ACME",
+          "OrganizationGroup": "VertoSM",
+          "RegistrationDate": "11/09/2026 20:41:06"
+        },
+        "attributes": [
+          {
+            "name": "CustomAttribute1",
+            "namespace": "",
+            "value": "3ee1050f-0306-43c5-8a54-4430d459e63d"
+          }
+        ],
+        "groupUuid": "c270aea5-ee1c-4545-ac23-c4dd517509d5",
+        "registrationDeleteSafe": true,
+        "attributeCoverageVerified": true,
+        "globalRegistrationCount": 1
+      },
+      "registeredCandidates": [
+        {
+          "serial": "J36XKZ1",
+          "asset": "A4834182",
+          "imei": "",
+          "udid": "",
+          "group": "VertoSM",
+          "attributes": [
+            {
+              "name": "CustomAttribute1",
+              "value": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+              "namespace": ""
+            }
+          ]
+        }
+      ],
+      "enrolledCandidates": [],
+      "statusRow": {
+        "executionId": "35909",
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "outcome": "needs_attention",
+        "hasIssues": true,
+        "dryRun": true,
+        "scope": "preview"
+      }
+    }
+  ],
+  "externalAudit": {
+    "syncStateUnchanged": true,
+    "persistedStatusRows": [
+      {
+        "executionId": "35909",
+        "sourceKey": "__run__",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "hasIssues": true
+      },
+      {
+        "executionId": "35909",
+        "sourceKey": "71ae57ab-fc5e-463a-ae35-52a33bba726b",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "hasIssues": true
+      },
+      {
+        "executionId": "35909",
+        "sourceKey": "60bdef86-02c0-4967-9291-df36fd3c4c4f",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "hasIssues": true
+      },
+      {
+        "executionId": "35909",
+        "sourceKey": "3ee1050f-0306-43c5-8a54-4430d459e63d",
+        "syncStatus": "unchanged",
+        "verificationStatus": "needs_attention",
+        "hasIssues": true
+      }
+    ]
+  }
+}

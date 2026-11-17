@@ -1,0 +1,15 @@
+{
+  "name": "verto-omnissa-validation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "playwright test --project=safety --project=harness",
+    "test:acceptance": "playwright test --project=acceptance",
+    "test:all": "playwright test",
+    "capture": "node scripts/capture.mjs",
+    "report": "playwright show-report reports/html --host 127.0.0.1"
+  },
+  "devDependencies": { "@playwright/test": "1.65.1" }
+}
